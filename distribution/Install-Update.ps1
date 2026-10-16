@@ -17,7 +17,7 @@ foreach($entry in $entries){
  if($entry.Name -notin $allowed){throw 'Unexpected payload name.'}
  if((Get-FileHash -LiteralPath (Join-Path $payload $entry.Name)).Hash.ToLowerInvariant() -ne $entry.Value){throw 'Payload hash mismatch.'}
 }
-$backup=Join-Path $target ('ReworkBackups\v0.8.2-public-'+(Get-Date -Format yyyyMMdd-HHmmssfff))
+$backup=Join-Path $target ('ReworkBackups\v'+$manifest.version+'-public-'+(Get-Date -Format yyyyMMdd-HHmmssfff))
 New-Item -ItemType Directory -Path $backup | Out-Null
 $state=@()
 foreach($entry in $entries){
@@ -44,5 +44,5 @@ try {
  }
  throw
 }
-Write-Output "Installed v0.8.2. Backup: $backup"
+Write-Output "Installed v$($manifest.version). Backup: $backup"
 Write-Output 'Save files were not modified. Personal quest repairs are not part of this update.'

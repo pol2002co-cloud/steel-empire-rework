@@ -122,6 +122,7 @@ allowed=set(range(pe.get_offset_from_rva(0xa438),pe.get_offset_from_rva(0xa438)+
 allowed.update(range(pe.get_offset_from_rva(0x4a494),pe.get_offset_from_rva(0x4a494)+6))
 allowed.update(range(pe.get_offset_from_rva(0x48677),pe.get_offset_from_rva(0x48677)+6))
 allowed.update(range(pe.get_offset_from_rva(0x4868d),pe.get_offset_from_rva(0x4868d)+2))
+allowed.update(range(pe.get_offset_from_rva(0x11231),pe.get_offset_from_rva(0x11231)+10))
 for field in ['SizeOfCode','SizeOfImage','CheckSum']:
  a=pe.OPTIONAL_HEADER.get_field_absolute_offset(field);allowed.update(range(a,a+4))
 a=pe.sections[-1].get_file_offset();allowed.update(range(a,a+40))

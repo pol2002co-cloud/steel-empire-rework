@@ -119,6 +119,8 @@ def build():
  event_force=force_emit(put,asm,lambda:va+cursor,patch)
  from quest_cleanup_patch import emit as quest_emit
  quest_cleanup=quest_emit(put,asm,lambda:va+cursor,patch)
+ from text_encoding_patch import emit as text_emit
+ text_encoding=text_emit(put,asm,lambda:va+cursor,patch)
  hdr=pe.sections[-1].get_file_offset()+40
  assert not any(b[hdr:hdr+40]);struct.pack_into('<8sIIIIIIHHI',b,hdr,b'.rework\0',cursor,va-0x400000,capacity,raw,0,0,0,0,0x60000020)
  struct.pack_into('<H',b,pe.FILE_HEADER.get_field_absolute_offset('NumberOfSections'),pe.FILE_HEADER.NumberOfSections+1)
@@ -147,6 +149,7 @@ def build():
  manifest.update(version='0.8.0-experimental',**journal)
  manifest.update(version='0.8.1-experimental',event_force=event_force)
  manifest.update(version='0.8.2-experimental',**quest_cleanup)
+ manifest.update(version='0.8.3-experimental',**text_encoding)
  (ROOT/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf-8')
  print(json.dumps(manifest,ensure_ascii=False,indent=2))
 if __name__=='__main__':

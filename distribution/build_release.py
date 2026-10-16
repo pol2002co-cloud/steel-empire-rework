@@ -3,8 +3,8 @@ import hashlib,json,shutil,zipfile,struct
 ROOT=Path(__file__).resolve().parent
 WORK=ROOT.parent/'steel-rework'
 GAME=Path('D:/Games/DGGL/Games/EoSteel_Win')
-ASSETS=ROOT/'assets'
-VERSION='0.8.2'
+VERSION='0.8.3'
+ASSETS=ROOT/'assets'/('v'+VERSION)
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 def text(p,t):p.parent.mkdir(parents=True,exist_ok=True);p.write_text(t,encoding='utf-8-sig')
 def archive(name,files,base=''):
@@ -14,16 +14,20 @@ def archive(name,files,base=''):
   assert z.testzip() is None
   assert not any(x.lower().endswith(('.sav','.dmp','.log')) or 'backups/' in x.lower() for x in z.namelist())
 def build():
- ASSETS.mkdir(exist_ok=True)
+ ASSETS.mkdir(parents=True,exist_ok=True)
+ shutil.copy2(ROOT/'assets/cnc-ddraw-v7.1.0.0-source.zip',ASSETS/'cnc-ddraw-v7.1.0.0-source.zip')
  m=json.loads((WORK/'manifest.json').read_text(encoding='utf-8'))
- assert m['version']=='0.8.2-experimental' and sha(WORK/'package/SteelEmpire.exe')==m['output_sha256']
+ assert m['version']=='0.8.3-experimental' and sha(WORK/'package/SteelEmpire.exe')==m['output_sha256']
  assert sha(GAME/'SteelEmpire.exe')==m['output_sha256']
  names=['SteelEmpire.exe','SteelRework.exe','SteelRework169.exe','SteelReworkQHD.exe','SteelCharacterEditor.exe','patch104.pak','ddraw.dll','ddraw.ini','SteelCharacterEditor-사용법.txt','SteelRework169-사용법.txt']
  payload={n:WORK/'package'/n for n in names}
  supported=[m['source_sha256'],m['output_sha256']]+[sha(p) for p in WORK.glob('SteelEmpire-v*.exe')]
  release=dict(version=VERSION,supported_executable_hashes=sorted(set(supported)),payload={n:sha(p) for n,p in payload.items()})
  text(ROOT/'release-manifest.json',json.dumps(release,ensure_ascii=False,indent=2))
- text(ROOT/'docs/CHANGELOG.md','''# v0.8.2 누적 배포 기록
+ text(ROOT/'docs/CHANGELOG.md','''# v0.8.3 누적 배포 기록
+
+## v0.8.3
+대화·선택창의 UTF-16 UI 리소스를 Windows 기본 코드페이지 대신 CP949로 변환합니다. UTF-8 옵션 또는 다른 비유니코드 언어 설정으로 인한 한글 표시 불일치를 수정합니다. 시스템 언어 설정과 저장 파일은 변경하지 않습니다. 실제 UI/경계값 문자열 102개를 949/1252/65001에서 검사하고 원본 불일치 192건을 재현하여 수정 후 출력 일치를 확인했습니다.
 
 ## v0.8.2
 원본 의뢰 삭제 함수가 종류와 목적지가 같은 다른 의뢰를 지우는 문제를 수정했습니다. 보상을 지급한 의뢰 자체를 삭제합니다. 특정 개인 저장의 보석지팡이 복구는 일반 배포에서 실행하지 않습니다.
@@ -72,7 +76,7 @@ F8 사건 상세의 발동 조건과 강제 설정에서 조건 무시 예약을
 
 상세 비용·병종·검증·원복 이력은 함께 제공하는 원래 누적 패치 노트와 개별 사용법을 참고하세요. 과거 실행 파일 스냅샷은 소스 ZIP의 역사 자료이며 단독 교체용 설치 패키지가 아닙니다.
 ''')
- docnames=['강철제국_리워크_최종_패치노트_v0.8.0.txt','이벤트-강제진행-v081-사용법.txt','의뢰-완료-수정-v082.txt','이벤트-진행창-사용법.md','적용병단-편성표.md']
+ docnames=['강철제국_리워크_최종_패치노트_v0.8.0.txt','이벤트-강제진행-v081-사용법.txt','의뢰-완료-수정-v082.txt','이벤트-진행창-사용법.md','적용병단-편성표.md','한글표시-수정-v083.txt']
  for n in docnames:shutil.copy2(WORK/n,ROOT/'docs'/n)
  text(ROOT/'docs/DISTRIBUTION.md','''# 배포 구성과 제작
 
@@ -110,7 +114,7 @@ C# 소스는 Windows .NET Framework csc.exe로 빌드합니다. 에디터는 cha
  archive(f'SteelEmpire-Rework-v{VERSION}-FullGame.zip',full,'SteelEmpire-Rework/')
  source={**common,'README.md':ROOT/'README.md'}
  excluded={'prepare_quest_save_repair.py','read_crash.py','crash_probe.py'}
- for pattern in ['*.py','*.cs','manifest*.json']:
+ for pattern in ['*.py','*.cs','*.manifest','manifest*.json']:
   for p in WORK.glob(pattern):
    if p.name not in excluded:source['steel-rework/'+p.name]=p
  for p in (WORK/'editor').glob('*.cs'):source['steel-rework/editor/'+p.name]=p
@@ -126,6 +130,6 @@ C# 소스는 Windows .NET Framework csc.exe로 빌드합니다. 에디터는 cha
  checks=''.join(sha(p)+'  '+p.name+'\n' for p in sorted(ASSETS.glob('*.zip')))
  text(ASSETS/'SHA256SUMS.txt',checks)
  report={p.name:dict(bytes=p.stat().st_size,sha256=sha(p)) for p in ASSETS.glob('*.zip')}
- text(ROOT/'release-files.json',json.dumps(report,indent=2))
+ text(ROOT/'release-files-v083.json',json.dumps(report,indent=2))
  print(json.dumps(report,indent=2))
 if __name__=='__main__':build()

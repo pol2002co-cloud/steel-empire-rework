@@ -1,7 +1,8 @@
 ﻿{
-  "version": "0.8.2",
+  "version": "0.8.3",
   "supported_executable_hashes": [
     "04368b8105fef79cba249a27b26f710137a70f9362ad8bd9599baf6ea6d86a2c",
+    "0cf62d9ef2e4ae88e2259b93697bcc7655c746e6c915a5be89a4a1083df26fd6",
     "200dd09ca008512495edf2f5c91b5cf13cc9477d712b42c857658597e08b49de",
     "42247a85951ecec248d5863a9c5cdf40d5bc2d3fd374a2c3fb1d8f56a5272be8",
     "62d7a396d5889bd0ce52dc5f5792041ec97a98a97e5ae0d42caa30e0b8700c11",
@@ -15,7 +16,7 @@
     "f10c45750ca3514a8653d58be541b191d551e1afc4f720dfe2e4c936d2763222"
   ],
   "payload": {
-    "SteelEmpire.exe": "747c75ee3141c2c5676cc0371210b5fd43d07d33dc4cdef64f245268d9de0d12",
+    "SteelEmpire.exe": "0cf62d9ef2e4ae88e2259b93697bcc7655c746e6c915a5be89a4a1083df26fd6",
     "SteelRework.exe": "1cd633fcd89a72519edbe0f01fa446376151b7d408db7983a4df641a089d83d8",
     "SteelRework169.exe": "3c0d66f34bbe5685a094d828594b967f548e9520d10e4d06ef7284d02cab40f4",
     "SteelReworkQHD.exe": "61caa0ab4dad45fe42f25850ba3c4406c746563cbc46f4f12386fac7f77a591f",

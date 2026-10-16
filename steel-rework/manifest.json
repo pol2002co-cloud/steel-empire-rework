@@ -1,7 +1,7 @@
 {
-  "version": "0.8.2-experimental",
+  "version": "0.8.3-experimental",
   "source_sha256": "65bf8699804849f36cef9108eebe88f8c9f1661ac77ea5c2e6688ae347795fde",
-  "output_sha256": "747c75ee3141c2c5676cc0371210b5fd43d07d33dc4cdef64f245268d9de0d12",
+  "output_sha256": "0cf62d9ef2e4ae88e2259b93697bcc7655c746e6c915a5be89a4a1083df26fd6",
   "patches": [
     {
       "va": "0x44bc18",
@@ -397,6 +397,11 @@
       "va": "0x44868d",
       "before": "75eb",
       "after": "75e8"
+    },
+    {
+      "va": "0x411231",
+      "before": "6a006a00ff1534004600",
+      "after": "e94aee12009090909090"
     }
   ],
   "market_hook": "0x53b1b0",
@@ -614,5 +619,11 @@
   "quest_cleanup": {
     "hook": "0x540070",
     "rule": "Remove exact live quest record identity; preserve other quests sharing type and destination."
+  },
+  "text_encoding": {
+    "hook": "0x540080",
+    "reader": "0x411200",
+    "codepage": 949,
+    "rule": "UTF-16 UI resource labels always convert to CP949, independently of Windows ACP/UTF-8 beta setting. No system locale changes."
   }
 }
