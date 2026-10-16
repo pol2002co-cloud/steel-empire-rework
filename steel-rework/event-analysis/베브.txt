@@ -1,0 +1,177 @@
+00071: entry 2
+
+[관청]
+00073: EnterGovernment()
+00074: return
+00075: entry 1
+
+[막사]
+00077: EnterBarrack()
+00078: return
+00079: entry 3
+
+[교역소]
+00081: InitMarket(2)
+00084: OpenMarket()
+00085: return
+00086: entry 4
+
+[용병조합]
+00088: InitMarket(3)
+00091: AppendSellItem('경보병')
+00096: OpenMarket()
+00097: return
+00098: entry 6
+
+[아이템상점]
+00100: InitMarket(0)
+00103: AppendSellItem('다이나마이트')
+00109: AppendSellItem('핸드그레네드')
+00115: AppendSellItem('펜저슈레케')
+00121: AppendSellItem('응급상자')
+00126: AppendSellItem('마이싱')
+00131: AppendSellItem('몰핀')
+00135: AppendSellItem('구급상자')
+00140: OpenMarket()
+00141: return
+00142: entry 5
+
+[주점]
+00144: IsStayHeroTroop('베브')
+00148: local0 = SYSTEM_RESULT
+00154: GetHeroInfo('비트만', 1)
+00161: local1 = SYSTEM_RESULT
+00167: GetHeroInfo('시라노', 0)
+00174: local2 = SYSTEM_RESULT
+00180: IF local0 == 1 AND local1 >= 30 AND local2 == 0 AND EVENT_깽디쉬박사 == 0 AND EVENT_그락쿠스형제 == 0 AND EVENT_라이벌 == 0 AND STS_EVENT == 0 GOTO 226
+00224: GOTO 919
+00226: EVENT_라이벌 = 1
+00232: STS_EVENT = 1
+00238: PlayBGM(11)
+00241: ShowPicture('드래곤1')
+00246: OpenSpeechBox()
+00247: SetSpeaker('시라노')
+00252: Speech('이봐, 아가씨.')
+00259: Speech('튕기지 말고 이리 와봐.@w')
+00268: SetSpeaker('여자')
+00272: Speech('......@w')
+00277: SetSpeaker('시라노')
+00282: Speech('거~ 참, 까다롭게 구네.@w')
+00291: SetSpeaker('여자')
+00295: Speech('싫다니까 자꾸 왜 그래요!@w')
+00305: SetSpeaker('시라노')
+00310: Speech('이리 오라니까 이게 말을 안 들어?')
+00321: Speech('이걸 그냥~ 어휴~! 정말!@w')
+00331: SetSpeaker('여자')
+00335: Speech('꺄악~! 정말 왜 이래요!@w')
+00344: Speech('거기 아저씨! 보고 있지만 말고 좀 도와 주세요!@w')
+00359: SetSpeaker('시라노')
+00364: Speech('거기 너!')
+00369: Speech('쓸데없는 일에 끼어들면 재미 없을줄 알아.@w')
+00383: CloseSpeechBox()
+00384: ClosePicture()
+00385: OpenSpeechBox()
+00386: SetSpeaker('비트만')
+00391: Speech('으음... 도와 줄까?@w')
+00399: CloseSpeechBox()
+00400: OpenSelectBox()
+00401: AppendSelectItem('도와 준다.')
+00407: AppendSelectItem('모른척 한다.')
+00413: DoSelectBox()
+00414: IF SYSTEM_RESULT == 1 GOTO 424
+00422: GOTO 482
+00424: OpenSpeechBox()
+00425: SetSpeaker('비트만')
+00430: Speech('어, 어, 어. 미안하지만 난 빠빠서...')
+00442: Speech('이만 가보겠습니다.')
+00450: Speech('형씨, 여자 보는 눈이 높으시군요. 헤헤헤.@w')
+00464: CloseSpeechBox()
+00465: EVENT_라이벌 = 10
+00471: STS_EVENT = 0
+00477: PlayBGM(1)
+00480: return
+00481: nop
+00482: nop
+00483: OpenSpeechBox()
+00484: SetSpeaker('비트만')
+00489: Speech('여보시오 형씨.')
+00496: Speech('여자가 싫다지 않소.@w')
+00505: SetSpeaker('시라노')
+00510: Speech('니가 그 여자 기둥이야 뭐야?')
+00520: Speech('왠 참견이야? 건방진 놈!')
+00529: Speech('이 시라노가 누군지 모르는가 본데.')
+00541: Speech('세상 하직하기 싫으면 어서 꺼져라!@w')
+00553: SetSpeaker('비트만')
+00558: Speech('뭐라고?')
+00563: Speech('당신이 누군지는 모르겠지만, 그렇게 건방지게 굴다니!@w')
+00580: SetSpeaker('시라노')
+00585: Speech('좋아. 정말 내가 누군지 모르나 본데 가르쳐 주지!')
+00600: Speech('블랙파워 용병단의 보스인 블랙브레이드의 사촌 형인 시라노다!')
+00618: Speech('알았냐? 알았으면 꺼져!!!@w')
+00628: SetSpeaker('비트만')
+00633: Speech('그렇군. 하지만 나도 블랙브레이드와는 아는 사이요.')
+00649: Speech('당신이 여기서 이러고 있는걸 알면 블랙브레이드도 좋아하지 않을거요.@w')
+00669: PlayBGM(11)
+00672: SetSpeaker('시라노')
+00677: Speech('되게 시끄럽군. 안되겠어.')
+00686: Speech('총 뽑아! 결투다!@w')
+00694: SetSpeaker('비트만')
+00699: Speech('뭐, 결투?@w')
+00705: SetSpeaker('시라노')
+00710: Speech('그래 결투다!')
+00716: Speech('에이잇! 죽어라!@w')
+00724: CloseSpeechBox()
+00725: Sound('총소리.wav')
+00731: ShowPicture('드래곤2')
+00736: OpenSpeechBox()
+00737: SetSpeaker('여자')
+00741: Speech('꺄아아아~~악!')
+00748: Speech('살려줘요!!!@w')
+00755: SetSpeaker('비트만')
+00760: Speech('좋아! 먼저 쐈다 이거지!')
+00769: Speech('상대해 주지!@w')
+00776: CloseSpeechBox()
+00777: ClosePicture()
+00778: SallyTroop('', 10, '1대1', 0)
+00788: SallyTroop('베브', 10, '시라노', 0)
+00800: Battle('', 10, '베브', 10, '베브', 0, 0)
+00817: IF BATTLE_RESULT == 0 GOTO 827
+00825: GOTO 834
+00827: ShowMovie('GameOver')
+00832: ExitFrame()
+00833: nop
+00834: nop
+00835: DestroyTroop('', 10)
+00840: RemoveWanderer('시라노')
+00845: ShowPicture('드래곤3')
+00850: OpenSpeechBox()
+00851: SetSpeaker('시라노')
+00856: Speech('으으으으... 주...죽기 싫어...')
+00867: Speech('사...살려줘... 으...으윽...윽...@w')
+00879: SetSpeaker('비트만')
+00884: Speech('이런 젠장. 죽었잖아.')
+00892: Speech('제길. 죽이려는 마음은 아니었는데.')
+00904: Speech('어서 여기를 뜨자.@w')
+00912: CloseSpeechBox()
+00913: ClosePicture()
+00914: PlayBGM(1)
+00917: return
+00918: nop
+00919: nop
+00920: EnterPub()
+00921: return
+00922: entry 0
+
+[mainFrame]
+00924: Calendar(1)
+00927: local3 = SYSTEM_RESULT
+00933: Calendar(2)
+00936: local4 = SYSTEM_RESULT
+00942: Calendar(3)
+00945: local5 = SYSTEM_RESULT
+00951: IF EVENT_최후의결전 >= 3 AND EVENT_최후의결전 <= 4 AND INFO_카운트년 == local5 AND INFO_카운트월 == local4 AND INFO_카운트일 == local3 GOTO 985
+00983: GOTO 987
+00985: WorldFrame()
+00986: nop
+00987: nop
+00988: return

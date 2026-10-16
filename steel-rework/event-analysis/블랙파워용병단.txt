@@ -1,0 +1,134 @@
+00062: entry 2
+
+[공항]
+00064: EnterAirPort()
+00065: return
+00066: entry 4
+
+[관청]
+00068: EnterGovernment()
+00069: return
+00070: entry 3
+
+[막사]
+00072: EnterBarrack()
+00073: return
+00074: entry 1
+
+[주점]
+00076: EnterPub()
+00077: return
+00078: entry 5
+
+[용병조합]
+00080: InitMarket(3)
+00083: AppendSellItem('장갑척탄병')
+00089: AppendSellItem('중장갑보병')
+00095: AppendSellItem('드라이버')
+00100: AppendSellItem('파일럿')
+00105: OpenMarket()
+00106: return
+00107: entry 0
+
+[mainFrame]
+00109: Calendar(1)
+00112: local2 = SYSTEM_RESULT
+00118: Calendar(2)
+00121: local1 = SYSTEM_RESULT
+00127: Calendar(3)
+00130: local0 = SYSTEM_RESULT
+00136: IF EVENT_최후의결전 >= 3 AND EVENT_최후의결전 <= 4 AND INFO_카운트년 == local0 AND INFO_카운트월 == local1 AND INFO_카운트일 == local2 GOTO 170
+00168: GOTO 172
+00170: WorldFrame()
+00171: nop
+00172: nop
+00173: GetEventCause()
+00174: IF SYSTEM_RESULT != 0 GOTO 184
+00182: GOTO 186
+00184: return
+00185: nop
+00186: nop
+00187: IF EVENT_라이벌 == 2 GOTO 197
+00195: GOTO 609
+00197: EVENT_라이벌 = 3
+00203: ShowPicture('드래곤4')
+00208: OpenSpeechBox()
+00209: SetSpeaker('스톤해머')
+00214: Speech('대장님. 문제가 생겼습니다.@w')
+00224: SetSpeaker('블랙브레이드')
+00230: Speech('무슨 문제가 생겼는데?@w')
+00239: SetSpeaker('스톤해머')
+00244: Speech('그게... 저...@w')
+00251: SetSpeaker('블랙브레이드')
+00257: Speech('우물 쭈물 하지 말고 빨리 얘기해 봐!@w')
+00270: SetSpeaker('스톤해머')
+00275: Speech('시라노 형님께서 결투 하다가 돌아가셨습니다.@w')
+00290: SetSpeaker('블랙브레이드')
+00296: Speech('뭐? 시라노 형이 죽어?')
+00305: Speech('으... 그렇게 설치고 다니지 말라고 그랬는데도...')
+00320: Speech('보나마나 이번에도 내 이름을 팔았겠지.')
+00333: Speech('으... 어쨌든 누가 죽였나?@w')
+00343: SetSpeaker('스톤해머')
+00348: Speech('그게... 저...')
+00355: Speech('화이트울프 용병단 단장인 비트만입니다.@w')
+00368: SetSpeaker('블랙브레이드')
+00374: Speech('뭐? 비트만이!?')
+00381: Speech('......@w')
+00386: Speech('어쩌면 잘 된 일인지도 모르겠군.')
+00397: Speech('요새 화이트울프 용병단이 너무 강해졌어.')
+00410: Speech('이 기회를 잘 이용해야 겠군. 좋아! 복수전이다!@w')
+00425: CloseSpeechBox()
+00426: ClosePicture()
+00427: ShowPicture('드래곤5')
+00432: OpenSpeechBox()
+00433: SetSpeaker('블랙브레이드')
+00439: Speech('스톤해머! 잽에게도 알리고 전투 준비를 해라! 공격이다!!!@w')
+00457: SetSpeaker('스톤해머')
+00462: Speech('예! 알았습니다!@w')
+00470: CloseSpeechBox()
+00471: ClosePicture()
+00472: SallyTroop('블랙파워용병단', 10, '블랙파워군단1', 1)
+00489: SallyTroop('블랙파워용병단', 11, '블랙파워군단1', 1)
+00506: SallyTroop('블랙파워용병단', 12, '블랙파워군단2', 1)
+00523: SallyTroop('블랙파워용병단', 14, '스톤해머군단', 1)
+00539: SallyTroop('블랙파워용병단', 15, '잽군단', 1)
+00554: OpenSpeechBox()
+00555: SetSpeaker('잽')
+00559: Speech('화이트울프 용병단이라. 기대 되는데?')
+00571: Speech('벌써 죽음의 향기가 느껴 지는군.@w')
+00583: SetSpeaker('스톤해머')
+00588: Speech('오랜만에 출격이군.')
+00596: Speech('쩝.@w')
+00601: CloseSpeechBox()
+00602: FocusTown('')
+00605: TownFrame('')
+00608: nop
+00609: nop
+00610: IF EVENT_라이벌 == 5 GOTO 620
+00618: GOTO 810
+00620: EVENT_라이벌 = 6
+00626: OpenSpeechBox()
+00627: SetSpeaker('블랙파워사병')
+00633: Speech('대장님! 스톤해머 군단장님과 잽 군단장님이 당했습니다!@w')
+00650: SetSpeaker('블랙브레이드')
+00656: Speech('스톤해머와 잽이 둘 다 당하다니.')
+00667: Speech('화이트울프 용병단이 언제 그렇게 강해졌지?')
+00681: Speech('으... 이렇게 된 이상 용병단의 명예를 위해서라도 결판을 내야겠다.')
+00700: Speech('내가 직접 간다. 블랙드래곤 출격이다!@w')
+00713: SetSpeaker('블랙파워사병')
+00719: Speech('예?!')
+00723: Speech('하지만... 그것은...@w')
+00732: SetSpeaker('블랙브레이드')
+00738: Speech('어쩔 수 없다.')
+00745: Speech('잔말 말고 어서 준비하도록 해라!@w')
+00757: SetSpeaker('블랙파워사병')
+00763: Speech('예... 옛!')
+00769: Speech('알겠습니다!@w')
+00776: CloseSpeechBox()
+00777: ShowMovie('BlackDragon1')
+00783: SallyTroop('블랙파워용병단', 13, '블랙브레이드', 1)
+00799: FocusTroop('블랙파워용병단', 13)
+00808: WorldFrame()
+00809: nop
+00810: nop
+00811: return

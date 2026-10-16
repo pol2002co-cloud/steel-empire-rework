@@ -1,0 +1,80 @@
+00035: entry 1
+
+[국제은행본점]
+00037: HaveItem(0, '신의눈1')
+00044: local0 = SYSTEM_RESULT
+00050: HaveItem(0, '신의눈2')
+00057: local1 = SYSTEM_RESULT
+00063: HaveItem(0, '신의눈3')
+00070: local2 = SYSTEM_RESULT
+00076: IsStayHeroTroop('국제은행')
+00081: IF EVENT_고대인의유적 == 2 AND SYSTEM_RESULT == 1 AND local0 == 1 AND local1 == 1 AND local2 == 1 GOTO 115
+00113: GOTO 421
+00115: EVENT_고대인의유적 = 10
+00121: STS_EVENT = 0
+00127: Calendar(3)
+00130: INFO_고대인년 = SYSTEM_RESULT
+00136: Calendar(2)
+00139: INFO_고대인월 = SYSTEM_RESULT
+00145: OpenSpeechBox()
+00146: SetSpeaker('올브라이트')
+00152: Speech('어머~ 비트만씨!')
+00159: Speech('여기까지 왠일 이세요?@w')
+00168: SetSpeaker('비트만')
+00173: Speech('왠일이기는.')
+00179: Speech("'신의 눈' 3개를 다 구해 왔어.")
+00190: Speech('여기...@w')
+00196: SetSpeaker('')
+00199: Speech("'신의 눈' 3개를 올브라이트에게 주었습니다.@w")
+00213: DropItem(0, '신의눈1')
+00220: DropItem(0, '신의눈2')
+00227: DropItem(0, '신의눈3')
+00234: SetSpeaker('올브라이트')
+00240: Speech('어머~ 정말 다 구해오셨군요!')
+00250: Speech('못할 줄 알았는데. 어머나, 좋아라!')
+00262: Speech('수고 하셨어요. 당장 은행장님께 보고해야지.@w')
+00276: SetSpeaker('비트만')
+00281: Speech('잠깐! 올브라이트!@w')
+00289: SetSpeaker('올브라이트')
+00295: Speech('응? 왜요?@w')
+00301: SetSpeaker('비트만')
+00306: Speech('약속했던 보수는 줘야지.')
+00315: Speech('그리고 다시는 이런 일 시키지 마.@w')
+00327: SetSpeaker('올브라이트')
+00333: Speech('뭐라고요?')
+00339: Speech('알았어요. 주면 되잖아요.')
+00348: Speech('흥! 하지만 당신은 채무자, 나는 채권자라는 사실을 잊지 말아 주었으면 좋겠어요.')
+00371: Speech('잘가요.@w')
+00377: SetSpeaker('')
+00380: Speech("'5,000,000겔더'를 얻었습니다.@w")
+00391: AddGold(5000000)
+00394: SetSpeaker('비트만')
+00399: Speech('올브라이트...')
+00406: Speech('쳇!')
+00410: Speech('그럼 돌아가 볼까?@w')
+00418: CloseSpeechBox()
+00419: return
+00420: nop
+00421: nop
+00422: EnterGovernment()
+00423: return
+00424: entry 2
+
+[막사]
+00426: EnterBarrack()
+00427: return
+00428: entry 0
+
+[mainFrame]
+00430: Calendar(1)
+00433: local3 = SYSTEM_RESULT
+00439: Calendar(2)
+00442: local4 = SYSTEM_RESULT
+00448: Calendar(3)
+00451: local5 = SYSTEM_RESULT
+00457: IF EVENT_최후의결전 >= 3 AND EVENT_최후의결전 <= 4 AND INFO_카운트년 == local5 AND INFO_카운트월 == local4 AND INFO_카운트일 == local3 GOTO 491
+00489: GOTO 493
+00491: WorldFrame()
+00492: nop
+00493: nop
+00494: return

@@ -1,0 +1,53 @@
+00071: entry 1
+
+[릴리온왕궁]
+00073: EnterGovernment()
+00074: return
+00075: entry 2
+
+[주점]
+00077: EnterPub()
+00078: return
+00079: entry 3
+
+[공항]
+00081: EnterAirPort()
+00082: return
+00083: entry 4
+
+[막사]
+00085: EnterBarrack()
+00086: return
+00087: entry 6
+
+[교역소]
+00089: InitMarket(2)
+00092: OpenMarket()
+00093: return
+00094: entry 5
+
+[아이템상점]
+00096: InitMarket(0)
+00099: AppendSellItem('다이나마이트')
+00105: AppendSellItem('핸드그레네이드')
+00112: AppendSellItem('응급상자')
+00117: AppendSellItem('마이싱')
+00122: AppendSellItem('몰핀')
+00126: AppendSellItem('구급상자')
+00131: OpenMarket()
+00132: return
+00133: entry 0
+
+[mainFrame]
+00135: Calendar(1)
+00138: local2 = SYSTEM_RESULT
+00144: Calendar(2)
+00147: local1 = SYSTEM_RESULT
+00153: Calendar(3)
+00156: local0 = SYSTEM_RESULT
+00162: IF EVENT_최후의결전 >= 3 AND EVENT_최후의결전 <= 4 AND INFO_카운트년 == local0 AND INFO_카운트월 == local1 AND INFO_카운트일 == local2 GOTO 196
+00194: GOTO 198
+00196: WorldFrame()
+00197: nop
+00198: nop
+00199: return

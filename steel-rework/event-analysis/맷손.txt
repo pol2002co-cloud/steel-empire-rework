@@ -1,0 +1,36 @@
+00053: entry 2
+
+[관청]
+00055: EnterGovernment()
+00056: return
+00057: entry 4
+
+[막사]
+00059: EnterBarrack()
+00060: return
+00061: entry 1
+
+[주점]
+00063: EnterPub()
+00064: return
+00065: entry 3
+
+[교역소]
+00067: InitMarket(2)
+00070: OpenMarket()
+00071: return
+00072: entry 0
+
+[mainFrame]
+00074: Calendar(1)
+00077: local2 = SYSTEM_RESULT
+00083: Calendar(2)
+00086: local1 = SYSTEM_RESULT
+00092: Calendar(3)
+00095: local0 = SYSTEM_RESULT
+00101: IF EVENT_최후의결전 >= 3 AND EVENT_최후의결전 <= 4 AND INFO_카운트년 == local0 AND INFO_카운트월 == local1 AND INFO_카운트일 == local2 GOTO 135
+00133: GOTO 137
+00135: WorldFrame()
+00136: nop
+00137: nop
+00138: return

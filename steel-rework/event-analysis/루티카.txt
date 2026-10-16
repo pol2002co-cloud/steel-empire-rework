@@ -1,0 +1,67 @@
+00053: entry 1
+
+[관청]
+00055: EnterGovernment()
+00056: return
+00057: entry 2
+
+[막사]
+00059: EnterBarrack()
+00060: return
+00061: entry 4
+
+[주점]
+00063: EnterPub()
+00064: return
+00065: entry 3
+
+[총포상점]
+00067: InitMarket(1)
+00070: AppendSellItem('5mm 권총')
+00075: AppendSellItem('5.5mm 권총')
+00081: AppendSellItem('6mm 권총')
+00086: AppendSellItem('6.5mm 권총')
+00092: AppendSellItem('6mm 3연장권총')
+00099: AppendSellItem('20mm 권총')
+00105: AppendSellItem('6mm 장총')
+00110: AppendSellItem('6.5mm 장총')
+00116: AppendSellItem('6.5mm 2연장장총')
+00123: AppendSellItem('7mm 연발장총')
+00129: AppendSellItem('7mm 대장신장총')
+00136: AppendSellItem('8mm 장총')
+00141: AppendSellItem('8mm 8연장장총')
+00148: AppendSellItem('5mm 기관총')
+00154: AppendSellItem('5.5mm 기관총')
+00160: AppendSellItem('6mm 기관총')
+00166: AppendSellItem('6.5mm 자동소총')
+00173: AppendSellItem('5.3mm 2연장기관단총')
+00181: AppendSellItem('5mm 정밀기관총')
+00188: AppendSellItem('5.5mm 정밀기관총')
+00195: AppendSellItem('10mm 샷건')
+00201: AppendSellItem('12mm 샷건')
+00207: AppendSellItem('11mm 2연장샷건')
+00214: AppendSellItem('20mm 파이어샷건')
+00221: AppendSellItem('30mm 바추카')
+00227: AppendSellItem('35mm 바추카')
+00233: AppendSellItem('46mm 대전차로켓')
+00240: AppendSellItem('55mm 바추카')
+00246: AppendSellItem('65mm 바추카')
+00252: AppendSellItem('75mm 바추카')
+00258: AppendSellItem('70mm 대전차로켓')
+00265: OpenMarket()
+00266: return
+00267: entry 0
+
+[mainFrame]
+00269: Calendar(1)
+00272: local2 = SYSTEM_RESULT
+00278: Calendar(2)
+00281: local1 = SYSTEM_RESULT
+00287: Calendar(3)
+00290: local0 = SYSTEM_RESULT
+00296: IF EVENT_최후의결전 >= 3 AND EVENT_최후의결전 <= 4 AND INFO_카운트년 == local0 AND INFO_카운트월 == local1 AND INFO_카운트일 == local2 GOTO 330
+00328: GOTO 332
+00330: WorldFrame()
+00331: nop
+00332: nop
+00333: return

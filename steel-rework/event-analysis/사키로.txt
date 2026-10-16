@@ -1,0 +1,332 @@
+00080: entry 4
+
+[관청]
+00082: EnterGovernment()
+00083: return
+00084: entry 2
+
+[교역소]
+00086: InitMarket(2)
+00089: OpenMarket()
+00090: return
+00091: entry 7
+
+[용병조합]
+00093: InitMarket(3)
+00096: AppendSellItem('경보병')
+00101: AppendSellItem('중보병')
+00106: OpenMarket()
+00107: return
+00108: entry 3
+
+[아이템상점]
+00110: InitMarket(0)
+00113: AppendSellItem('다이나마이트')
+00119: AppendSellItem('핸드그레네드')
+00125: AppendSellItem('응급상자')
+00130: AppendSellItem('마이싱')
+00135: OpenMarket()
+00136: return
+00137: entry 5
+
+[총포상점]
+00139: IsStayHeroTroop('사키로')
+00144: local0 = SYSTEM_RESULT
+00150: GetHeroInfo('비트만', 1)
+00157: local1 = SYSTEM_RESULT
+00163: GetHeroInfo('밀로셰비치', 0)
+00171: local2 = SYSTEM_RESULT
+00177: IF EVENT_밀로셰비치대령 == 0 AND local0 == 1 AND local1 >= 15 AND local2 == 0 AND STS_EVENT == 0 GOTO 211
+00209: GOTO 738
+00211: EVENT_밀로셰비치대령 = 1
+00217: STS_EVENT = 1
+00223: ShowPicture('밀로1')
+00228: OpenSpeechBox()
+00229: SetSpeaker('밀로셰비치')
+00235: Speech('이봐! 보리스 영감!')
+00243: Speech('손녀는 내가 데리고 간다.')
+00252: Speech("생각이 바뀌면 '렌체스터-7P'를 들고 술집으로 와라!")
+00268: Speech('후하하하핫!!!@w')
+00275: CloseSpeechBox()
+00276: ClosePicture()
+00277: OpenSpeechBox()
+00278: SetSpeaker('보리스')
+00283: Speech('안 돼!!! 밀로셰비치!!!')
+00292: Speech('내 손녀딸 만은 안 돼!!!@w')
+00302: CloseSpeechBox()
+00303: ClosePicture()
+00304: PlayBGM(11)
+00307: ShowPicture('밀로2')
+00312: OpenSpeechBox()
+00313: SetSpeaker('비트만')
+00318: Speech('영감님 어떻게 된 일인데 저런 자가 행패를 부리는 겁니까?@w')
+00336: SetSpeaker('보리스')
+00341: Speech('나는 이 총포상점의 주인이요. 그리고 아까 저자는 퇴역 군인으로 이 근처 폭력 조직의 보스인 밀로셰비치요.')
+00370: Speech("퇴역할 때의 계급이 대령이라. '대령'이라고도 부르지.@w")
+00387: SetSpeaker('비트만')
+00392: Speech('그런데요?@w')
+00398: CloseSpeechBox()
+00399: ClosePicture()
+00400: ShowPicture('밀로3')
+00405: OpenSpeechBox()
+00406: SetSpeaker('보리스')
+00411: Speech("나에게는 아시레마에서 가장 좋다는 라이플인 '렌체스터-7P'가 한 자루 있소.")
+00432: Speech('그런데 저자가 어떻게 들었는지는 몰라도 그 얘기를 듣고 찾아와서는 행패를 부리는 거요.')
+00456: Speech('하도 화가 나 뭐라고 했더니, 내기 결투를 하자는 거요.')
+00472: Speech('결국 내가 졌고 죽게 생겼는데, 손녀딸이 내 목숨을 구걸했고 내 목숨의 댓가로 저자가 내 손녀딸을 데려간 거요.')
+00502: Speech('흐흑... 이 늙은이가 그 때 죽어야 했는데...@w')
+00516: CloseSpeechBox()
+00517: ClosePicture()
+00518: OpenSpeechBox()
+00519: SetSpeaker('비트만')
+00524: Speech('그렇군요.@w')
+00530: SetSpeaker('비트만')
+00535: Speech('으음... 도와줄까?@w')
+00543: CloseSpeechBox()
+00544: OpenSelectBox()
+00545: AppendSelectItem('도와 준다.')
+00551: AppendSelectItem('모른척 한다.')
+00557: DoSelectBox()
+00558: IF SYSTEM_RESULT == 1 GOTO 568
+00566: GOTO 621
+00568: EVENT_밀로셰비치대령 = 10
+00574: STS_EVENT = 0
+00580: OpenSpeechBox()
+00581: SetSpeaker('비트만')
+00586: Speech('참 안되셨군요.')
+00593: Speech('하지만 내가 상관할 일은 아닌거 같은데...')
+00606: Speech('난 바빠서 그럼 이만.@w')
+00615: CloseSpeechBox()
+00616: PlayBGM(8)
+00619: return
+00620: nop
+00621: nop
+00622: PlayBGM(8)
+00625: OpenSpeechBox()
+00626: SetSpeaker('비트만')
+00631: Speech('그러시다면 제가 도와드리죠.@w')
+00642: SetSpeaker('보리스')
+00647: Speech('그렇지만 난 아무것도 없는데...')
+00658: Speech('당신은 용병 아니요?@w')
+00667: SetSpeaker('비트만')
+00672: Speech('때로는 무보수로 일하기도 하죠.')
+00683: Speech('밀로셰비치 그 자는 어디 있습니까?@w')
+00695: SetSpeaker('보리스')
+00700: Speech('술집에 가면 있을거요.')
+00709: Speech('고맙소. 부디 몸조심 하시오.@w')
+00720: SetSpeaker('비트만')
+00725: Speech('알았습니다. 걱정 마십시오.@w')
+00735: CloseSpeechBox()
+00736: return
+00737: nop
+00738: nop
+00739: IF EVENT_밀로셰비치대령 == 2 AND local0 == 1 GOTO 755
+00753: GOTO 983
+00755: EVENT_밀로셰비치대령 = 3
+00761: PlayBGM(4)
+00764: ShowPicture('밀로6')
+00769: OpenSpeechBox()
+00770: SetSpeaker('보리스손녀')
+00776: Speech('할아버지!@w')
+00782: SetSpeaker('보리스')
+00787: Speech('오! 얘야!')
+00793: Speech('별 일 없었니?@w')
+00800: SetSpeaker('보리스손녀')
+00806: Speech('응!')
+00810: Speech('저 아저씨가 구해줬어.@w')
+00819: SetSpeaker('비트만')
+00824: Speech('그럼 전 이만.@w')
+00831: SetSpeaker('보리스')
+00836: Speech('아!')
+00840: Speech('잠깐만 기다려 주시오!@w')
+00849: CloseSpeechBox()
+00850: ClosePicture()
+00851: ShowPicture('밀로7')
+00856: OpenSpeechBox()
+00857: SetSpeaker('보리스')
+00862: Speech("이 '렌체스터-7P'를 받아 주시오.@w")
+00874: SetSpeaker('비트만')
+00879: Speech('하지만... 이건...@w')
+00887: SetSpeaker('보리스')
+00892: Speech('아니오. 받아 주시오.')
+00900: Speech('당신은 이 총을 받을 자격이 있소.@w')
+00912: SetSpeaker('비트만')
+00917: Speech('그렇다면 사양 않고 감사히 받겠습니다.@w')
+00930: SetSpeaker('')
+00933: Speech("'렌체스터-7P 라이플'을 얻었습니다.@w")
+00945: TakeItem(0, '렌체스터-7P')
+00953: SetSpeaker('보리스')
+00958: Speech('좋은 일에 쓰도록 하시오.')
+00967: Speech('잘 가시오. 고마웠소.@w')
+00976: CloseSpeechBox()
+00977: ClosePicture()
+00978: PlayBGM(8)
+00981: return
+00982: nop
+00983: nop
+00984: InitMarket(1)
+00987: AppendSellItem('5mm 권총')
+00992: AppendSellItem('5.5mm 권총')
+00998: AppendSellItem('6mm 권총')
+01003: AppendSellItem('6.5mm 권총')
+01009: AppendSellItem('6mm 3연장권총')
+01016: AppendSellItem('20mm 권총')
+01022: AppendSellItem('5mm 기관총')
+01028: AppendSellItem('5.5mm 기관총')
+01034: AppendSellItem('6mm 기관총')
+01040: AppendSellItem('6.5mm 자동소총')
+01047: AppendSellItem('5.3mm 2연장기관단총')
+01055: AppendSellItem('5mm 정밀기관총')
+01062: AppendSellItem('5.5mm 정밀기관총')
+01069: AppendSellItem('30mm 바추카')
+01075: AppendSellItem('35mm 바추카')
+01081: AppendSellItem('46mm 대전차로켓')
+01088: AppendSellItem('55mm 바추카')
+01094: AppendSellItem('65mm 바추카')
+01100: AppendSellItem('75mm 바추카')
+01106: AppendSellItem('70mm 대전차로켓')
+01113: OpenMarket()
+01114: return
+01115: entry 6
+
+[막사]
+01117: IsStayHeroTroop('사키로')
+01122: IF EVENT_밀로셰비치대령 == 3 AND SYSTEM_RESULT == 1 GOTO 1138
+01136: GOTO 1334
+01138: EVENT_밀로셰비치대령 = 10
+01144: STS_EVENT = 0
+01150: IF STS_밀로셰비치대령 == 1 GOTO 1160
+01158: GOTO 1163
+01160: EnterBarrack()
+01161: return
+01162: nop
+01163: nop
+01164: OpenSpeechBox()
+01165: SetSpeaker('밀로셰비치')
+01171: Speech('이봐, 잠깐만!@w')
+01178: SetSpeaker('비트만')
+01183: Speech('응? 너는 밀로셰비치?')
+01191: Speech('나한테 무슨 일이지?')
+01199: Speech('복수하러 왔나?@w')
+01206: SetSpeaker('밀로셰비치')
+01212: Speech('아니, 그런게 아니다.')
+01220: Speech('나를 네 부하로 써 다오. 너같은 자를 위해서 일하고 싶다.@w')
+01238: SetSpeaker('비트만')
+01243: Speech('......@w')
+01248: Speech('진심이냐?@w')
+01254: SetSpeaker('밀로셰비치')
+01260: Speech('그렇다. 진심이다.@w')
+01268: SetSpeaker('비트만')
+01273: Speech('좋다!')
+01278: Speech('환영한다! 앞으로 잘 해보자!@w')
+01289: SetSpeaker('밀로셰비치')
+01295: Speech('그럼 먼저 포룸으로 가서 기다리고 있겠다.@w')
+01309: SetSpeaker('')
+01312: Speech("'밀로셰비치 대령'이 동료가 되었습니다.")
+01325: CloseSpeechBox()
+01326: JoinHero('밀로셰비치')
+01332: return
+01333: nop
+01334: nop
+01335: EnterBarrack()
+01336: return
+01337: entry 1
+
+[주점]
+01339: IsStayHeroTroop('사키로')
+01344: IF EVENT_밀로셰비치대령 == 1 AND SYSTEM_RESULT == 1 GOTO 1360
+01358: GOTO 1822
+01360: EVENT_밀로셰비치대령 = 2
+01366: ShowPicture('밀로4')
+01371: OpenSpeechBox()
+01372: SetSpeaker('비트만')
+01377: Speech('누가 밀로셰비치 대령인가?@w')
+01387: SetSpeaker('밀로셰비치')
+01393: Speech('나다. 내가 밀로셰비치다.')
+01402: Speech('무슨 일이지?@w')
+01409: SetSpeaker('비트만')
+01414: Speech('듣자니 보리스 영감의 손녀딸을 납치했다던데.')
+01428: Speech('어서 풀어줘라.@w')
+01435: SetSpeaker('밀로셰비치')
+01441: Speech('후하하하핫!!! 어디서 객기만 잔뜩 든 애송이가 나타나셨군!')
+01458: Speech('좋아. 나와. 결투에서 이기면 풀어주지.')
+01471: Speech('자신 있나 애송이?@w')
+01479: SetSpeaker('비트만')
+01484: Speech('정 결투를 원한다면 할 수 없군.@w')
+01495: SetSpeaker('밀로셰비치')
+01501: Speech('후하하하핫!!!')
+01508: Speech('한 백년쯤 후에 네가 가 있는 저승에 찾아갈테니 먼저 가서 내 자리좀 잘 만들어 놔라!@w')
+01532: CloseSpeechBox()
+01533: ClosePicture()
+01534: SallyTroop('', 10, '1대1', 0)
+01544: SallyTroop('사키로', 10, '밀로셰비치', 0)
+01558: Battle('', 10, '사키로', 10, '사키로', 0, 0)
+01577: IF BATTLE_RESULT == 0 GOTO 1587
+01585: GOTO 1594
+01587: ShowMovie('GameOver')
+01592: ExitFrame()
+01593: nop
+01594: nop
+01595: DestroyTroop('', 10)
+01600: ShowPicture('밀로5')
+01605: OpenSpeechBox()
+01606: SetSpeaker('밀로셰비치')
+01612: Speech('이... 이런. 내가 지다니...')
+01622: Speech('으... 주...죽여라! 약속대로 보리스의 손녀딸은 돌려 보내주겠다...@w')
+01642: SetSpeaker('비트만')
+01647: Speech('살려줄까 말까?@w')
+01654: CloseSpeechBox()
+01655: OpenSelectBox()
+01656: AppendSelectItem('살려준다.')
+01662: AppendSelectItem('죽인다.')
+01667: DoSelectBox()
+01668: IF SYSTEM_RESULT == 1 GOTO 1678
+01676: GOTO 1726
+01678: OpenSpeechBox()
+01679: SetSpeaker('비트만')
+01684: Speech('너 같은 놈은 살 자격이 없어!@w')
+01695: SetSpeaker('밀로셰비치')
+01701: Speech('크아아아아악!!!@w')
+01709: CloseSpeechBox()
+01710: ClosePicture()
+01711: STS_밀로셰비치대령 = 1
+01717: RemoveWanderer('밀로셰비치')
+01723: GOTO 1819
+01725: nop
+01726: nop
+01727: OpenSpeechBox()
+01728: SetSpeaker('비트만')
+01733: Speech('살려줄테니 꺼져라!@w')
+01741: SetSpeaker('밀로셰비치')
+01747: Speech('뭐...뭐라고?@w')
+01754: SetSpeaker('비트만')
+01759: Speech('앞으로는 그 뛰어난 솜씨를 조금은 나은 일에 쓰도록 해라!')
+01776: Speech('빨랑 사라져!@w')
+01783: SetSpeaker('밀로셰비치')
+01789: Speech('크으으으...@w')
+01796: SetSpeaker('비트만')
+01801: Speech('이제 보리스 영감한테 손녀를 데려다 줘야겠다.@w')
+01816: CloseSpeechBox()
+01817: ClosePicture()
+01818: nop
+01819: nop
+01820: return
+01821: nop
+01822: nop
+01823: EnterPub()
+01824: return
+01825: entry 0
+
+[mainFrame]
+01827: Calendar(1)
+01830: local3 = SYSTEM_RESULT
+01836: Calendar(2)
+01839: local4 = SYSTEM_RESULT
+01845: Calendar(3)
+01848: local5 = SYSTEM_RESULT
+01854: IF EVENT_최후의결전 >= 3 AND EVENT_최후의결전 <= 4 AND INFO_카운트년 == local5 AND INFO_카운트월 == local4 AND INFO_카운트일 == local3 GOTO 1888
+01886: GOTO 1890
+01888: WorldFrame()
+01889: nop
+01890: nop
+01891: return

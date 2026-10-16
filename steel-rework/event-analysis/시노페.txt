@@ -1,0 +1,101 @@
+00080: entry 5
+
+[관청]
+00082: EnterGovernment()
+00083: return
+00084: entry 2
+
+[막사]
+00086: EnterBarrack()
+00087: return
+00088: entry 4
+
+[공항]
+00090: EnterAirPort()
+00091: return
+00092: entry 6
+
+[주점]
+00094: EnterPub()
+00095: return
+00096: entry 3
+
+[아이템상점]
+00098: InitMarket(0)
+00101: AppendSellItem('펜저슈레케')
+00107: AppendSellItem('마이싱')
+00112: AppendSellItem('몰핀')
+00116: AppendSellItem('구급상자')
+00121: OpenMarket()
+00122: return
+00123: entry 1
+
+[항공기상점]
+00125: InitMarket(5)
+00128: AppendSellItem('와이번MK4')
+00134: AppendSellItem('그리폰MK5')
+00140: AppendSellItem('드래곤MK2')
+00146: OpenMarket()
+00147: return
+00148: entry 7
+
+[총포상점]
+00150: InitMarket(1)
+00153: AppendSellItem('5mm 권총')
+00158: AppendSellItem('5.5mm 권총')
+00164: AppendSellItem('6mm 권총')
+00169: AppendSellItem('6.5mm 권총')
+00175: AppendSellItem('6mm 3연장권총')
+00182: AppendSellItem('20mm 권총')
+00188: AppendSellItem('6mm 장총')
+00193: AppendSellItem('6.5mm 장총')
+00199: AppendSellItem('6.5mm 2연장장총')
+00206: AppendSellItem('7mm 연발장총')
+00212: AppendSellItem('7mm 대장신장총')
+00219: AppendSellItem('8mm 장총')
+00224: AppendSellItem('8mm 8연장장총')
+00231: AppendSellItem('5mm 기관총')
+00237: AppendSellItem('5.5mm 기관총')
+00243: AppendSellItem('6mm 기관총')
+00249: AppendSellItem('6.5mm 자동소총')
+00256: AppendSellItem('5.3mm 2연장기관단총')
+00264: AppendSellItem('5mm 정밀기관총')
+00271: AppendSellItem('5.5mm 정밀기관총')
+00278: AppendSellItem('10mm 샷건')
+00284: AppendSellItem('12mm 샷건')
+00290: AppendSellItem('11mm 2연장샷건')
+00297: AppendSellItem('20mm 파이어샷건')
+00304: AppendSellItem('30mm 바추카')
+00310: AppendSellItem('35mm 바추카')
+00316: AppendSellItem('46mm 대전차로켓')
+00323: AppendSellItem('55mm 바추카')
+00329: AppendSellItem('65mm 바추카')
+00335: AppendSellItem('75mm 바추카')
+00341: AppendSellItem('70mm 대전차로켓')
+00348: AppendSellItem('6mm 3연장캐틀링')
+00355: AppendSellItem('8mm 3연장캐틀링')
+00362: AppendSellItem('6mm 8연장캐틀링')
+00369: AppendSellItem('10mm 4연장캐틀링')
+00376: AppendSellItem('12mm 5연장캐틀링')
+00383: AppendSellItem('14mm 더블3연장캐틀링')
+00391: AppendSellItem('16mm 더블5연장캐틀링')
+00399: AppendSellItem('240mm 팬저파우스트')
+00407: AppendSellItem('280mm 팬저파우스트')
+00415: AppendSellItem('360mm 팬저파우스트')
+00423: OpenMarket()
+00424: return
+00425: entry 0
+
+[mainFrame]
+00427: Calendar(1)
+00430: local2 = SYSTEM_RESULT
+00436: Calendar(2)
+00439: local1 = SYSTEM_RESULT
+00445: Calendar(3)
+00448: local0 = SYSTEM_RESULT
+00454: IF EVENT_최후의결전 >= 3 AND EVENT_최후의결전 <= 4 AND INFO_카운트년 == local0 AND INFO_카운트월 == local1 AND INFO_카운트일 == local2 GOTO 488
+00486: GOTO 490
+00488: WorldFrame()
+00489: nop
+00490: nop
+00491: return

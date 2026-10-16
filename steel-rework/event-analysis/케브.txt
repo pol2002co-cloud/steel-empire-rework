@@ -1,0 +1,142 @@
+00071: entry 1
+
+[관청]
+00073: EnterGovernment()
+00074: return
+00075: entry 3
+
+[막사]
+00077: EnterBarrack()
+00078: return
+00079: entry 2
+
+[주점]
+00081: EnterPub()
+00082: return
+00083: entry 4
+
+[교역소]
+00085: InitMarket(2)
+00088: OpenMarket()
+00089: return
+00090: entry 5
+
+[아이템상점]
+00092: InitMarket(0)
+00095: AppendSellItem('펜저슈레케')
+00101: AppendSellItem('응급상자')
+00106: AppendSellItem('몰핀')
+00110: AppendSellItem('구급상자')
+00115: OpenMarket()
+00116: return
+00117: entry 6
+
+[케브유적]
+00119: IsStayHeroTroop('케브')
+00123: IF EVENT_고대인의유적 == 1 AND STS_케브 == 0 GOTO 139
+00137: GOTO 626
+00139: IF SYSTEM_RESULT == 0 GOTO 149
+00147: GOTO 180
+00149: OpenSpeechBox()
+00150: SetSpeaker('시민4')
+00155: Speech('국제은행으로부터 비트만님이 아닌 분은 들여 보내지 말라고 지시 받았습니다.@w')
+00177: CloseSpeechBox()
+00178: return
+00179: nop
+00180: nop
+00181: ShowPicture('유적10')
+00186: OpenSpeechBox()
+00187: SetSpeaker('비트만')
+00192: Speech("여기가 '케브 유적'이로군.")
+00202: Speech('들어가 보자.@w')
+00209: CloseSpeechBox()
+00210: ClosePicture()
+00211: ShowPicture('유적11')
+00216: OpenSpeechBox()
+00217: SetSpeaker('비트만')
+00222: Speech('엇!@w')
+00227: Speech('매드잭슨!?')
+00233: Speech('아이언메이스 용병단도 이 일을 하고 있다는게 사실이로군.@w')
+00251: SetSpeaker('매드잭슨')
+00256: Speech('비트만 아니야?')
+00263: Speech('오랜만이야 비트만.')
+00271: Speech('그 동안 잘 지냈어?@w')
+00279: SetSpeaker('비트만')
+00284: Speech('나야 뭐 보다시피.@w')
+00292: SetSpeaker('비트만')
+00297: Speech('한 10년만인가?')
+00304: Speech('예전에는 연상인 너를 내가 죽도록 쫓아 다녔었는데...')
+00320: Speech('아직도 예쁘군.@w')
+00327: SetSpeaker('매드잭슨')
+00332: Speech('훗.')
+00336: Speech('아직도 그렇게 얘기해 주다니.')
+00346: Speech('고맙군.@w')
+00352: SetSpeaker('비트만')
+00357: Speech('그건 그렇고...')
+00364: Speech('내 놔.@w')
+00369: SetSpeaker('매드잭슨')
+00374: Speech('뭘?@w')
+00379: SetSpeaker('비트만')
+00384: Speech("다 알잖아. '신의 눈'.")
+00393: Speech('안 주겠다면 힘으로라도 뺏겠어.@w')
+00404: SetSpeaker('매드잭슨')
+00409: Speech('아하하하하!')
+00415: Speech('내게서 뺏겠다고?')
+00422: Speech('이 아이언메이스 용병단의 보스인 매드잭슨에게서?')
+00437: Speech('훗, 비트만. 젖좀 더 먹고 와.@w')
+00448: SetSpeaker('비트만')
+00453: Speech('역시 말로는 안 되겠군.')
+00462: Speech('좋아! 간다!@w')
+00469: CloseSpeechBox()
+00470: ClosePicture()
+00471: SallyTroop('아이언메이스용병단', 15, '아이언메이스용병단3', 0)
+00490: Battle('', 0, '아이언메이스용병단', 15, '케브', 0, 0)
+00511: IF BATTLE_RESULT == 0 GOTO 521
+00519: GOTO 528
+00521: ShowMovie('게임오버')
+00526: ExitFrame()
+00527: nop
+00528: nop
+00529: STS_케브 = 2
+00535: OpenSpeechBox()
+00536: SetSpeaker('비트만')
+00541: Speech("'신의 눈'은 내가 가져가겠어.")
+00551: Speech('그럼 나중에 보자고 매드잭슨.@w')
+00562: CloseSpeechBox()
+00563: ShowPicture('유적12')
+00568: OpenSpeechBox()
+00569: SetSpeaker('비트만')
+00574: Speech("이게 케브에 있는 '신의 눈'인가?")
+00585: Speech('좋아. 맘에 들어.')
+00592: Speech('어서 이걸 챙겨서 철수하자.@w')
+00602: SetSpeaker('')
+00605: Speech("'신의눈3'을 얻었습니다.@w")
+00615: CloseSpeechBox()
+00616: ClosePicture()
+00617: TakeItem(0, '신의눈3')
+00624: return
+00625: nop
+00626: nop
+00627: OpenSpeechBox()
+00628: SetSpeaker('시민4')
+00633: Speech("어서오세요~! 여기는 '케브 유적'입...")
+00645: Speech('앗!')
+00649: Speech('어딜 가시는 거예요?')
+00657: Speech('관광 코스는 이쪽이예요.@w')
+00667: CloseSpeechBox()
+00668: return
+00669: entry 0
+
+[mainFrame]
+00671: Calendar(1)
+00674: local0 = SYSTEM_RESULT
+00680: Calendar(2)
+00683: local1 = SYSTEM_RESULT
+00689: Calendar(3)
+00692: local2 = SYSTEM_RESULT
+00698: IF EVENT_최후의결전 >= 3 AND EVENT_최후의결전 <= 4 AND INFO_카운트년 == local2 AND INFO_카운트월 == local1 AND INFO_카운트일 == local0 GOTO 732
+00730: GOTO 734
+00732: WorldFrame()
+00733: nop
+00734: nop
+00735: return

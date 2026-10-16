@@ -1,0 +1,82 @@
+00080: entry 2
+
+[엑제로스대공관저]
+00082: EnterGovernment()
+00083: return
+00084: entry 1
+
+[막사]
+00086: EnterBarrack()
+00087: return
+00088: entry 3
+
+[공항]
+00090: EnterAirPort()
+00091: return
+00092: entry 6
+
+[주점]
+00094: EnterPub()
+00095: return
+00096: entry 7
+
+[교역소]
+00098: InitMarket(2)
+00101: OpenMarket()
+00102: return
+00103: entry 4
+
+[용병조합]
+00105: InitMarket(3)
+00108: AppendSellItem('중장갑보병')
+00114: AppendSellItem('중보병')
+00119: OpenMarket()
+00120: return
+00121: entry 5
+
+[아이템상점]
+00123: InitMarket(0)
+00126: AppendSellItem('펜저슈레케')
+00132: AppendSellItem('구급상자')
+00137: OpenMarket()
+00138: return
+00139: entry 0
+
+[mainFrame]
+00141: Calendar(1)
+00144: local2 = SYSTEM_RESULT
+00150: Calendar(2)
+00153: local1 = SYSTEM_RESULT
+00159: Calendar(3)
+00162: local0 = SYSTEM_RESULT
+00168: IF EVENT_최후의결전 >= 3 AND EVENT_최후의결전 <= 4 AND INFO_카운트년 == local0 AND INFO_카운트월 == local1 AND INFO_카운트일 == local2 GOTO 202
+00200: GOTO 204
+00202: WorldFrame()
+00203: nop
+00204: nop
+00205: IF EVENT_최후의결전 == 11 GOTO 215
+00213: GOTO 334
+00215: STS_EVENT = 0
+00221: PlayBGM(11)
+00224: ShowPicture('마지막6')
+00229: OpenSpeechBox()
+00230: SetSpeaker('람케')
+00234: Speech('이제 세계는 내 손에 정복되었다!')
+00245: Speech('으하하하하하!!!')
+00252: Speech('내가 세계의 지배자다!@w')
+00261: SetSpeaker('매드잭슨')
+00266: Speech('축하드립니다 대공전하!')
+00275: Speech('아니 황제폐하!@w')
+00282: SetSpeaker('깽디쉬')
+00287: Speech('저도 역시 축하드립니다.')
+00296: Speech('크크크크...@w')
+00303: SetSpeaker('엑제로스사병')
+00309: Speech('황제폐하 만세!!')
+00316: Speech('황제폐하 만세!!@w')
+00324: CloseSpeechBox()
+00325: ClosePicture()
+00326: ShowMovie('BadEnding')
+00332: ExitFrame()
+00333: nop
+00334: nop
+00335: return

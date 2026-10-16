@@ -1,0 +1,46 @@
+00062: entry 1
+
+[관청]
+00064: EnterGovernment()
+00065: return
+00066: entry 2
+
+[주점]
+00068: EnterPub()
+00069: return
+00070: entry 3
+
+[막사]
+00072: EnterBarrack()
+00073: return
+00074: entry 5
+
+[교역소]
+00076: InitMarket(2)
+00079: OpenMarket()
+00080: return
+00081: entry 4
+
+[아이템상점]
+00083: InitMarket(0)
+00086: AppendSellItem('다이나마이트')
+00092: AppendSellItem('핸드그레네드')
+00098: AppendSellItem('펜저슈레케')
+00104: AppendSellItem('응급상자')
+00109: OpenMarket()
+00110: return
+00111: entry 0
+
+[mainFrame]
+00113: Calendar(1)
+00116: local2 = SYSTEM_RESULT
+00122: Calendar(2)
+00125: local1 = SYSTEM_RESULT
+00131: Calendar(3)
+00134: local0 = SYSTEM_RESULT
+00140: IF EVENT_최후의결전 >= 3 AND EVENT_최후의결전 <= 4 AND INFO_카운트년 == local0 AND INFO_카운트월 == local1 AND INFO_카운트일 == local2 GOTO 174
+00172: GOTO 176
+00174: WorldFrame()
+00175: nop
+00176: nop
+00177: return

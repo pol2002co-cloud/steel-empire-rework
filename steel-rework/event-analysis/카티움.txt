@@ -1,0 +1,76 @@
+00071: entry 4
+
+[관청]
+00073: EnterGovernment()
+00074: return
+00075: entry 3
+
+[주점]
+00077: EnterPub()
+00078: return
+00079: entry 2
+
+[막사]
+00081: EnterBarrack()
+00082: return
+00083: entry 5
+
+[공항]
+00085: EnterAirPort()
+00086: return
+00087: entry 6
+
+[교역소]
+00089: InitMarket(2)
+00092: OpenMarket()
+00093: return
+00094: entry 1
+
+[카티움대학]
+00096: IsStayHeroTroop('카티움')
+00101: local0 = SYSTEM_RESULT
+00107: HaveItem(0, '인도하는자')
+00115: local1 = SYSTEM_RESULT
+00121: IF EVENT_인도하는자 == 2 AND local0 == 1 AND local1 == 1 GOTO 143
+00141: GOTO 257
+00143: EVENT_인도하는자 = 10
+00149: STS_EVENT = 0
+00155: OpenSpeechBox()
+00156: SetSpeaker('에이올린')
+00161: Speech('고맙습니다. 이걸로 연구에 많은 도움이 될 것입니다.')
+00177: Speech("소중한 유물인 '인도하는 자'는 저희 카티움 대학에서 보관하겠습니다.")
+00197: Speech('이것은 약속한 사례입니다. 그럼 이만.@w')
+00210: SetSpeaker('')
+00213: Speech("'5000겔더'를 얻었습니다.@w")
+00223: SetSpeaker('비트만')
+00228: Speech('휴~@n오랜만에 순수한 기분으로 일을 했군.@w')
+00242: CloseSpeechBox()
+00243: DropItem(0, '인도하는자')
+00251: AddGold(5000)
+00254: GOTO 298
+00256: nop
+00257: nop
+00258: OpenSpeechBox()
+00259: SetSpeaker('시민1')
+00264: Speech("여기는 신성한 '카티움 대학'이라우.")
+00276: Speech('보아하니 대학생이 아닌거 같은데...')
+00288: Speech('도강은 사절이유.@w')
+00296: CloseSpeechBox()
+00297: nop
+00298: nop
+00299: return
+00300: entry 0
+
+[mainFrame]
+00302: Calendar(1)
+00305: local2 = SYSTEM_RESULT
+00311: Calendar(2)
+00314: local3 = SYSTEM_RESULT
+00320: Calendar(3)
+00323: local4 = SYSTEM_RESULT
+00329: IF EVENT_최후의결전 >= 3 AND EVENT_최후의결전 <= 4 AND INFO_카운트년 == local4 AND INFO_카운트월 == local3 AND INFO_카운트일 == local2 GOTO 363
+00361: GOTO 365
+00363: WorldFrame()
+00364: nop
+00365: nop
+00366: return

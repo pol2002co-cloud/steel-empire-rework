@@ -1,0 +1,299 @@
+00098: entry 2
+
+[샤르데나왕궁]
+00100: EnterGovernment()
+00101: return
+00102: entry 3
+
+[막사]
+00104: EnterBarrack()
+00105: return
+00106: entry 7
+
+[공항]
+00108: EnterAirPort()
+00109: return
+00110: entry 9
+
+[교역소]
+00112: InitMarket(2)
+00115: OpenMarket()
+00116: return
+00117: entry 1
+
+[차량상점]
+00119: InitMarket(4)
+00122: AppendSellItem('고블린MK2')
+00128: AppendSellItem('고블린MK3')
+00134: AppendSellItem('고블린MK8')
+00140: AppendSellItem('고블린MK4')
+00146: AppendSellItem('다우티MK2')
+00152: AppendSellItem('트롤MK5')
+00157: OpenMarket()
+00158: return
+00159: entry 5
+
+[아이템상점]
+00161: InitMarket(0)
+00164: AppendSellItem('다이나마이트')
+00170: AppendSellItem('핸드그레네드')
+00176: AppendSellItem('펜저슈레케')
+00182: AppendSellItem('응급상자')
+00187: AppendSellItem('마이싱')
+00192: AppendSellItem('몰핀')
+00196: AppendSellItem('구급상자')
+00201: OpenMarket()
+00202: return
+00203: entry 8
+
+[용병조합]
+00205: InitMarket(3)
+00208: AppendSellItem('중보병')
+00213: AppendSellItem('드라이버')
+00218: OpenMarket()
+00219: return
+00220: entry 6
+
+[총포상점]
+00222: InitMarket(1)
+00225: AppendSellItem('5mm 권총')
+00230: AppendSellItem('5.5mm 권총')
+00236: AppendSellItem('6mm 권총')
+00241: AppendSellItem('6.5mm 권총')
+00247: AppendSellItem('6mm 3연장권총')
+00254: AppendSellItem('20mm 권총')
+00260: AppendSellItem('6mm 장총')
+00265: AppendSellItem('6.5mm 장총')
+00271: AppendSellItem('6.5mm 2연장장총')
+00278: AppendSellItem('7mm 연발장총')
+00284: AppendSellItem('7mm 대장신장총')
+00291: AppendSellItem('8mm 장총')
+00296: AppendSellItem('8mm 8연장장총')
+00303: AppendSellItem('5mm 기관총')
+00309: AppendSellItem('5.5mm 기관총')
+00315: AppendSellItem('6mm 기관총')
+00321: AppendSellItem('6.5mm 자동소총')
+00328: AppendSellItem('5.3mm 2연장기관단총')
+00336: AppendSellItem('5mm 정밀기관총')
+00343: AppendSellItem('5.5mm 정밀기관총')
+00350: AppendSellItem('10mm 샷건')
+00356: AppendSellItem('12mm 샷건')
+00362: AppendSellItem('11mm 2연장샷건')
+00369: AppendSellItem('20mm 파이어샷건')
+00376: AppendSellItem('30mm 바추카')
+00382: AppendSellItem('35mm 바추카')
+00388: AppendSellItem('46mm 대전차로켓')
+00395: AppendSellItem('55mm 바추카')
+00401: AppendSellItem('65mm 바추카')
+00407: AppendSellItem('75mm 바추카')
+00413: AppendSellItem('70mm 대전차로켓')
+00420: AppendSellItem('6mm 3연장캐틀링')
+00427: AppendSellItem('8mm 3연장캐틀링')
+00434: AppendSellItem('6mm 8연장캐틀링')
+00441: AppendSellItem('10mm 4연장캐틀링')
+00448: AppendSellItem('12mm 5연장캐틀링')
+00455: AppendSellItem('14mm 더블3연장캐틀링')
+00463: AppendSellItem('16mm 더블5연장캐틀링')
+00471: AppendSellItem('240mm 팬저파우스트')
+00479: AppendSellItem('280mm 팬저파우스트')
+00487: AppendSellItem('360mm 팬저파우스트')
+00495: AppendSellItem('15mm 스나이퍼라이플')
+00503: AppendSellItem('16mm 스나이퍼라이플')
+00511: OpenMarket()
+00512: return
+00513: entry 4
+
+[주점]
+00515: IsStayHeroTroop('샤르데나')
+00520: local0 = SYSTEM_RESULT
+00526: GetSystemInfo(0)
+00529: local2 = SYSTEM_RESULT
+00535: GetSystemInfo(1)
+00538: local1 = SYSTEM_RESULT
+00544: RequestCount('샤르데나')
+00549: local3 = SYSTEM_RESULT
+00555: IF EVENT_고대인의유적 == 0 AND EVENT_최후의결전 == 0 AND EVENT_깽디쉬박사 == 0 AND STS_EVENT == 0 AND local0 == 1 AND local2 >= 30 AND local1 >= 5 AND local3 == 0 GOTO 607
+00605: GOTO 1070
+00607: EVENT_깽디쉬박사 = 1
+00613: STS_EVENT = 1
+00619: PlayBGM(4)
+00622: ShowPicture('밀레나1')
+00627: OpenSpeechBox()
+00628: SetSpeaker('밀레나')
+00633: Speech('제발 저 좀 도와주세요!@w')
+00642: SetSpeaker('비트만')
+00647: Speech('뭐야 넌?')
+00652: Speech('저리 가.')
+00657: Speech('난 쓸데 없는 일에 끼기 싫어.@w')
+00668: SetSpeaker('치한1')
+00673: Speech('저기 있다!@w')
+00679: SetSpeaker('밀레나')
+00684: Speech('오빠 저예요! 저 밀레나예요!')
+00694: Speech('오랫동안 안 보았다고 잊어 버렸어요?@w')
+00707: SetSpeaker('비트만')
+00712: Speech('무슨 말이야? 갑자기.@w')
+00721: SetSpeaker('치한1')
+00726: Speech('뭐? 오빠? 그럼 네놈이 에스겔드냐?@w')
+00738: SetSpeaker('비트만')
+00743: Speech('뭔 소리를 하는 거야?')
+00751: Speech('뭔 소리를?@w')
+00757: SetSpeaker('치한1')
+00762: Speech('아무래도 저 녀석이 에스겔드가 맞는거 같군!')
+00776: Speech('해치워랏!@w')
+00782: SetSpeaker('비트만')
+00787: Speech('뭐야?')
+00792: Speech('에잇~! 손 좀 봐 줘야 겠군!@w')
+00802: CloseSpeechBox()
+00803: ClosePicture()
+00804: ShowPicture('밀레나2')
+00809: OpenSpeechBox()
+00810: Sound('펀치.wav')
+00815: SetSpeaker('치한1')
+00820: Speech('으으윽!@w')
+00826: Speech('분하다! 도망치차!!@w')
+00834: CloseSpeechBox()
+00835: ClosePicture()
+00836: OpenSpeechBox()
+00837: SetSpeaker('비트만')
+00842: Speech('한 주먹거리도 안 되는 것들이...')
+00853: Speech('그나저나 넌 누구야?@w')
+00862: SetSpeaker('밀레나')
+00867: Speech('저는 밀레나라고 합니다.')
+00876: Speech('혹시 비트만님이 아니신가요?@w')
+00887: SetSpeaker('비트만')
+00892: Speech('응. 내가 비트만인 것은 맞긴 맞는데.')
+00904: Speech('나를 어떻게 알지?@w')
+00912: SetSpeaker('밀레나')
+00917: Speech('그럼 역시 그 유명한 화이트울프 용병단의 비트만님이 맞군요?')
+00935: Speech('반가워요! 저는 샤르데나 왕국의 공주인 밀레나라고 합니다.@w')
+00953: SetSpeaker('비트만')
+00958: Speech('응? 공주?@n공주가 무슨 일로...?@w')
+00970: SetSpeaker('밀레나')
+00975: Speech('제발 도와 주세요! 저희 샤르데나 왕국은 위기에 빠져 있어요!@w')
+00993: SetSpeaker('치한2')
+00998: Speech('저기있다! 잡아라!@w')
+01006: CloseSpeechBox()
+01007: ShowPicture('밀레나3')
+01012: OpenSpeechBox()
+01013: SetSpeaker('비트만')
+01018: Speech('일단 도망가자.@w')
+01025: SetSpeaker('치한1')
+01030: Speech('도망간다! 잡아라!@w')
+01038: CloseSpeechBox()
+01039: ClosePicture()
+01040: OpenSpeechBox()
+01041: SetSpeaker('치한1')
+01046: Speech('에잇, 놓쳤군!@w')
+01053: CloseSpeechBox()
+01054: OutTroop('샤르데나', 0, 0)
+01063: FocusTroop('', 0)
+01068: WorldFrame()
+01069: nop
+01070: nop
+01071: EnterPub()
+01072: return
+01073: entry 0
+
+[mainFrame]
+01075: Calendar(1)
+01078: local6 = SYSTEM_RESULT
+01084: Calendar(2)
+01087: local5 = SYSTEM_RESULT
+01093: Calendar(3)
+01096: local4 = SYSTEM_RESULT
+01102: IF EVENT_최후의결전 >= 3 AND EVENT_최후의결전 <= 4 AND INFO_카운트년 == local4 AND INFO_카운트월 == local5 AND INFO_카운트일 == local6 GOTO 1136
+01134: GOTO 1138
+01136: WorldFrame()
+01137: nop
+01138: nop
+01139: GetEventCause()
+01140: IF SYSTEM_RESULT != 0 GOTO 1150
+01148: GOTO 1152
+01150: return
+01151: nop
+01152: nop
+01153: IF EVENT_깽디쉬박사 == 3 GOTO 1163
+01161: GOTO 1368
+01163: EVENT_깽디쉬박사 = 4
+01169: ShowPicture('밀레나7')
+01174: OpenSpeechBox()
+01175: SetSpeaker('샤르데나사병')
+01181: Speech('깽디쉬 박사님! 큰 일 났습니다!@w')
+01192: SetSpeaker('깽디쉬')
+01197: Speech('무슨 일이냐?@w')
+01204: SetSpeaker('샤르데나사병')
+01210: Speech('화이트울프 용병단이 도망친 밀레나 공주의 사주를 받아 우리 도시를 공격해 왔습니다.@w')
+01234: CloseSpeechBox()
+01235: ClosePicture()
+01236: OpenSpeechBox()
+01237: SetSpeaker('깽디쉬')
+01242: Speech('이... 이런 괘씸한 놈들!')
+01251: Speech('좋아. 맛을 보여 주지.')
+01260: Speech('INF-MK1을 출동 시킬 준비를 해라!@w')
+01272: SetSpeaker('샤르데나사병')
+01278: Speech('서... 설마...@w')
+01285: SetSpeaker('깽디쉬')
+01290: Speech('꾸물거리지 말고 빨리 준비해라!@w')
+01301: SetSpeaker('샤르데나사병')
+01307: Speech('예! 알겠습니다!@w')
+01315: CloseSpeechBox()
+01316: ShowMovie('INF-MK11')
+01321: OpenSpeechBox()
+01322: SetSpeaker('깽디쉬')
+01327: Speech('기다려라 이놈들!')
+01334: Speech('내가 해치워 주마! 크크크크...@w')
+01345: CloseSpeechBox()
+01346: SallyTroop('샤르데나', 10, 'INF-MK1', 1)
+01359: FocusTroop('샤르데나', 10)
+01366: WorldFrame()
+01367: nop
+01368: nop
+01369: IF EVENT_깽디쉬박사 == 7 GOTO 1379
+01377: GOTO 1629
+01379: EVENT_깽디쉬박사 = 8
+01385: StopBGM()
+01386: ShowPicture('밀레나8')
+01391: OpenSpeechBox()
+01392: Sound('트럼펫.wav')
+01398: SetSpeaker('샤르데나국왕')
+01404: Speech('비트만경 수고했소.')
+01412: Speech('위대한 샤르데나 왕국 국왕의 이름으로 그대의 노고를 치하하여 상금을 지급하는 바이오.@w')
+01437: SetSpeaker('')
+01440: Speech("'1,000,000겔더'를 얻었습니다.@w")
+01451: AddGold(1000000)
+01454: PlayBGM(10)
+01457: SetSpeaker('시민1')
+01462: Speech('만세!@w')
+01467: SetSpeaker('시민2')
+01472: Speech('샤르데나 왕국 만세!@w')
+01481: SetSpeaker('비트만')
+01486: Speech('여기에 더 보너스 같은 것은 없습니까?')
+01498: Speech('무척 힘들었는데.@w')
+01506: SetSpeaker('밀레나')
+01511: Speech('물론 있지요.')
+01517: Speech('잠깐 이리로 와보세요.@w')
+01526: SetSpeaker('비트만')
+01531: Speech('헤헤헤...')
+01537: Speech('얼마나 될까?@w')
+01544: SetSpeaker('밀레나')
+01549: Speech('자, 눈을 감고...@w')
+01557: CloseSpeechBox()
+01558: ClosePicture()
+01559: ShowPicture('밀레나9')
+01564: OpenSpeechBox()
+01565: SetSpeaker('비트만')
+01570: Speech('웃!@w')
+01575: SetSpeaker('밀레나')
+01580: Speech('어때요. 맘에 들어요?@w')
+01589: SetSpeaker('비트만')
+01594: Speech('하하하하!')
+01600: Speech('한 번 더 하면 안 될까?@w')
+01609: SetSpeaker('밀레나')
+01614: Speech('물론이죠!@w')
+01620: CloseSpeechBox()
+01621: ClosePicture()
+01622: FocusTown('샤르데나')
+01627: WorldFrame()
+01628: nop
+01629: nop
+01630: return

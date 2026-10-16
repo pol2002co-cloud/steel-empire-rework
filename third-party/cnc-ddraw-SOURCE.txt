@@ -1,0 +1,2 @@
+cnc-ddraw v7.1.0.0 source: https://github.com/FunkyFr3sh/cnc-ddraw/tree/v7.1.0.0
+Corresponding source ZIP is attached to the v0.8.2 release.

@@ -1,0 +1,105 @@
+00089: entry 3
+
+[관청]
+00091: EnterGovernment()
+00092: return
+00093: entry 4
+
+[막사]
+00095: EnterBarrack()
+00096: return
+00097: entry 2
+
+[공항]
+00099: EnterAirPort()
+00100: return
+00101: entry 6
+
+[주점]
+00103: EnterPub()
+00104: return
+00105: entry 1
+
+[교역소]
+00107: InitMarket(2)
+00110: OpenMarket()
+00111: return
+00112: entry 5
+
+[총포상점]
+00114: InitMarket(1)
+00117: AppendSellItem('5mm 권총')
+00122: AppendSellItem('5.5mm 권총')
+00128: AppendSellItem('6mm 권총')
+00133: AppendSellItem('6.5mm 권총')
+00139: AppendSellItem('6mm 3연장권총')
+00146: AppendSellItem('20mm 권총')
+00152: AppendSellItem('6mm 장총')
+00157: AppendSellItem('6.5mm 장총')
+00163: AppendSellItem('6.5mm 2연장장총')
+00170: AppendSellItem('7mm 연발장총')
+00176: AppendSellItem('7mm 대장신장총')
+00183: AppendSellItem('8mm 장총')
+00188: AppendSellItem('8mm 8연장장총')
+00195: AppendSellItem('5mm 기관총')
+00201: AppendSellItem('5.5mm 기관총')
+00207: AppendSellItem('6mm 기관총')
+00213: AppendSellItem('6.5mm 자동소총')
+00220: AppendSellItem('5.3mm 2연장기관단총')
+00228: AppendSellItem('5mm 정밀기관총')
+00235: AppendSellItem('5.5mm 정밀기관총')
+00242: AppendSellItem('10mm 샷건')
+00248: AppendSellItem('12mm 샷건')
+00254: AppendSellItem('11mm 2연장샷건')
+00261: AppendSellItem('20mm 파이어샷건')
+00268: AppendSellItem('30mm 바추카')
+00274: AppendSellItem('35mm 바추카')
+00280: AppendSellItem('46mm 대전차로켓')
+00287: AppendSellItem('55mm 바추카')
+00293: AppendSellItem('65mm 바추카')
+00299: AppendSellItem('75mm 바추카')
+00305: AppendSellItem('70mm 대전차로켓')
+00312: AppendSellItem('6mm 3연장캐틀링')
+00319: AppendSellItem('8mm 3연장캐틀링')
+00326: AppendSellItem('6mm 8연장캐틀링')
+00333: AppendSellItem('10mm 4연장캐틀링')
+00340: AppendSellItem('12mm 5연장캐틀링')
+00347: AppendSellItem('14mm 더블3연장캐틀링')
+00355: AppendSellItem('16mm 더블5연장캐틀링')
+00363: OpenMarket()
+00364: return
+00365: entry 7
+
+[항공기상점]
+00367: InitMarket(5)
+00370: AppendSellItem('와이번MK2')
+00376: AppendSellItem('우드팩커MK3')
+00382: AppendSellItem('와이번MK4')
+00388: AppendSellItem('그리폰MK5')
+00394: OpenMarket()
+00395: return
+00396: entry 8
+
+[차량상점]
+00398: InitMarket(4)
+00401: AppendSellItem('고블린MK2')
+00407: AppendSellItem('고블린MK3')
+00413: AppendSellItem('고블린MK8')
+00419: AppendSellItem('고블린MK4')
+00425: OpenMarket()
+00426: return
+00427: entry 0
+
+[mainFrame]
+00429: Calendar(1)
+00432: local2 = SYSTEM_RESULT
+00438: Calendar(2)
+00441: local1 = SYSTEM_RESULT
+00447: Calendar(3)
+00450: local0 = SYSTEM_RESULT
+00456: IF EVENT_최후의결전 >= 3 AND EVENT_최후의결전 <= 4 AND INFO_카운트년 == local0 AND INFO_카운트월 == local1 AND INFO_카운트일 == local2 GOTO 490
+00488: GOTO 492
+00490: WorldFrame()
+00491: nop
+00492: nop
+00493: return

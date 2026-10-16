@@ -1,0 +1,49 @@
+00071: entry 1
+
+[미디엄웨이브왕궁]
+00073: EnterGovernment()
+00074: return
+00075: entry 5
+
+[막사]
+00077: EnterBarrack()
+00078: return
+00079: entry 6
+
+[주점]
+00081: EnterPub()
+00082: return
+00083: entry 4
+
+[공항]
+00085: EnterAirPort()
+00086: return
+00087: entry 2
+
+[교역소]
+00089: InitMarket(2)
+00092: OpenMarket()
+00093: return
+00094: entry 3
+
+[아이템상점]
+00096: InitMarket(0)
+00099: AppendSellItem('다이나마이트 ')
+00106: AppendSellItem('응급상자')
+00111: OpenMarket()
+00112: return
+00113: entry 0
+
+[mainFrame]
+00115: Calendar(1)
+00118: local2 = SYSTEM_RESULT
+00124: Calendar(2)
+00127: local1 = SYSTEM_RESULT
+00133: Calendar(3)
+00136: local0 = SYSTEM_RESULT
+00142: IF EVENT_최후의결전 >= 3 AND EVENT_최후의결전 <= 4 AND INFO_카운트년 == local0 AND INFO_카운트월 == local1 AND INFO_카운트일 == local2 GOTO 176
+00174: GOTO 178
+00176: WorldFrame()
+00177: nop
+00178: nop
+00179: return

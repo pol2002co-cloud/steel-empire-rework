@@ -1,0 +1,374 @@
+00107: entry 1
+
+[에투루리아황궁]
+00109: EnterGovernment()
+00110: return
+00111: entry 2
+
+[주점]
+00113: EnterPub()
+00114: return
+00115: entry 7
+
+[공항]
+00117: EnterAirPort()
+00118: return
+00119: entry 4
+
+[교역소]
+00121: InitMarket(2)
+00124: OpenMarket()
+00125: return
+00126: entry 3
+
+[아이템상점]
+00128: InitMarket(0)
+00131: AppendSellItem('다이나마이트')
+00137: AppendSellItem('핸드그레네드')
+00143: AppendSellItem('펜저슈레케')
+00149: AppendSellItem('응급상자')
+00154: AppendSellItem('마이싱')
+00159: AppendSellItem('몰핀')
+00163: OpenMarket()
+00164: return
+00165: entry 9
+
+[항공기상점]
+00167: InitMarket(5)
+00170: AppendSellItem('와이번MK2')
+00176: AppendSellItem('우드팩커MK3')
+00182: AppendSellItem('와이번MK4')
+00188: AppendSellItem('그리폰MK5')
+00194: OpenMarket()
+00195: return
+00196: entry 6
+
+[총포상점]
+00198: InitMarket(1)
+00201: AppendSellItem('5mm 권총')
+00206: AppendSellItem('5.5mm 권총')
+00212: AppendSellItem('6mm 권총')
+00217: AppendSellItem('6.5mm 권총')
+00223: AppendSellItem('6mm 3연장권총')
+00230: AppendSellItem('20mm 권총')
+00236: AppendSellItem('6mm 장총')
+00241: AppendSellItem('6.5mm 장총')
+00247: AppendSellItem('6.5mm 2연장장총')
+00254: AppendSellItem('7mm 연발장총')
+00260: AppendSellItem('7mm 대장신장총')
+00267: AppendSellItem('8mm 장총')
+00272: AppendSellItem('8mm 8연장장총')
+00279: AppendSellItem('5mm 기관총')
+00285: AppendSellItem('5.5mm 기관총')
+00291: AppendSellItem('6mm 기관총')
+00297: AppendSellItem('6.5mm 자동소총')
+00304: AppendSellItem('5.3mm 2연장기관단총')
+00312: AppendSellItem('5mm 정밀기관총')
+00319: AppendSellItem('5.5mm 정밀기관총')
+00326: AppendSellItem('10mm 샷건')
+00332: AppendSellItem('12mm 샷건')
+00338: AppendSellItem('11mm 2연장샷건')
+00345: AppendSellItem('20mm 파이어샷건')
+00352: AppendSellItem('30mm 바추카')
+00358: AppendSellItem('35mm 바추카')
+00364: AppendSellItem('46mm 대전차로켓')
+00371: AppendSellItem('55mm 바추카')
+00377: AppendSellItem('65mm 바추카')
+00383: AppendSellItem('75mm 바추카')
+00389: AppendSellItem('70mm 대전차로켓')
+00396: AppendSellItem('6mm 3연장캐틀링')
+00403: AppendSellItem('8mm 3연장캐틀링')
+00410: AppendSellItem('6mm 8연장캐틀링')
+00417: AppendSellItem('10mm 4연장캐틀링')
+00424: AppendSellItem('12mm 5연장캐틀링')
+00431: AppendSellItem('14mm 더블3연장캐틀링')
+00439: AppendSellItem('16mm 더블5연장캐틀링')
+00447: AppendSellItem('15mm 스나이퍼라이플')
+00455: AppendSellItem('16mm 스나이퍼라이플')
+00463: OpenMarket()
+00464: return
+00465: entry 5
+
+[차량상점]
+00467: InitMarket(4)
+00470: AppendSellItem('고블린MK2')
+00476: AppendSellItem('고블린MK3')
+00482: AppendSellItem('고블린MK8')
+00488: AppendSellItem('고블린MK4')
+00494: AppendSellItem('트롤MK5')
+00499: OpenMarket()
+00500: return
+00501: entry 8
+
+[용병조합]
+00503: InitMarket(3)
+00506: AppendSellItem('중보병')
+00511: AppendSellItem('중장갑보병')
+00517: OpenMarket()
+00518: return
+00519: entry 10
+
+[막사]
+00521: IsStayHeroTroop('카란토')
+00526: IF EVENT_그락쿠스형제 == 1 AND SYSTEM_RESULT == 1 GOTO 542
+00540: GOTO 1855
+00542: EVENT_그락쿠스형제 = 2
+00548: OpenSpeechBox()
+00549: SetSpeaker('')
+00552: Speech('쿠당탕!@w')
+00558: CloseSpeechBox()
+00559: ShowPicture('그라쿠스3')
+00565: OpenSpeechBox()
+00566: SetSpeaker('티베리우스그락쿠스')
+00574: Speech('으앗~!@w')
+00579: SetSpeaker('비트만')
+00584: Speech('아얏~!!')
+00589: Speech('이봐 당신! 앞을 똑바로 보고 다녀!@w')
+00601: SetSpeaker('티베리우스그락쿠스')
+00609: Speech('미안하오. 잠깐만 나 좀 도와주시오.')
+00621: Speech('지금 쫓기고 있소!@w')
+00629: SetSpeaker('비트만')
+00634: Speech('으응, 이런.')
+00640: Speech('그럼 저 상자 뒤에 숨으시오.@w')
+00651: CloseSpeechBox()
+00652: ClosePicture()
+00653: ShowPicture('그라쿠스4')
+00659: OpenSpeechBox()
+00660: SetSpeaker('에투루리아사병')
+00667: Speech('이봐, 당신!')
+00673: Speech('이 근처에서 도망치는 수상한 자 못 보았어?')
+00687: Speech('보았다면 사실대로 말하는게 좋아.@w')
+00699: SetSpeaker('비트만')
+00704: Speech('그... 그것이...@w')
+00712: CloseSpeechBox()
+00713: OpenSelectBox()
+00714: AppendSelectItem('사실대로 얘기한다.')
+00722: AppendSelectItem('거짓말을 한다.')
+00729: DoSelectBox()
+00730: IF SYSTEM_RESULT == 0 GOTO 740
+00738: GOTO 850
+00740: EVENT_그락쿠스형제 = 10
+00746: STS_EVENT = 0
+00752: RemoveWanderer('티베리우스그락쿠스')
+00760: OpenSpeechBox()
+00761: SetSpeaker('비트만')
+00766: Speech('그자라면 저 상자 뒤에 숨어 있소.@w')
+00778: SetSpeaker('에투루리아사병')
+00785: Speech('잡아라!@w')
+00791: CloseSpeechBox()
+00792: ClosePicture()
+00793: ShowPicture('그라쿠스5')
+00799: OpenSpeechBox()
+00800: SetSpeaker('티베리우스그락쿠스')
+00808: Speech('사람의 신뢰를 이런 식으로 배신하다니!')
+00821: Speech('에이 드러운 놈아!@w')
+00829: SetSpeaker('비트만')
+00834: Speech('쓸데 없는 일에 참견하고 싶진 않아.@w')
+00846: CloseSpeechBox()
+00847: ClosePicture()
+00848: return
+00849: nop
+00850: nop
+00851: OpenSpeechBox()
+00852: SetSpeaker('비트만')
+00857: Speech('그자라면 봤소.')
+00864: Speech('저 쪽으로 도망가던데?@w')
+00873: SetSpeaker('에투루리아사병')
+00880: Speech('그런가?')
+00885: Speech('모두 저 쪽으로 가자!@w')
+00894: CloseSpeechBox()
+00895: ClosePicture()
+00896: OpenSpeechBox()
+00897: SetSpeaker('티베리우스그락쿠스')
+00905: Speech('정말 고맙습니다. 생명의 은인이십니다.')
+00918: Speech('저희 집으로 가서 식사라도 같이 하시죠.')
+00931: Speech('실례지만 성함이...? 저는 티베리우스그락쿠스라고 합니다.@w')
+00949: SetSpeaker('비트만')
+00954: Speech('비트만 입니다.@w')
+00961: SetSpeaker('티베리우스그락쿠스')
+00969: Speech('아~ 정말 좋은 이름이군요.')
+00979: Speech('그럼 어서 같이 가시죠.@w')
+00988: CloseSpeechBox()
+00989: PlayBGM(4)
+00992: ShowPicture('그라쿠스6')
+00998: OpenSpeechBox()
+00999: SetSpeaker('티베리우스그락쿠스')
+01007: Speech('누추합니다만 저희 집입니다.')
+01017: Speech('사양 말고 드시죠.@w')
+01025: SetSpeaker('비트만')
+01030: Speech('별 말씀을요. 대단한 집에 대단한 식사로군요.@w')
+01045: SetSpeaker('가이우스그락쿠스')
+01052: Speech('저는 이 집안 둘째인 가이우스 그락쿠스입니다.')
+01066: Speech('아까 저희 티베리우스 형이 신세를 졌다면서요.')
+01080: Speech('정말 감사합니다.@w')
+01088: SetSpeaker('비트만')
+01093: Speech('별 말씀을 다 하십니다.')
+01102: Speech('이렇게 멋진 저녁 식사를 대접해 주시니 저야말로 감사합니다.@w')
+01120: SetSpeaker('티베리우스그락쿠스')
+01128: Speech('저희 에투루리아 제국은 최근 200년 동안 끊임 없이 확장을 계속하여 지금은 대륙 최대의 국가가 되었습니다.')
+01157: Speech('그러나 실제로 부유한 것은 우리 귀족들일 뿐 평민들의 생활 수준은 전혀 향상이 안 되고 있습니다.')
+01184: Speech('이대로는 안 됩니다. 개혁이 필요합니다.@w')
+01197: SetSpeaker('비트만')
+01202: Speech('......@w')
+01207: SetSpeaker('가이우스그락쿠스')
+01214: Speech('형의 방식은 너무 온건해.')
+01223: Speech('그런 식으로 법이니 제도니 다 따지다가는 될 일도 안 돼.')
+01240: Speech('더 강력한 방식으로 나가야 돼.@w')
+01251: SetSpeaker('비트만')
+01256: Speech('......@w')
+01261: Speech('잘 먹었습니다.')
+01268: Speech('이만 가 보겠습니다.@w')
+01277: SetSpeaker('티베리우스그락쿠스')
+01285: Speech('아~!')
+01289: Speech('벌써 가시게요?')
+01296: Speech('밤도 늦었는데 여기서 주무시고 가시죠.@w')
+01309: SetSpeaker('비트만')
+01314: Speech('음~ 어떻게 할까~?@w')
+01322: CloseSpeechBox()
+01323: OpenSelectBox()
+01324: AppendSelectItem('그냥 간다.')
+01330: AppendSelectItem('신세를 진다.')
+01336: DoSelectBox()
+01337: IF SYSTEM_RESULT == 0 GOTO 1347
+01345: GOTO 1417
+01347: EVENT_그락쿠스형제 = 3
+01353: OpenSpeechBox()
+01354: SetSpeaker('비트만')
+01359: Speech('죄송합니다만, 부하들이 기다리고 있어서 먼저 가 보겠습니다.@w')
+01377: SetSpeaker('티베리우스그락쿠스')
+01385: Speech('정 그러시다면 어쩔 수 없죠.')
+01395: Speech('그럼 안녕히 가십시오. 오늘 정말 고마웠습니다.@w')
+01410: CloseSpeechBox()
+01411: ClosePicture()
+01412: PlayBGM(17)
+01415: return
+01416: nop
+01417: nop
+01418: EVENT_그락쿠스형제 = 4
+01424: OpenSpeechBox()
+01425: SetSpeaker('비트만')
+01430: Speech('그럼 신세좀 질까요?@w')
+01439: CloseSpeechBox()
+01440: ClosePicture()
+01441: StopBGM()
+01442: Sound('노크1.wav')
+01448: OpenSpeechBox()
+01449: SetSpeaker('시민5')
+01454: Speech('주인님 큰 일 났습니다!')
+01463: Speech('갑자기 병사들이 쳐들어 와서...@w')
+01474: CloseSpeechBox()
+01475: Sound('노크2.wav')
+01481: ShowPicture('그라쿠스7')
+01487: OpenSpeechBox()
+01488: SetSpeaker('에투루리아사병')
+01495: Speech('티베리우스 그락쿠스! 가이우스 그락쿠스!')
+01508: Speech('너희 둘을 반역죄로 체포한다!')
+01518: Speech('오늘부로 너희들의 재산은 압수당하고, 권리는 박탈당한다!@w')
+01536: SetSpeaker('가이우스그락쿠스')
+01543: Speech('뭐라고!? 우리가 반역자라고!?')
+01553: Speech('증거를 대라!@w')
+01560: SetSpeaker('에투루리아사병')
+01567: Speech('너희 같이 국가 권력에 반항하는 자에겐 증거따윈 필요없어!')
+01584: Speech('체포해라!!!@w')
+01591: CloseSpeechBox()
+01592: ClosePicture()
+01593: SallyTroop('카란토', 10, '그락쿠스추격대2', 0)
+01608: SallyTroop('', 10, '그라쿠스형제', 0)
+01620: Battle('카란토', 10, '', 10, '카란토', 0, 0)
+01639: IF BATTLE_RESULT == 0 GOTO 1649
+01647: GOTO 1656
+01649: ShowMovie('GameOver')
+01654: ExitFrame()
+01655: nop
+01656: nop
+01657: DestroyTroop('', 10)
+01662: OpenSpeechBox()
+01663: SetSpeaker('티베리우스그락쿠스')
+01671: Speech('결국 이렇게 밖에 될 수 없는 것인가?')
+01683: Speech('이제 모든 것이 끝이야.@w')
+01692: SetSpeaker('가이우스그락쿠스')
+01699: Speech('티베리우스 형, 그렇지 않아.')
+01709: Speech('일단 몸을 피하고 보자. 재기하면 되는 거야.')
+01723: Speech('우리에겐 아직 꿈이 있잖아.@w')
+01733: SetSpeaker('티베리우스그락쿠스')
+01741: Speech('그렇다면 어디로 가지? 어디로?@w')
+01752: SetSpeaker('비트만')
+01757: Speech('저와 같이 가시죠.')
+01765: Speech('잠시 용병 일을 하면서 때를 기다리는 겁니다.@w')
+01780: SetSpeaker('티베리우스그락쿠스')
+01788: Speech('용병?@w')
+01793: SetSpeaker('가이우스그락쿠스')
+01800: Speech('형, 그거라도 하자.')
+01808: Speech('일단은 여길 피해야 돼.@w')
+01817: SetSpeaker('티베리우스그락쿠스')
+01825: Speech('좋아. 당분간은 용병이 되어 때를 기다리자.')
+01839: Speech('자, 빨리 여기를 떠납시다.@w')
+01849: CloseSpeechBox()
+01850: PlayBGM(17)
+01853: return
+01854: nop
+01855: nop
+01856: EnterBarrack()
+01857: return
+01858: entry 0
+
+[mainFrame]
+01860: Calendar(1)
+01863: local5 = SYSTEM_RESULT
+01869: Calendar(2)
+01872: local4 = SYSTEM_RESULT
+01878: Calendar(3)
+01881: local3 = SYSTEM_RESULT
+01887: IF EVENT_최후의결전 >= 3 AND EVENT_최후의결전 <= 4 AND INFO_카운트년 == local3 AND INFO_카운트월 == local4 AND INFO_카운트일 == local5 GOTO 1921
+01919: GOTO 1923
+01921: WorldFrame()
+01922: nop
+01923: nop
+01924: GetEventCause()
+01925: IF SYSTEM_RESULT != 0 GOTO 1935
+01933: GOTO 1937
+01935: return
+01936: nop
+01937: nop
+01938: IsStayHeroTroop('카란토')
+01943: local0 = SYSTEM_RESULT
+01949: TroopType('', 0)
+01954: local2 = SYSTEM_RESULT
+01960: GetSystemInfo(3)
+01963: local1 = SYSTEM_RESULT
+01969: IF EVENT_그락쿠스형제 == 0 AND local0 == 1 AND local1 >= 15000000 AND local1 <= 24000000 AND local2 != 2 AND STS_EVENT == 0 GOTO 2009
+02007: GOTO 2242
+02009: EVENT_그락쿠스형제 = 1
+02015: STS_EVENT = 1
+02021: ShowPicture('그라쿠스1')
+02027: OpenSpeechBox()
+02028: Sound('군중2.wav')
+02034: SetSpeaker('시민1')
+02039: Speech('우리에게 빵을 달라!@w')
+02048: SetSpeaker('시민2')
+02053: Speech('이제 더이상의 군대 생활은 싫다!@w')
+02065: SetSpeaker('비트만')
+02070: Speech('으... 시끄럽기도 하군!@w')
+02079: CloseSpeechBox()
+02080: ClosePicture()
+02081: ShowPicture('그라쿠스2')
+02087: OpenSpeechBox()
+02088: SetSpeaker('티베리우스그락쿠스')
+02096: Speech('여러분! 티베리우스 그락쿠스 입니다!')
+02108: Speech('이제 에투루리아는 400년 전의 조그만 도시 국가가 아닙니다!')
+02126: Speech('귀족들이 400년 전에 왕에게서 권력을 받았듯이 우리 평민들도 귀족들의 권력과 부를 나누어 받아야 합니다!')
+02155: Speech('이제 더 이상 평민들만의 희생은 거부합시다!!!@w')
+02170: Sound('군중2.wav')
+02176: SetSpeaker('시민3')
+02181: Speech('티베리우스 그락쿠스!!!')
+02190: Speech('티베리우스 그락쿠스!!!@w')
+02199: SetSpeaker('시민4')
+02204: Speech('옳소! 우리 평민들에게도 빵과 권리를 달라!@w')
+02218: SetSpeaker('비트만')
+02223: Speech('잘못 들어왔군.')
+02230: Speech('어서 빠져 나가야 겠다.@w')
+02239: CloseSpeechBox()
+02240: ClosePicture()
+02241: nop
+02242: nop
+02243: return

@@ -1,0 +1,1606 @@
+00674: entry 0
+
+[mainFrame]
+00676: GetEventCause()
+00677: local0 = SYSTEM_RESULT
+00683: IF local0 == 0 GOTO 693
+00691: GOTO 3929
+00693: IsStayHeroTroop('')
+00696: local4 = SYSTEM_RESULT
+00702: GetHeroInfo('주디스', 0)
+00709: local5 = SYSTEM_RESULT
+00715: IF EVENT_주디스 == 0 AND STS_EVENT == 0 AND local4 == 0 AND local5 == 0 GOTO 743
+00741: GOTO 872
+00743: EVENT_주디스 = 1
+00749: STS_EVENT = 1
+00755: StopBGM()
+00756: OpenSpeechBox()
+00757: SetSpeaker('화이트울프사병')
+00764: Speech('대장님!')
+00769: Speech('이상한게 발견되었습니다.@w')
+00779: SetSpeaker('비트만')
+00784: Speech('응? 뭐지?')
+00790: Speech('내가 가서 직접 살펴봐야겠다.@w')
+00801: CloseSpeechBox()
+00802: ShowPicture('쥬디스1')
+00807: OpenSpeechBox()
+00808: SetSpeaker('비트만')
+00813: Speech('으응.')
+00818: Speech('사람이다.')
+00824: Speech('여자다.@w')
+00830: SetSpeaker('화이트울프사병')
+00837: Speech('어떻게 할까요?@w')
+00844: SetSpeaker('비트만')
+00849: Speech('기절한것 같으니 데리고 도시로 돌아가자.@w')
+00863: CloseSpeechBox()
+00864: ClosePicture()
+00865: FocusTown('')
+00868: TownFrame('')
+00871: nop
+00872: nop
+00873: IF EVENT_라이벌 == 1 GOTO 883
+00881: GOTO 904
+00883: EVENT_라이벌 = 2
+00889: FocusTown('블랙파워용병단')
+00896: TownFrame('블랙파워용병단')
+00903: nop
+00904: nop
+00905: IF EVENT_라이벌 == 6 GOTO 915
+00913: GOTO 953
+00915: EVENT_라이벌 = 7
+00921: PlayBGM(19)
+00924: OpenSpeechBox()
+00925: SetSpeaker('블랙브레이드')
+00931: Speech('좋아. 내가 직접 이 블랙드래곤으로 화이트울프 용병단을 끝내 주지!@w')
+00951: CloseSpeechBox()
+00952: nop
+00953: nop
+00954: IsStayHeroTroop('카란토')
+00959: IF EVENT_그락쿠스형제 == 3 AND SYSTEM_RESULT == 0 GOTO 975
+00973: GOTO 1571
+00975: EVENT_그락쿠스형제 = 10
+00981: STS_EVENT = 0
+00987: SallyTroop('카란토', 15, '그락쿠스추격대1', 0)
+01002: MoveTroop('카란토', 15, 221, 181)
+01013: FocusTroop('카란토', 15)
+01020: PlayBGM(14)
+01023: OpenSpeechBox()
+01024: SetSpeaker('화이트울프사병')
+01031: Speech('대장님!')
+01036: Speech('저기 에투루리아군에게 누군가가 쫓기고 있습니다!@w')
+01052: SetSpeaker('비트만')
+01057: Speech('음?')
+01061: Speech('가이우스 그락쿠스 같은데?')
+01071: Speech('가까이 가보자.@w')
+01078: SetSpeaker('가이우스그락쿠스')
+01085: Speech('아! 비트만씨!')
+01092: Speech('살려 주시오!@w')
+01099: SetSpeaker('비트만')
+01104: Speech('가이우스가 틀림 없군!@w')
+01113: SetSpeaker('에투루리아사병')
+01120: Speech('넌 뭐냐! 감히 에투루리아 제국군의 길을 막다니!')
+01135: Speech('죄인을 쫓는 길이니 비켜라!@w')
+01145: SetSpeaker('비트만')
+01150: Speech('바른 말 하는 것도 죄가 되나?')
+01160: Speech('여기서 물러서면 곱게 돌려 보내 주겠다!@w')
+01173: SetSpeaker('에투루리아사병')
+01180: Speech('오랜만에 손에 피 좀 묻히겠군!')
+01191: Speech('저승에서 너무 후회하지 말아라! 공격 개시!@w')
+01205: CloseSpeechBox()
+01206: Battle('', 0, '카란토', 15, '', 0, 0)
+01223: IF BATTLE_RESULT == 0 GOTO 1233
+01231: GOTO 1240
+01233: ShowMovie('GameOver')
+01238: ExitFrame()
+01239: nop
+01240: nop
+01241: OpenSpeechBox()
+01242: SetSpeaker('에투루리아사병')
+01249: Speech('으... 으... 내가 지다니...@w')
+01259: SetSpeaker('가이우스그락쿠스')
+01266: Speech('고맙소. 비트만님.')
+01274: Speech('이 은혜를 어떻게 갚아야 할지...@w')
+01286: SetSpeaker('비트만')
+01291: Speech('도대체 어떻게 된 일입니까?@w')
+01301: SetSpeaker('가이우스그락쿠스')
+01308: Speech('비트만님이 가신 후 병사들이 들이 닥쳐서 티베리우스 형은 암살되고 저는 보시다시피...')
+01332: Speech('이제 저는 조국도 형제도 없는 몸입니다.@w')
+01345: SetSpeaker('비트만')
+01350: Speech('음...@w')
+01355: CloseSpeechBox()
+01356: OpenSelectBox()
+01357: AppendSelectItem('같은 편이 될 것을 제안 한다.')
+01367: AppendSelectItem('작별 인사를 한다.')
+01375: DoSelectBox()
+01376: IF SYSTEM_RESULT == 1 GOTO 1386
+01384: GOTO 1431
+01386: OpenSpeechBox()
+01387: SetSpeaker('비트만')
+01392: Speech('그것 참 안 됐군요.')
+01400: Speech('나는 이제 그만 가야겠소. 행운을.@w')
+01412: SetSpeaker('가이우스그락쿠스')
+01419: Speech('고맙소. 행운을.@w')
+01427: CloseSpeechBox()
+01428: GOTO 1569
+01430: nop
+01431: nop
+01432: OpenSpeechBox()
+01433: SetSpeaker('비트만')
+01438: Speech('가이우스, 당분간 나와 같이 용병 일을 하며 때를 기다려 보는 것은 어떻소?@w')
+01460: SetSpeaker('가이우스그락쿠스')
+01467: Speech('나보고 용병이 되라고...?@w')
+01477: SetSpeaker('비트만')
+01482: Speech('그렇소. 때가 되면 당신의 조국도 당신을 찾을거요.')
+01497: Speech('그동안 가만히 있으면 시간이 아깝지 않소?@w')
+01511: SetSpeaker('가이우스그락쿠스')
+01518: Speech('그것도 그렇군. 좋소.')
+01526: Speech('당신 부하가 되겠소. 그럼 먼저 본부로 가서 기다리겠소.@w')
+01543: SetSpeaker('')
+01546: Speech("'가이우스그락쿠스'가 동료가 되었습니다.@w")
+01560: JoinHero('가이우스그락쿠스')
+01567: CloseSpeechBox()
+01568: nop
+01569: nop
+01570: nop
+01571: nop
+01572: IsStayHeroTroop('카란토')
+01577: IF EVENT_그락쿠스형제 == 4 AND SYSTEM_RESULT == 0 GOTO 1593
+01591: GOTO 1911
+01593: EVENT_그락쿠스형제 = 10
+01599: STS_EVENT = 0
+01605: SallyTroop('카란토', 15, '그락쿠스추격대3', 0)
+01620: MoveTroop('카란토', 15, 221, 181)
+01631: FocusTroop('카란토', 15)
+01638: PlayBGM(14)
+01641: OpenSpeechBox()
+01642: SetSpeaker('에투루리아사병')
+01649: Speech('거기 반역자들을 데리고 탈출하려는 녀석들!')
+01663: Speech('서라! 에투루리아 제국은 결코 반역자들을 용서치 않는다!@w')
+01680: SetSpeaker('비트만')
+01685: Speech('제길! 벌써 쫓아오다니.')
+01694: Speech('티베리우스 그락쿠스, 가이우스 그락쿠스.')
+01707: Speech('먼저 본부로 가서 기다리시오.')
+01717: Speech('여기는 내가 맡겠소.@w')
+01726: SetSpeaker('티베리우스그락쿠스')
+01734: Speech('그럼 먼저 가서 기다리겠소.')
+01744: Speech('무운을 빕니다.@w')
+01751: SetSpeaker('비트만')
+01756: Speech('화이트울프 용병단의 솜씨를 보여 주지!@w')
+01769: SetSpeaker('에투루리아사병')
+01776: Speech('아직도 반항할 생각을 못 버리는 군!')
+01788: Speech('가자! 공격 개시!@w')
+01796: CloseSpeechBox()
+01797: Battle('', 0, '카란토', 15, '', 0, 0)
+01814: IF BATTLE_RESULT == 0 GOTO 1824
+01822: GOTO 1831
+01824: ShowMovie('GameOver')
+01829: ExitFrame()
+01830: nop
+01831: nop
+01832: OpenSpeechBox()
+01833: SetSpeaker('에투루리아사병')
+01840: Speech('으... 으... 으악!!!@w')
+01849: SetSpeaker('비트만')
+01854: Speech('또 추격군이 올 지도 모르니 어서 포룸으로 돌아 가자.@w')
+01871: SetSpeaker('')
+01874: Speech("'티베리우스 그락쿠스'와 '가이우스 그락쿠스'가 동료가 되었습니다.@w")
+01894: CloseSpeechBox()
+01895: JoinHero('티베리우스그락쿠스')
+01903: JoinHero('가이우스그락쿠스')
+01910: nop
+01911: nop
+01912: IF EVENT_깽디쉬박사 == 1 GOTO 1922
+01920: GOTO 2763
+01922: EVENT_깽디쉬박사 = 2
+01928: ShowPicture('밀레나4')
+01933: OpenSpeechBox()
+01934: SetSpeaker('비트만')
+01939: Speech('이제 무슨 일인지 얘기를 좀 해 보라구. 공주님.@w')
+01954: SetSpeaker('밀레나')
+01959: Speech('예. 그럼 말씀을 드리지요.')
+01969: Speech('예로부터 저희 샤르데나 왕국은 평화를 사...@w')
+01983: SetSpeaker('비트만')
+01988: Speech('잠깐 잠깐. 본론만 간단히.')
+01998: Speech('난 주절거리는 건 질색이야.@w')
+02008: SetSpeaker('밀레나')
+02013: Speech('예. 알았어요. 본론만 얘기 할게요.')
+02025: Speech('그것이.@w')
+02031: Speech('저희 샤르데나 왕국이 정복 당했어요.@w')
+02044: SetSpeaker('비트만')
+02049: Speech('정복?@w')
+02054: SetSpeaker('밀레나')
+02059: Speech('예. 그래요. 정복 당했어요.@w')
+02069: CloseSpeechBox()
+02070: ClosePicture()
+02071: ShowPicture('밀레나5')
+02076: OpenSpeechBox()
+02077: SetSpeaker('밀레나')
+02082: Speech('지금으로부터 삼년 전 우리 샤르데나 왕국에 깽디쉬 박사라는 사람이 찾아왔어요.@w')
+02105: SetSpeaker('비트만')
+02110: Speech('깽디쉬 박사?@w')
+02117: SetSpeaker('밀레나')
+02122: Speech('예. 깽디쉬 박사요.')
+02130: Speech('그 사람은 전쟁으로 부채에 허덕이는 우리 나라의 부채를 갚아 주겠다면서 아바마마를 현혹한 다음 천천히 궁정의 요직을 장악해서 재상까지 되었어요.')
+02169: Speech('그리고 6개월 전에 쿠데타를 일으켜서 나라를 빼앗았어요. 덕분에 아버님은 감금 당하시고 저도 겨우 충신들의 도움으로 여지껏 도망 다니다가...')
+02206: Speech('흐흐흐흑....@w')
+02213: CloseSpeechBox()
+02214: ClosePicture()
+02215: ShowPicture('밀레나4')
+02220: OpenSpeechBox()
+02221: SetSpeaker('비트만')
+02226: Speech('듣고 보니 사정은 딱하군.')
+02235: Speech('하지만...@w')
+02241: SetSpeaker('밀레나')
+02246: Speech('잠깐만요!')
+02252: Speech('돈을 드릴게요.@w')
+02259: SetSpeaker('비트만')
+02264: Speech('응? 얼마나?@w')
+02271: SetSpeaker('밀레나')
+02276: Speech('1,000,000 겔더.@w')
+02284: SetSpeaker('비트만')
+02289: Speech('오~ 1,000,000 겔더?')
+02297: Speech('하지만 나라가 빚 덩어리 라면서...@w')
+02309: SetSpeaker('밀레나')
+02314: Speech('하지만 궁중의 보물을 팔고 귀족들의 감추어진 재산을 압류하면 그 정도는 돼요.')
+02336: Speech('정 안 되면 제 패물이라도 팔아서 드릴게요.@w')
+02350: SetSpeaker('비트만')
+02355: Speech('그렇다면 좋아.')
+02362: Speech('계약서를 작성 하자구. 돈 거래는 확실해야 하니깐.@w')
+02378: SetSpeaker('밀레나')
+02383: Speech('알았어요. 쓸게요.@w')
+02391: SetSpeaker('비트만')
+02396: Speech('도장 찍어!@w')
+02402: CloseSpeechBox()
+02403: ClosePicture()
+02404: ShowPicture('밀레나6')
+02409: OpenSpeechBox()
+02410: SetSpeaker('')
+02413: Speech('             -- 용병 용역 계약서 --')
+02425: Speech(' ')
+02429: Speech('갑: 샤르데나 왕국 공주 밀레나')
+02440: Speech('을: 화이트울프 용병단장 비트만')
+02451: Speech(' ')
+02455: Speech('1. 을은 깽디쉬 박사로부터 샤르데나 왕국을 탈환해 준다.')
+02472: Speech('2. 갑은 을에게 일백만 겔더를 지급한다.')
+02485: Speech('3. 지급 시기는 왕국 탈환 후 일 개월 이내로 한다.')
+02500: Speech('4. 이상에 명시한 내용은 아시레마 용병 용역법에 기초한다.')
+02517: Speech(' ')
+02521: Speech(' ')
+02525: Speech('                  샤르데나 왕국 공주  밀레나 (인)')
+02541: Speech('                  화이트울프 용병단장 비트만 (인)@w')
+02557: SetSpeaker('비트만')
+02562: Speech('좋았어. 흐흐흐...')
+02570: Speech('금방 처리해 주지.@w')
+02578: CloseSpeechBox()
+02579: ClosePicture()
+02580: OpenSpeechBox()
+02581: SetSpeaker('밀레나')
+02586: Speech('순 돈만 밝히는...@w')
+02594: SetSpeaker('비트만')
+02599: Speech('그럼 공주는 우리 본부에 가 있으라고.')
+02611: Speech('내가 다 알아서 처리하지.@w')
+02621: CloseSpeechBox()
+02622: SallyTroop('샤르데나', 1, '깽드쉬수비대', 0)
+02636: SallyTroop('샤르데나', 2, '깽드쉬수비대', 0)
+02650: SallyTroop('샤르데나', 3, '깽드쉬수비대', 0)
+02664: SallyTroop('샤르데나', 4, '깽드쉬 친위대', 0)
+02679: AttachTroop('칼라코스', '샤르데나', 1)
+02690: AttachTroop('엔벡', '샤르데나', 2)
+02700: AttachTroop('에메디스', '샤르데나', 3)
+02711: AttachTroop('샤르데나', '샤르데나', 4)
+02722: SetLord('샤르데나', '깽디쉬')
+02731: SetLord('칼라코스', '깽디쉬')
+02740: SetLord('엔벡', '깽디쉬')
+02748: SetLord('에메디스', '깽디쉬')
+02757: ResetRequest('샤르데나')
+02762: nop
+02763: nop
+02764: IF EVENT_깽디쉬박사 == 4 GOTO 2774
+02772: GOTO 2852
+02774: EVENT_깽디쉬박사 = 5
+02780: PlayBGM(19)
+02783: OpenSpeechBox()
+02784: SetSpeaker('깽디쉬')
+02789: Speech('INF-MK1 출격이다!@w')
+02797: Speech('크크크크... 이놈들 뜨거운 맛을 보여주지!@w')
+02811: SetSpeaker('화이트울프사병')
+02818: Speech('큰일입니다!')
+02824: Speech('깽디쉬 박사가 우리 도시로 군단을 출격시켰습니다!!!')
+02840: Speech('막지 못하면 끝장 입니다!!!@w')
+02850: CloseSpeechBox()
+02851: nop
+02852: nop
+02853: IF EVENT_깽디쉬박사 == 8 GOTO 2863
+02861: GOTO 3106
+02863: EVENT_깽디쉬박사 = 10
+02869: STS_EVENT = 0
+02875: PlayBGM(4)
+02878: OpenSpeechBox()
+02879: SetSpeaker('비트만')
+02884: Speech('자, 이제 돈도 벌었으니 돌아가 볼까?@w')
+02897: SetSpeaker('밀레나')
+02902: Speech('잠깐만요!')
+02908: Speech('기다려 줘요!@w')
+02915: SetSpeaker('비트만')
+02920: Speech('무슨 일이야?@w')
+02927: SetSpeaker('밀레나')
+02932: Speech('나도 함께 갈거예요.@w')
+02941: SetSpeaker('비트만')
+02946: Speech('어딜?@w')
+02951: SetSpeaker('밀레나')
+02956: Speech('용병단으로요.@w')
+02963: SetSpeaker('비트만')
+02968: Speech('무슨 용병단?@w')
+02975: SetSpeaker('밀레나')
+02980: Speech('화이트울프.@w')
+02987: SetSpeaker('비트만')
+02992: Speech('이봐, 이봐. 그건 좀...@w')
+03001: SetSpeaker('밀레나')
+03006: Speech('이미 짐가지 다 싸가지고 나왔으니 돌아갈 수는 없어요.')
+03022: Speech('데려가 줘요~ 데려가 줘요~ 응? 응? 응?@w')
+03035: SetSpeaker('비트만')
+03040: Speech('기왕 이렇게 됐으니 할 수 없군.')
+03051: Speech('같이 가자구.@w')
+03058: SetSpeaker('밀레나')
+03063: Speech('아이~ 좋아라!')
+03070: Speech('나 잘 할게요! 그럼 잘 부탁드려요!@w')
+03082: SetSpeaker('')
+03085: Speech("'밀레나'가 동료가 되었습니다.@w")
+03096: CloseSpeechBox()
+03097: JoinHero('밀레나')
+03102: PlayBGM(6)
+03105: nop
+03106: nop
+03107: IsStayHeroTroop('카푸아')
+03112: IF EVENT_고대인의유적 == 1 AND STS_카푸아 == 1 AND SYSTEM_RESULT == 0 GOTO 3134
+03132: GOTO 3400
+03134: STS_카푸아 = 2
+03140: PlayBGM(14)
+03143: OpenSpeechBox()
+03144: SetSpeaker('화이트울프사병')
+03151: Speech('대장님!')
+03156: Speech('수상한 군단이 접근해 오고 있습니다!@w')
+03169: CloseSpeechBox()
+03170: SallyTroop('아이언메이스용병단', 10, '아이언메이스용병단1', 0)
+03189: MoveTroop('아이언메이스용병단', 10, 166, 112)
+03203: OpenSpeechBox()
+03204: SetSpeaker('아이언메이스사병')
+03211: Speech('화이트울프 군단장 안녕하신가?')
+03222: Speech('우리는 아이언메이스 용병단 소속이라네.')
+03235: Speech("'신의 눈'을 내주지 않겠나? 안 그러면 죽음 뿐일세.@w")
+03251: SetSpeaker('비트만')
+03256: Speech('웃기지도 않는군.')
+03263: Speech('오직 강자만이 보물을 가질 수 있지.')
+03275: Speech('어디 한 번 가져가 봐라!@w')
+03285: SetSpeaker('아이언메이스사병')
+03292: Speech('건방진 놈일세.')
+03299: Speech('허파에 바람 구멍이 나고서도 그런 건방진 소리를 할 수 있나 지켜 보겠네.')
+03320: Speech('자! 모두 공격!@w')
+03327: CloseSpeechBox()
+03328: Battle('', 0, '아이언메이스용병단', 10, '', 0, 0)
+03348: IF BATTLE_RESULT == 0 GOTO 3358
+03356: GOTO 3365
+03358: ShowMovie('GameOver')
+03363: ExitFrame()
+03364: nop
+03365: nop
+03366: OpenSpeechBox()
+03367: SetSpeaker('아이언메이스사병')
+03374: Speech('으으으... 빌어먹을...')
+03383: Speech('여자가 두목이라서 그래... 매드잭슨... 으...윽!@w')
+03398: CloseSpeechBox()
+03399: nop
+03400: nop
+03401: IsStayHeroTroop('펠라')
+03405: IF EVENT_고대인의유적 == 1 AND STS_펠라 == 1 AND SYSTEM_RESULT == 0 GOTO 3427
+03425: GOTO 3676
+03427: STS_펠라 = 2
+03433: PlayBGM(14)
+03436: OpenSpeechBox()
+03437: SetSpeaker('화이트울프사병')
+03444: Speech('대장님!')
+03449: Speech('정체를 알 수 없는 괴군단이 접근해 오고 있습니다!@w')
+03465: CloseSpeechBox()
+03466: SallyTroop('아이언메이스용병단', 10, '아이언메이스용병단2', 0)
+03485: MoveTroop('아이언메이스용병단', 10, 206, 202)
+03499: FocusTroop('아이언메이스용병단', 10)
+03509: OpenSpeechBox()
+03510: SetSpeaker('아이언메이스사병')
+03517: Speech('이 거지 같은 겁장이들아!')
+03526: Speech('우리는 아이언메이스 용병단이다!')
+03537: Speech("'신의 눈'을 내놓고 꽁지가 빠지게 도망치던지 죽던지 둘 중 하나를 선택해라!@w")
+03559: SetSpeaker('비트만')
+03564: Speech('말버릇이 고약하군!')
+03572: Speech('가져갈 수 있으면 어디 한 번 가져가 봐라!@w')
+03586: SetSpeaker('아이언메이스사병')
+03593: Speech('바라던 바다!')
+03599: Speech('모두 죽여라! 우하하하하하!!!@w')
+03610: CloseSpeechBox()
+03611: Battle('', 0, '아이언메이스용병단', 10, '', 0, 0)
+03631: IF BATTLE_RESULT == 0 GOTO 3641
+03639: GOTO 3648
+03641: ShowMovie('GameOver')
+03646: ExitFrame()
+03647: nop
+03648: nop
+03649: OpenSpeechBox()
+03650: SetSpeaker('아이언메이스사병')
+03657: Speech('으으... 젠장할... 하늘에서 이렇게 산화 하는구나...!@w')
+03674: CloseSpeechBox()
+03675: nop
+03676: nop
+03677: IF EVENT_최후의결전 == 1 GOTO 3687
+03685: GOTO 3927
+03687: EVENT_최후의결전 = 2
+03693: PlayBGM(15)
+03696: OpenSpeechBox()
+03697: SetSpeaker('깽디쉬')
+03702: Speech('대공전하. 준비 되었습니다.')
+03712: Speech('크크크크...@w')
+03719: SetSpeaker('람케')
+03723: Speech('좋아!')
+03728: Speech('그럼 시작해라.@w')
+03735: CloseSpeechBox()
+03736: ShowMovie('Moon1')
+03741: OpenSpeechBox()
+03742: SetSpeaker('깽디쉬')
+03747: Speech('대공전하. 발견했습니다.')
+03756: Speech('크크크크...')
+03762: Speech('모든 것이 고문서에 적혀있는 그대로입니다.@w')
+03776: SetSpeaker('람케')
+03780: Speech('음!')
+03784: Speech('그럼 시작하시오 박사.@w')
+03793: SetSpeaker('깽디쉬')
+03798: Speech('그럼 시작하겠습니다.@w')
+03807: CloseSpeechBox()
+03808: ShowMovie('Moon2')
+03813: OpenSpeechBox()
+03814: SetSpeaker('깽디쉬')
+03819: Speech('대공전하! 성공했습니다!')
+03828: Speech('크크크크!!!@w')
+03835: SetSpeaker('람케')
+03839: Speech('음!')
+03843: Speech('수고했소 박사.@w')
+03850: SetSpeaker('깽디쉬')
+03855: Speech('크크크크...')
+03861: Speech('어디부터 시작할까요?@w')
+03870: SetSpeaker('매드잭슨')
+03875: Speech('대공전하.')
+03881: Speech('제일 먼저 손봐줘야 될 곳이 있습니다.@w')
+03894: SetSpeaker('람케')
+03898: Speech('좋아.')
+03903: Speech('그럼 거기부터 시작하도록.@w')
+03913: CloseSpeechBox()
+03914: ShowMovie('Moon3')
+03919: SceneFrame('불타는포룸.map')
+03926: nop
+03927: nop
+03928: nop
+03929: nop
+03930: IF local0 == 2 GOTO 3940
+03938: GOTO 4147
+03940: Bump('블랙파워용병단', 15)
+03949: IF EVENT_라이벌 == 4 AND SYSTEM_RESULT == 1 GOTO 3965
+03963: GOTO 3996
+03965: OpenSpeechBox()
+03966: SetSpeaker('잽')
+03970: Speech('흐흐흐흐. 화이트울프 용병단의 애송이들이냐?')
+03984: Speech('벌써 피냄새가 느껴지는군.@w')
+03994: CloseSpeechBox()
+03995: nop
+03996: nop
+03997: Bump('블랙파워용병단', 14)
+04006: IF EVENT_라이벌 == 4 AND SYSTEM_RESULT == 1 GOTO 4022
+04020: GOTO 4040
+04022: OpenSpeechBox()
+04023: SetSpeaker('스톤해머')
+04028: Speech('오랜만에 한 번 땡겨볼까?@w')
+04038: CloseSpeechBox()
+04039: nop
+04040: nop
+04041: Bump('블랙파워용병단', 13)
+04050: IF EVENT_라이벌 == 7 AND SYSTEM_RESULT == 1 GOTO 4066
+04064: GOTO 4095
+04066: OpenSpeechBox()
+04067: SetSpeaker('블랙브레이드')
+04073: Speech('비트만과의 인연은 이제 끝이다!')
+04084: Speech('모두 다 짓밟아 주마!@w')
+04093: CloseSpeechBox()
+04094: nop
+04095: nop
+04096: Bump('샤르데나', 10)
+04103: IF EVENT_깽디쉬박사 == 5 AND SYSTEM_RESULT == 1 GOTO 4119
+04117: GOTO 4145
+04119: OpenSpeechBox()
+04120: SetSpeaker('깽디쉬')
+04125: Speech('크크크크!')
+04131: Speech('피래미 같은 놈들! 모두 없애 주마!@w')
+04143: CloseSpeechBox()
+04144: nop
+04145: nop
+04146: nop
+04147: nop
+04148: IF local0 == 3 GOTO 4158
+04156: GOTO 4699
+04158: Bump('블랙파워용병단', 15)
+04167: IF EVENT_라이벌 == 4 AND SYSTEM_RESULT == 1 AND BATTLE_RESULT == 2 GOTO 4189
+04187: GOTO 4227
+04189: OpenSpeechBox()
+04190: SetSpeaker('잽')
+04194: Speech('으... 으윽... 이... 이렇게 무너지다니...')
+04207: Speech('크... 으으... 블랙브레이드 대장...@w')
+04219: CloseSpeechBox()
+04220: STS_잽 = 1
+04226: nop
+04227: nop
+04228: Bump('블랙파워용병단', 14)
+04237: IF EVENT_라이벌 == 4 AND SYSTEM_RESULT == 1 AND BATTLE_RESULT == 2 GOTO 4259
+04257: GOTO 4308
+04259: OpenSpeechBox()
+04260: SetSpeaker('스톤해머')
+04265: Speech('어어... 이게 뭐지...?')
+04274: Speech('으... 이게 내 피인가...? 내가 지금 죽어가고 있는 거로군...')
+04292: Speech('으으... 졸린다...@w')
+04300: CloseSpeechBox()
+04301: STS_스톤해머 = 1
+04307: nop
+04308: nop
+04309: Bump('블랙파워용병단', 13)
+04318: IF EVENT_라이벌 == 7 AND SYSTEM_RESULT == 1 AND BATTLE_RESULT == 2 GOTO 4340
+04338: GOTO 4471
+04340: EVENT_라이벌 = 10
+04346: STS_EVENT = 0
+04352: OpenSpeechBox()
+04353: SetSpeaker('블랙브레이드')
+04359: Speech('으아아악! 내가 지다니!')
+04368: Speech('블랙파워 용병단도 이제 끝이다!!!@w')
+04380: CloseSpeechBox()
+04381: ShowMovie('BlackDragon2')
+04387: OpenSpeechBox()
+04388: SetSpeaker('비트만')
+04393: Speech('......@w')
+04398: Speech('블랙브레이드가 죽었군.')
+04407: Speech('결국 이렇게 되는건가...?')
+04416: Speech('이제 아시레마에서 용병단이 하나 줄겠군.@w')
+04430: CloseSpeechBox()
+04431: SetLord('블랙파워용병단', '')
+04440: DestroyTroop('블랙파워용병단', 10)
+04449: DestroyTroop('블랙파워용병단', 11)
+04458: DestroyTroop('블랙파워용병단', 12)
+04467: PlayBGM(6)
+04470: nop
+04471: nop
+04472: Bump('샤르데나', 10)
+04479: IF EVENT_깽디쉬박사 == 5 AND SYSTEM_RESULT == 1 AND BATTLE_RESULT == 2 GOTO 4501
+04499: GOTO 4697
+04501: EVENT_깽디쉬박사 = 6
+04507: OpenSpeechBox()
+04508: SetSpeaker('깽디쉬')
+04513: Speech('이럴수가! 나의 INF-MK1이 당하다니!@w')
+04525: CloseSpeechBox()
+04526: ShowMovie('INF-MK12')
+04531: OpenSpeechBox()
+04532: SetSpeaker('깽디쉬')
+04537: Speech('제길. 별 수 없군!')
+04545: Speech('탈출이다!')
+04551: Speech('두고 보자! 이 복수는 꼭 하겠다!@w')
+04563: PlayBGM(6)
+04566: SetSpeaker('비트만')
+04571: Speech('세상에~!!!')
+04577: Speech('저런 괴물 같은 기계가 다 있다니!')
+04588: Speech('이봐 밀레나! 저런 괴물 같은 로보트가 있다는 얘기는 안 했잖아!@w')
+04607: SetSpeaker('밀레나')
+04612: Speech('흥~!')
+04616: Speech('물어 보지도 않았잖아요!@w')
+04626: SetSpeaker('비트만')
+04631: Speech('말도 안 돼! 사기야!')
+04639: Speech('보수를 올려 줘!!!@w')
+04647: SetSpeaker('밀레나')
+04652: Speech('그럴 순 없어요.')
+04659: Speech('벌써 계약서에 도장 찍었죠? 그럼 끝이예요.@w')
+04673: SetSpeaker('비트만')
+04678: Speech('좀 더 조심할걸!')
+04685: Speech('크으...! 분하다! 크으...!@w')
+04695: CloseSpeechBox()
+04696: nop
+04697: nop
+04698: nop
+04699: nop
+04700: IF local0 == 1 GOTO 4710
+04708: GOTO 5726
+04710: IF EVENT_라이벌 == 4 AND STS_스톤해머 == 1 AND STS_잽 == 1 GOTO 4732
+04730: GOTO 4753
+04732: EVENT_라이벌 = 5
+04738: FocusTown('블랙파워용병단')
+04745: TownFrame('블랙파워용병단')
+04752: nop
+04753: nop
+04754: GetDefeatCount('샤르데나')
+04759: IF EVENT_깽디쉬박사 == 2 AND SYSTEM_RESULT >= 1 GOTO 4775
+04773: GOTO 4787
+04775: EVENT_깽디쉬박사 = 3
+04781: TownFrame('샤르데나')
+04786: nop
+04787: nop
+04788: GetDefeatCount('샤르데나')
+04793: IF EVENT_깽디쉬박사 == 6 AND SYSTEM_RESULT == 4 GOTO 4809
+04807: GOTO 4816
+04809: STS_샤르데나수도 = 1
+04815: nop
+04816: nop
+04817: Calendar(1)
+04820: local3 = SYSTEM_RESULT
+04826: Calendar(2)
+04829: local2 = SYSTEM_RESULT
+04835: Calendar(3)
+04838: local1 = SYSTEM_RESULT
+04844: IF EVENT_최후의결전 >= 3 AND EVENT_최후의결전 <= 4 AND INFO_카운트년 == local1 AND INFO_카운트월 == local2 AND INFO_카운트일 == local3 GOTO 4878
+04876: GOTO 5724
+04878: INFO_카운트일 = INFO_카운트일 + 10
+04887: IF INFO_카운트일 > 30 GOTO 4897
+04895: GOTO 4946
+04897: INFO_카운트일 = INFO_카운트일 - 30
+04906: INFO_카운트월 = INFO_카운트월 + 1
+04915: IF INFO_카운트월 > 12 GOTO 4925
+04923: GOTO 4944
+04925: INFO_카운트월 = INFO_카운트월 - 12
+04934: INFO_카운트년 = INFO_카운트년 + 1
+04943: nop
+04944: nop
+04945: nop
+04946: nop
+04947: STS_파멸의달 = STS_파멸의달 + 1
+04956: ShowMovie('Moon3')
+04961: PlayBGM(19)
+04964: IF STS_파멸의달 == 1 GOTO 4974
+04972: GOTO 5052
+04974: OpenSpeechBox()
+04975: SetSpeaker('미디엄웨이브국왕')
+04982: Speech('으... 이...이럴수가!!')
+04991: Speech("'파멸의 달'이 도대체 무어란 말인가?")
+05003: Speech('엑제로스에 투항하겠소!@w')
+05012: SetSpeaker('올브라이트')
+05018: Speech('큰일 났어요!')
+05024: Speech("미디엄웨이브가 '파멸의 달'의 공격을 받고 항복했어요!")
+05040: Speech('빨리 베른을 함락해 주세요!@w')
+05050: CloseSpeechBox()
+05051: nop
+05052: nop
+05053: IF STS_파멸의달 == 2 GOTO 5063
+05061: GOTO 5150
+05063: OpenSpeechBox()
+05064: SetSpeaker('사르곤대공')
+05070: Speech('으으음...!')
+05076: Speech('더 이상 우리 사르곤 대공국이 피해를 입을 수는 없다.')
+05092: Speech('사르곤 대공국은 엑제로스에 투항합니다.@w')
+05105: SetSpeaker('올브라이트')
+05111: Speech('큰일 났어요!')
+05117: Speech("이번에는 사르곤대공국이 '파멸의 달'의 공격을 받고 항복했어요!")
+05136: Speech('아직도 베른을 함락하지 못했나요?@w')
+05148: CloseSpeechBox()
+05149: nop
+05150: nop
+05151: IF STS_파멸의달 == 3 GOTO 5161
+05159: GOTO 5226
+05161: OpenSpeechBox()
+05162: SetSpeaker('앤더슨')
+05167: Speech('항복! 항복이요!')
+05174: Speech('그랜드힐 공화국은 오늘부터 엑제로스에 투항합니다!@w')
+05190: SetSpeaker('올브라이트')
+05196: Speech('또 큰일 났어요!')
+05203: Speech('이번에는 그랜드힐 공화국이예요!')
+05214: Speech('빨리 빨리 서둘러 주세요!@w')
+05224: CloseSpeechBox()
+05225: nop
+05226: nop
+05227: IF STS_파멸의달 == 4 GOTO 5237
+05235: GOTO 5314
+05237: OpenSpeechBox()
+05238: SetSpeaker('구와트로3세')
+05244: Speech('으... 으으으...!!!')
+05252: Speech('람케공! 항복이오!')
+05260: Speech("항복할테니 제발 '파멸의 달'은 참아주오!@w")
+05274: SetSpeaker('올브라이트')
+05280: Speech('큰일이예요!')
+05286: Speech("'파멸의 달'의 공격을 받고 카푸아 왕국이 항복했어요!")
+05302: Speech('제발 어떻게 좀 해 보세요!@w')
+05312: CloseSpeechBox()
+05313: nop
+05314: nop
+05315: IF STS_파멸의달 == 5 GOTO 5325
+05323: GOTO 5404
+05325: OpenSpeechBox()
+05326: SetSpeaker('킹조지8세')
+05332: Speech('으아아악!!!')
+05338: Speech('하늘에서 빛이 떨어지다니! 소문이 사실이었어!')
+05352: Speech('엑제로스! 엑제로스에 투항이오!@w')
+05363: SetSpeaker('올브라이트')
+05369: Speech('이걸 어째요!')
+05375: Speech("이젠 릴리온 왕국까지 '파멸의 달'의 공격을 받고 항복했어요!")
+05393: Speech('좀 더 빨리 해 주세요!@w')
+05402: CloseSpeechBox()
+05403: nop
+05404: nop
+05405: IF STS_파멸의달 == 6 GOTO 5415
+05413: GOTO 5488
+05415: OpenSpeechBox()
+05416: SetSpeaker('샤르데나국왕')
+05422: Speech('우...우아앗!')
+05428: Speech('하...항복이오! 항복이오!')
+05437: Speech('람케공 항복할테니 제발 궁전만은...!@w')
+05450: SetSpeaker('올브라이트')
+05456: Speech('큰일 났어요!')
+05462: Speech('샤르데나 왕국까지 항복했어요!')
+05473: Speech('이제 겨우 두 국가 밖에 남지 않았어요!@w')
+05486: CloseSpeechBox()
+05487: nop
+05488: nop
+05489: IF STS_파멸의달 == 7 GOTO 5499
+05497: GOTO 5590
+05499: OpenSpeechBox()
+05500: SetSpeaker('훗세인')
+05505: Speech('어허~ 람케공!')
+05512: Speech('우리 사이에 이거 왜 이러시나!')
+05523: Speech('석유나 돈이나 뭐든 필요하면 가져가시게.@w')
+05537: SetSpeaker('올브라이트')
+05543: Speech('큰일 났어요!')
+05549: Speech('윈디랜드 공화국까지 엑제로스에 넘어 갔어요!')
+05563: Speech('이젠 에투루리아 제국 밖에 안 남았어요!')
+05576: Speech('도대체 일을 어떻게 하는 거예요?@w')
+05588: CloseSpeechBox()
+05589: nop
+05590: nop
+05591: IF STS_파멸의달 == 8 GOTO 5601
+05599: GOTO 5722
+05601: EVENT_최후의결전 = 11
+05607: OpenSpeechBox()
+05608: SetSpeaker('알렉산드로스7세')
+05615: Speech("으... '파멸의 달'한테는 완전히 졌다.")
+05627: Speech('항복이오.@w')
+05633: SetSpeaker('올브라이트')
+05639: Speech('으앙~ 큰일이예요!')
+05647: Speech('이젠 에투루리아 제국까지 항복했어요!@w')
+05660: SetSpeaker('비트만')
+05665: Speech('뭐라고!?')
+05670: Speech('에투루리아 제국까지?@w')
+05679: SetSpeaker('올브라이트')
+05685: Speech('전 아시레마 대륙의 국가들이 엑제로스 공국에게 항복했어요.')
+05703: Speech('이젠 끝이예요.@w')
+05710: CloseSpeechBox()
+05711: FocusTown('에포소스')
+05716: TownFrame('에포소스')
+05721: nop
+05722: nop
+05723: nop
+05724: nop
+05725: nop
+05726: nop
+05727: return
+05728: entry 59
+
+[고대유적]
+05730: DenyBump()
+05731: Bump('', 0)
+05736: IF EVENT_인도하는자 == 1 AND SYSTEM_RESULT == 1 GOTO 5752
+05750: GOTO 6791
+05752: EVENT_인도하는자 = 2
+05758: StopBGM()
+05759: ShowPicture('인도하는자3')
+05765: OpenSpeechBox()
+05766: Sound('회오리.wav')
+05772: SetSpeaker('비트만')
+05777: Speech('갑자기 눈 앞에 회오리가 생겨났다!')
+05789: Speech('더 이상 진행은 무리다!!!@w')
+05799: SetSpeaker('에이올린')
+05804: Speech('잠깐만요! 이제 다 왔어요!')
+05814: Speech('저 회오리 속에 유적이 있어요!')
+05825: Speech('용기를 내서 조금만 더 나가 주세요!!!@w')
+05838: SetSpeaker('비트만')
+05843: Speech('좋소. 에이올린 박사. 1시간만 더 나아가 보지.')
+05857: Speech('하지만 계속 이 상태면 어쩔 수 없소.')
+05869: Speech('나도 부하들도 이런데서 모래에 파묻혀 죽고 싶지 않아.@w')
+05886: CloseSpeechBox()
+05887: ClosePicture()
+05888: PlayBGM(14)
+05891: ShowPicture('인도하는자4')
+05897: OpenSpeechBox()
+05898: SetSpeaker('화이트울프사병')
+05905: Speech('대장님! 저 앞을 보십시오!')
+05915: Speech('탑이 나타났습니다!!!@w')
+05924: SetSpeaker('비트만')
+05929: Speech('뭐라고!?@w')
+05935: SetSpeaker('에이올린')
+05940: Speech("저기예요! 저곳이 '인도하는 자의 탑'이예요.")
+05954: Speech('어서 저기로 가요!@w')
+05962: SetSpeaker('비트만')
+05967: Speech('좋소. 어서 갑시다.@w')
+05975: CloseSpeechBox()
+05976: ClosePicture()
+05977: OpenSpeechBox()
+05978: SetSpeaker('화이트울프사병')
+05985: Speech('대장님!')
+05990: Speech('문에 뭔가 이상한 것이 있습니다!@w')
+06002: SetSpeaker('')
+06005: Speech('조각 그림 맞추기 입니다.')
+06014: Speech('지정된 시간 내에 그림을 맞추면 유적지 안에 들어갈 수 있습니다.@w')
+06033: CloseSpeechBox()
+06034: PlayBGM(18)
+06037: Puzzle(1)
+06040: IF PUZZLE_RESULT == 0 GOTO 6050
+06048: GOTO 6258
+06050: StopBGM()
+06051: ShowPicture('인도하는자3')
+06057: OpenSpeechBox()
+06058: SetSpeaker('비트만')
+06063: Speech('모래 바람이 너무 심해!')
+06072: Speech('물러나야 돼! 모두 돌아가자!!!@w')
+06083: SetSpeaker('에이올린')
+06088: Speech('안돼요! 그럴 순 없어요!')
+06097: Speech('나 혼자라도 가겠어요! 저리 비켜요!@w')
+06109: SetSpeaker('비트만')
+06114: Speech('안돼! 그러지 마시오! 에이올린 박사!')
+06126: Speech('어서 돌아오시오!!!@w')
+06134: SetSpeaker('화이트울프사병')
+06141: Speech('대장님! 늦었습니다!')
+06149: Speech('어서 여기를 벗어나야 됩니다!!!@w')
+06160: SetSpeaker('비트만')
+06165: Speech('그런가? 어쩔 수 없다.')
+06174: Speech('박사는 놔 두고 모두 여기서 빠져나가자!!!@w')
+06188: CloseSpeechBox()
+06189: ClosePicture()
+06190: OpenSpeechBox()
+06191: SetSpeaker('비트만')
+06196: Speech('회오리가 사라지다니. 어찌된 일이지?')
+06208: Speech('으음... 에이올린 박사...@w')
+06218: Speech('어쩔 수 없군. 모두 끝났다. 철수다!@w')
+06230: CloseSpeechBox()
+06231: PlayBGM(21)
+06234: EVENT_인도하는자 = 10
+06240: STS_EVENT = 0
+06246: SetTownStatus('고대유적', 0, 0)
+06255: GOTO 6788
+06257: nop
+06258: nop
+06259: OpenSpeechBox()
+06260: SetSpeaker('비트만')
+06265: Speech('유적지에 도착했다. 들어가 보자.@w')
+06277: SetSpeaker('화이트울프사병')
+06284: Speech('여기 이상한 물건을 찾았습니다.@w')
+06295: CloseSpeechBox()
+06296: ShowPicture('인도하는자5')
+06302: OpenSpeechBox()
+06303: SetSpeaker('에이올린')
+06308: Speech('이거예요! 이거!')
+06315: Speech("이것이 전설 속의 부유대륙 레마리아로 인도하여 준다는 유물인 '인도하는자'예요!")
+06338: Speech('레마리아는 이 땅을 떠나 영원히 허공을 방랑하게 되었다는 전설 속의 부유대륙이죠!@w')
+06362: SetSpeaker('비트만')
+06367: Speech('이것이 인도하는자?')
+06375: Speech('무척 신기하게 생겼군.@w')
+06384: SetSpeaker('에이올린')
+06389: Speech('고문서가 맞다면 이게 전설의 부유대륙 레마리아예요.')
+06405: Speech('근데 조금씩 여기 아시레마 쪽으로 오는 것 같지 않아요?@w')
+06422: SetSpeaker('비트만')
+06427: Speech('그런 것 같군.')
+06434: Speech('그런데 위에 떠있는 것은 뭐지?@w')
+06445: SetSpeaker('에이올린')
+06450: Speech("그것은 '파멸의 달'이예요. 고대 레마리아인이 최종 전쟁 때 썼다는 무기죠.")
+06471: Speech('그런데 설마 실재하지는 않겠죠...?')
+06483: Speech('어쨌든 카티움 대학 연구실로 가져가서 조사해 봐야 겠어요.@w')
+06501: SetSpeaker('')
+06504: Speech("'인도하는자'를 얻었습니다.@w")
+06514: TakeItem(0, '인도하는자')
+06522: CloseSpeechBox()
+06523: ClosePicture()
+06524: OpenSpeechBox()
+06525: SetSpeaker('화이트울프사병')
+06532: Speech('회오리가 멈추었습니다.@w')
+06541: SetSpeaker('비트만')
+06546: Speech('잘 되었군. 좋아. 어서 빠져나가자.@w')
+06558: CloseSpeechBox()
+06559: SallyTroop('에포소스', 10, '엑제로스항공군단', 0)
+06574: MoveTroop('에포소스', 10, 197, 229)
+06585: FocusTroop('에포소스', 10)
+06592: PlayBGM(14)
+06595: OpenSpeechBox()
+06596: SetSpeaker('엑제로스사병')
+06602: Speech('으하하하하하!!!')
+06609: Speech('아주 대단한 발견을 했더군.')
+06619: Speech('미안하지만 너희들은 위대한 엑제로스 공국의 영광을 위해 여기서 죽어 주어야겠다!@w')
+06642: SetSpeaker('비트만')
+06647: Speech('뭐라고?')
+06652: Speech('엑제로스 공국이 여기 무슨 일이지?@w')
+06664: SetSpeaker('엑제로스사병')
+06670: Speech('말이 많군. 너는 그냥 여기서 죽으면 되는거야!')
+06684: Speech('공격 개시!!!@w')
+06691: CloseSpeechBox()
+06692: Battle('에포소스', 10, '', 0, '', 0, 0)
+06709: IF BATTLE_RESULT == 0 GOTO 6719
+06717: GOTO 6726
+06719: ShowMovie('GameOver')
+06724: ExitFrame()
+06725: nop
+06726: nop
+06727: OpenSpeechBox()
+06728: SetSpeaker('엑제로스사병')
+06734: Speech('엑제로스 공국 만세! 람케 대공 만세!@w')
+06747: SetSpeaker('비트만')
+06752: Speech('죽을 때 시끄럽게 죽는 습관을 가졌군.')
+06764: Speech('어서 유물을 카티움 대학에 가져다 주자.@w')
+06777: CloseSpeechBox()
+06778: SetTownStatus('고대유적', 0, 0)
+06787: nop
+06788: nop
+06789: return
+06790: nop
+06791: nop
+06792: ShowPicture('인도하는자3')
+06798: OpenSpeechBox()
+06799: Sound('회오리.wav')
+06805: SetSpeaker('')
+06808: Speech('회오리 바람이 너무 세서 안내자가 없이는 들어갈 수가 없습니다.@w')
+06827: CloseSpeechBox()
+06828: ClosePicture()
+06829: return
+06830: entry 64
+
+[샤르데나]
+06832: Bump('', 1)
+06837: IF SYSTEM_RESULT == 1 GOTO 6847
+06845: GOTO 6854
+06847: local6 = 1
+06853: nop
+06854: nop
+06855: Bump('', 2)
+06860: IF SYSTEM_RESULT == 1 GOTO 6870
+06868: GOTO 6877
+06870: local6 = 2
+06876: nop
+06877: nop
+06878: Bump('', 3)
+06883: IF SYSTEM_RESULT == 1 GOTO 6893
+06891: GOTO 6900
+06893: local6 = 3
+06899: nop
+06900: nop
+06901: Bump('', 4)
+06906: IF SYSTEM_RESULT == 1 GOTO 6916
+06914: GOTO 6923
+06916: local6 = 4
+06922: nop
+06923: nop
+06924: Bump('', 5)
+06929: IF SYSTEM_RESULT == 1 GOTO 6939
+06937: GOTO 6946
+06939: local6 = 5
+06945: nop
+06946: nop
+06947: Bump('', 6)
+06952: IF SYSTEM_RESULT == 1 GOTO 6962
+06960: GOTO 6969
+06962: local6 = 6
+06968: nop
+06969: nop
+06970: Bump('', 7)
+06975: IF SYSTEM_RESULT == 1 GOTO 6985
+06983: GOTO 6992
+06985: local6 = 7
+06991: nop
+06992: nop
+06993: Bump('', 8)
+06998: IF SYSTEM_RESULT == 1 GOTO 7008
+07006: GOTO 7015
+07008: local6 = 8
+07014: nop
+07015: nop
+07016: Bump('', 9)
+07021: IF SYSTEM_RESULT == 1 GOTO 7031
+07029: GOTO 7038
+07031: local6 = 9
+07037: nop
+07038: nop
+07039: IF EVENT_깽디쉬박사 >= 1 AND EVENT_깽디쉬박사 <= 6 AND STS_샤르데나수도 == 0 GOTO 7061
+07059: GOTO 7119
+07061: DenyBump()
+07062: OpenSpeechBox()
+07063: SetSpeaker('밀레나')
+07068: Speech('지금 수도를 공격할 수는 없어요.')
+07079: IF EVENT_깽디쉬박사 != 5 GOTO 7089
+07087: GOTO 7104
+07089: Speech('다른 도시들부터 해방 시켜야 해요.@w')
+07101: GOTO 7116
+07103: nop
+07104: nop
+07105: Speech('INF-MK1부터 막아야 해요.@w')
+07115: nop
+07116: nop
+07117: CloseSpeechBox()
+07118: nop
+07119: nop
+07120: IF EVENT_깽디쉬박사 >= 5 AND EVENT_깽디쉬박사 <= 6 AND STS_샤르데나수도 == 1 GOTO 7142
+07140: GOTO 7528
+07142: DenyBump()
+07143: OpenSpeechBox()
+07144: SetSpeaker('샤르데나사병')
+07150: Speech('깽디쉬 박사님!')
+07157: Speech('놈들이 여기까지 쳐들어 왔습니다!@w')
+07169: SetSpeaker('깽디쉬')
+07174: Speech('으으윽! 일이 이렇게까지 되다니!')
+07185: Speech('잠시만 놈들을 막고 있어라. 내가 녀석들을 해치우겠다!@w')
+07202: SetSpeaker('샤르데나사병')
+07208: Speech('알겠습니다!@w')
+07215: CloseSpeechBox()
+07216: SallyTroop('샤르데나', 5, '깽드쉬 친위대', 0)
+07231: Battle('샤르데나', 5, '', local6, '샤르데나', 3, 1)
+07250: IF BATTLE_RESULT != 2 GOTO 7260
+07258: GOTO 7269
+07260: DestroyTroop('샤르데나', 5)
+07267: return
+07268: nop
+07269: nop
+07270: OpenSpeechBox()
+07271: SetSpeaker('비트만')
+07276: Speech('이겼다! 샤르데나의 방어선을 무너뜨렸다!')
+07289: Speech('하하하하!!!@w')
+07296: SetSpeaker('깽디쉬')
+07301: Speech('으으윽! 이놈들! 아직 이르다!')
+07311: Speech('이 깽디쉬 박사의 위대한 걸작 중의 걸작 INF-MK2다!')
+07327: Speech('크하하하하하!!!@w')
+07335: CloseSpeechBox()
+07336: ShowMovie('INF-MK21')
+07341: OpenSpeechBox()
+07342: SetSpeaker('비트만')
+07347: Speech('우아아아악! 저 괴물은 뭐냐?@w')
+07358: SetSpeaker('깽디쉬')
+07363: Speech('각오해라! 크하하하하하!!!@w')
+07373: CloseSpeechBox()
+07374: SallyTroop('샤르데나', 15, 'INF-MK2', 0)
+07387: Battle('', local6, '샤르데나', 15, '샤르데나', 0, 0)
+07406: IF BATTLE_RESULT != 2 GOTO 7416
+07414: GOTO 7425
+07416: DestroyTroop('샤르데나', 15)
+07423: return
+07424: nop
+07425: nop
+07426: ShowMovie('INF-MK22')
+07431: OpenSpeechBox()
+07432: SetSpeaker('깽디쉬')
+07437: Speech('어어엇! 큰일이다!')
+07445: Speech('비행기가 고장을...! 우아아아아아앗!!!@w')
+07458: SetSpeaker('비트만')
+07463: Speech('휴우~!')
+07468: Speech('겨우 이겼다! 드디어 샤르데나 왕국을 탈환 한건가?@w')
+07484: CloseSpeechBox()
+07485: DestroyTroop('샤르데나', 4)
+07492: SetTownStatus('샤르데나', 1, 1)
+07501: SetLord('샤르데나', '샤르데나국왕')
+07511: EVENT_깽디쉬박사 = 7
+07517: FocusTown('샤르데나')
+07522: TownFrame('샤르데나')
+07527: nop
+07528: nop
+07529: return
+07530: entry 60
+
+[엔벡]
+07532: Bump('', 1)
+07537: IF SYSTEM_RESULT == 1 GOTO 7547
+07545: GOTO 7554
+07547: local6 = 1
+07553: nop
+07554: nop
+07555: Bump('', 2)
+07560: IF SYSTEM_RESULT == 1 GOTO 7570
+07568: GOTO 7577
+07570: local6 = 2
+07576: nop
+07577: nop
+07578: Bump('', 3)
+07583: IF SYSTEM_RESULT == 1 GOTO 7593
+07591: GOTO 7600
+07593: local6 = 3
+07599: nop
+07600: nop
+07601: Bump('', 4)
+07606: IF SYSTEM_RESULT == 1 GOTO 7616
+07614: GOTO 7623
+07616: local6 = 4
+07622: nop
+07623: nop
+07624: Bump('', 5)
+07629: IF SYSTEM_RESULT == 1 GOTO 7639
+07637: GOTO 7646
+07639: local6 = 5
+07645: nop
+07646: nop
+07647: Bump('', 6)
+07652: IF SYSTEM_RESULT == 1 GOTO 7662
+07660: GOTO 7669
+07662: local6 = 6
+07668: nop
+07669: nop
+07670: Bump('', 7)
+07675: IF SYSTEM_RESULT == 1 GOTO 7685
+07683: GOTO 7692
+07685: local6 = 7
+07691: nop
+07692: nop
+07693: Bump('', 8)
+07698: IF SYSTEM_RESULT == 1 GOTO 7708
+07706: GOTO 7715
+07708: local6 = 8
+07714: nop
+07715: nop
+07716: Bump('', 9)
+07721: IF SYSTEM_RESULT == 1 GOTO 7731
+07729: GOTO 7738
+07731: local6 = 9
+07737: nop
+07738: nop
+07739: IF EVENT_깽디쉬박사 >= 1 AND EVENT_깽디쉬박사 <= 6 AND STS_엔벡 == 0 GOTO 7761
+07759: GOTO 7807
+07761: DenyBump()
+07762: Battle('', local6, '샤르데나', 2, '엔벡', 3, 1)
+07780: IF BATTLE_RESULT == 2 GOTO 7790
+07788: GOTO 7805
+07790: STS_엔벡 = 1
+07796: SetLord('엔벡', '엔벡시장')
+07804: nop
+07805: nop
+07806: nop
+07807: nop
+07808: return
+07809: entry 67
+
+[칼라코스]
+07811: Bump('', 1)
+07816: IF SYSTEM_RESULT == 1 GOTO 7826
+07824: GOTO 7833
+07826: local6 = 1
+07832: nop
+07833: nop
+07834: Bump('', 2)
+07839: IF SYSTEM_RESULT == 1 GOTO 7849
+07847: GOTO 7856
+07849: local6 = 2
+07855: nop
+07856: nop
+07857: Bump('', 3)
+07862: IF SYSTEM_RESULT == 1 GOTO 7872
+07870: GOTO 7879
+07872: local6 = 3
+07878: nop
+07879: nop
+07880: Bump('', 4)
+07885: IF SYSTEM_RESULT == 1 GOTO 7895
+07893: GOTO 7902
+07895: local6 = 4
+07901: nop
+07902: nop
+07903: Bump('', 5)
+07908: IF SYSTEM_RESULT == 1 GOTO 7918
+07916: GOTO 7925
+07918: local6 = 5
+07924: nop
+07925: nop
+07926: Bump('', 6)
+07931: IF SYSTEM_RESULT == 1 GOTO 7941
+07939: GOTO 7948
+07941: local6 = 6
+07947: nop
+07948: nop
+07949: Bump('', 7)
+07954: IF SYSTEM_RESULT == 1 GOTO 7964
+07962: GOTO 7971
+07964: local6 = 7
+07970: nop
+07971: nop
+07972: Bump('', 8)
+07977: IF SYSTEM_RESULT == 1 GOTO 7987
+07985: GOTO 7994
+07987: local6 = 8
+07993: nop
+07994: nop
+07995: Bump('', 9)
+08000: IF SYSTEM_RESULT == 1 GOTO 8010
+08008: GOTO 8017
+08010: local6 = 9
+08016: nop
+08017: nop
+08018: IF EVENT_깽디쉬박사 >= 1 AND EVENT_깽디쉬박사 <= 6 AND STS_칼라코스 == 0 GOTO 8040
+08038: GOTO 8089
+08040: DenyBump()
+08041: Battle('', local6, '샤르데나', 1, '칼라코스', 3, 1)
+08060: IF BATTLE_RESULT == 2 GOTO 8070
+08068: GOTO 8087
+08070: STS_칼라코스 = 1
+08076: SetLord('칼라코스', '칼라코스시장')
+08086: nop
+08087: nop
+08088: nop
+08089: nop
+08090: return
+08091: entry 72
+
+[에메디스]
+08093: Bump('', 1)
+08098: IF SYSTEM_RESULT == 1 GOTO 8108
+08106: GOTO 8115
+08108: local6 = 1
+08114: nop
+08115: nop
+08116: Bump('', 2)
+08121: IF SYSTEM_RESULT == 1 GOTO 8131
+08129: GOTO 8138
+08131: local6 = 2
+08137: nop
+08138: nop
+08139: Bump('', 3)
+08144: IF SYSTEM_RESULT == 1 GOTO 8154
+08152: GOTO 8161
+08154: local6 = 3
+08160: nop
+08161: nop
+08162: Bump('', 4)
+08167: IF SYSTEM_RESULT == 1 GOTO 8177
+08175: GOTO 8184
+08177: local6 = 4
+08183: nop
+08184: nop
+08185: Bump('', 5)
+08190: IF SYSTEM_RESULT == 1 GOTO 8200
+08198: GOTO 8207
+08200: local6 = 5
+08206: nop
+08207: nop
+08208: Bump('', 6)
+08213: IF SYSTEM_RESULT == 1 GOTO 8223
+08221: GOTO 8230
+08223: local6 = 6
+08229: nop
+08230: nop
+08231: Bump('', 7)
+08236: IF SYSTEM_RESULT == 1 GOTO 8246
+08244: GOTO 8253
+08246: local6 = 7
+08252: nop
+08253: nop
+08254: Bump('', 8)
+08259: IF SYSTEM_RESULT == 1 GOTO 8269
+08267: GOTO 8276
+08269: local6 = 8
+08275: nop
+08276: nop
+08277: Bump('', 9)
+08282: IF SYSTEM_RESULT == 1 GOTO 8292
+08290: GOTO 8299
+08292: local6 = 9
+08298: nop
+08299: nop
+08300: IF EVENT_깽디쉬박사 >= 1 AND EVENT_깽디쉬박사 <= 6 AND STS_에메디스 == 0 GOTO 8322
+08320: GOTO 8371
+08322: DenyBump()
+08323: Battle('', local6, '샤르데나', 3, '에메디스', 3, 1)
+08342: IF BATTLE_RESULT == 2 GOTO 8352
+08350: GOTO 8369
+08352: STS_에메디스 = 1
+08358: SetLord('에메디스', '에메디스시장')
+08368: nop
+08369: nop
+08370: nop
+08371: nop
+08372: return
+08373: entry 10
+
+[국제은행]
+08375: Bump('', 0)
+08380: local10 = SYSTEM_RESULT
+08386: HaveItem(0, '신의눈1')
+08393: local7 = SYSTEM_RESULT
+08399: HaveItem(0, '신의눈2')
+08406: local8 = SYSTEM_RESULT
+08412: HaveItem(0, '신의눈3')
+08419: local9 = SYSTEM_RESULT
+08425: IF EVENT_고대인의유적 == 1 AND local7 == 1 AND local8 == 1 AND local9 == 1 AND local10 == 1 GOTO 8459
+08457: GOTO 8852
+08459: EVENT_고대인의유적 = 2
+08465: DenyBump()
+08466: ShowMovie('LandBattle1')
+08472: PlayBGM(14)
+08475: OpenSpeechBox()
+08476: SetSpeaker('비트만')
+08481: Speech('우와앗!')
+08486: Speech('이게 뭐지!?@w')
+08493: SetSpeaker('매드잭슨')
+08498: Speech('아하하하하!')
+08504: Speech('이 거대한 랜드배틀쉽의 위용을 보았느냐!?')
+08517: Speech('우리 아이언메이스 용병단이 총력을 다해 만든 군사 무기의 결정체이다!')
+08537: Speech('깽디쉬 박사. 만드느라 수고했소.@w')
+08549: SetSpeaker('깽디쉬')
+08554: Speech('크크크크...')
+08560: Speech('감사합니다. 매드잭슨님.@w')
+08570: SetSpeaker('비트만')
+08575: Speech('매드잭슨!?')
+08581: Speech('근데 저자는 또 뭐야!?')
+08590: Speech('과학자가 저 따위 괴물 같은 무기를 만들다니!')
+08604: Speech('에이! 저래서 공대는 안 돼.@w')
+08614: SetSpeaker('매드잭슨')
+08619: Speech("비트만! 저번에 케브에서 나를 때려눕히고 '신의 눈'을 빼앗아갔지.")
+08638: Speech("이번에는 용서치 않겠어. 여기서 너를 쓰러뜨리고 '신의 눈' 3개 모두를 내가 가져가야겠다!")
+08663: Speech('공격 개시!@w')
+08669: CloseSpeechBox()
+08670: SallyTroop('아이언메이스용병단', 15, '아이언메이스용병단4', 0)
+08689: Battle('', 0, '아이언메이스용병단', 15, '', 0, 0)
+08709: IF BATTLE_RESULT == 0 GOTO 8719
+08717: GOTO 8726
+08719: ShowMovie('GameOver')
+08724: ExitFrame()
+08725: nop
+08726: nop
+08727: ShowMovie('LandBattle2')
+08733: OpenSpeechBox()
+08734: SetSpeaker('매드잭슨')
+08739: Speech('이...이럴수가! 내 랜드배틀쉽이...!')
+08751: Speech('으흐흐흐흑...! 이럴 순 없어!@w')
+08762: SetSpeaker('깽디쉬')
+08767: Speech('크큭. 이럴 수가...')
+08775: Speech('매드잭슨님 어서 탈출해야 합니다!@w')
+08787: SetSpeaker('매드잭슨')
+08792: Speech('비트만!')
+08797: Speech('이번엔 이렇게 물러가지만 다음 번엔 결코 용서치 않겠어!@w')
+08814: SetSpeaker('비트만')
+08819: Speech('하아 하아.')
+08825: Speech('정말 대단한 싸움이었다.')
+08834: Speech('다시는 저런 괴물과 싸우고 싶지 않아.@w')
+08847: CloseSpeechBox()
+08848: PlayBGM(6)
+08851: nop
+08852: nop
+08853: return
+08854: entry 28
+
+[공항도시]
+08856: IF EVENT_최후의결전 == 3 GOTO 8866
+08864: GOTO 9078
+08866: EVENT_최후의결전 = 4
+08872: PlayBGM(19)
+08875: OpenSpeechBox()
+08876: SetSpeaker('비트만')
+08881: Speech('여기가 엑제로스 공국인가?')
+08891: Speech('좋아! 그럼 시작해 보자.@w')
+08901: SetSpeaker('엑제로스사병')
+08907: Speech('대공전하!')
+08913: Speech('큰일 났습니다!')
+08920: Speech('화이트울프 용병단이 우리 엑제로스 공국에 발을 들여 놓았습니다!@w')
+08939: SetSpeaker('람케')
+08943: Speech('뭐라고?')
+08948: Speech('그렇다면 속히 지상군단과 항공군단을 출동시켜라!@w')
+08964: CloseSpeechBox()
+08965: SallyTroop('베른', 1, '엑제로스공국군1', 0)
+08979: SallyTroop('베른', 2, '엑제로스공국군1', 0)
+08993: SallyTroop('베른', 3, '엑제로스공국군2', 0)
+09007: SallyTroop('베른', 4, '엑제로스공국군2', 0)
+09021: SallyTroop('베른', 5, '엑제로스공국군2', 0)
+09035: SallyTroop('베른', 7, '엑제로스공국군3', 0)
+09049: SallyTroop('베른', 8, '엑제로스공국군3', 0)
+09063: SallyTroop('베른', 9, '엑제로스공국군3', 0)
+09077: nop
+09078: nop
+09079: return
+09080: entry 33
+
+[베른]
+09082: Bump('', 1)
+09087: IF SYSTEM_RESULT == 1 GOTO 9097
+09095: GOTO 9104
+09097: local6 = 1
+09103: nop
+09104: nop
+09105: Bump('', 2)
+09110: IF SYSTEM_RESULT == 1 GOTO 9120
+09118: GOTO 9127
+09120: local6 = 2
+09126: nop
+09127: nop
+09128: Bump('', 3)
+09133: IF SYSTEM_RESULT == 1 GOTO 9143
+09141: GOTO 9150
+09143: local6 = 3
+09149: nop
+09150: nop
+09151: Bump('', 4)
+09156: IF SYSTEM_RESULT == 1 GOTO 9166
+09164: GOTO 9173
+09166: local6 = 4
+09172: nop
+09173: nop
+09174: Bump('', 5)
+09179: IF SYSTEM_RESULT == 1 GOTO 9189
+09187: GOTO 9196
+09189: local6 = 5
+09195: nop
+09196: nop
+09197: Bump('', 6)
+09202: IF SYSTEM_RESULT == 1 GOTO 9212
+09210: GOTO 9219
+09212: local6 = 6
+09218: nop
+09219: nop
+09220: Bump('', 7)
+09225: IF SYSTEM_RESULT == 1 GOTO 9235
+09233: GOTO 9242
+09235: local6 = 7
+09241: nop
+09242: nop
+09243: Bump('', 8)
+09248: IF SYSTEM_RESULT == 1 GOTO 9258
+09256: GOTO 9265
+09258: local6 = 8
+09264: nop
+09265: nop
+09266: Bump('', 9)
+09271: IF SYSTEM_RESULT == 1 GOTO 9281
+09279: GOTO 9288
+09281: local6 = 9
+09287: nop
+09288: nop
+09289: IF EVENT_최후의결전 == 4 GOTO 9299
+09297: GOTO 10350
+09299: DenyBump()
+09300: TroopType('', local6)
+09305: IF SYSTEM_RESULT == 2 OR SYSTEM_RESULT == 3 GOTO 9321
+09319: GOTO 9349
+09321: OpenSpeechBox()
+09322: SetSpeaker('올브라이트')
+09328: Speech('어머~ 어머!')
+09334: Speech('베른은 지상군단으로 함락해야 해요.')
+09346: CloseSpeechBox()
+09347: return
+09348: nop
+09349: nop
+09350: OpenSpeechBox()
+09351: SetSpeaker('엑제로스사병')
+09357: Speech('대공전하!')
+09363: Speech('적군단이 베른에 침입했습니다!')
+09374: Speech('지시를 내려 주십시오!@w')
+09383: SetSpeaker('람케')
+09387: Speech('뭐라고? 여기까지?')
+09395: Speech('음! 이 람케가 직접 상대해 주지!')
+09406: Speech('근위군단 출동이다! 나가자!@w')
+09416: CloseSpeechBox()
+09417: SallyTroop('베른', 10, '엑제로스공국군4', 0)
+09431: Battle('', local6, '베른', 10, '', 3, 0)
+09447: IF BATTLE_RESULT != 2 GOTO 9457
+09455: GOTO 9465
+09457: DestroyTroop('베른', 10)
+09463: return
+09464: nop
+09465: nop
+09466: OpenSpeechBox()
+09467: SetSpeaker('람케')
+09471: Speech('으... 얕봐서는 안 될 놈들이군!')
+09482: Speech('일단 후퇴다!@w')
+09489: SetSpeaker('람케')
+09493: Speech('매드잭슨!')
+09499: Speech('요새 방어를 부탁한다.')
+09508: Speech('이 요새의 방어 시스템이면 충분할거다.@w')
+09521: SetSpeaker('매드잭슨')
+09526: Speech('예!')
+09530: Speech('명령대로 하겠습니다.@w')
+09539: SetSpeaker('람케')
+09543: Speech('깽디쉬 박사.')
+09549: Speech('라그나록호를 준비시키시오.')
+09559: Speech("만일의 경우 '레마리아'로 가는 거요.@w")
+09572: SetSpeaker('깽디쉬')
+09577: Speech('알겠습니다.')
+09583: Speech('레마리아라...')
+09590: Speech('기대 되는군요. 크크크크...@w')
+09600: SetSpeaker('비트만')
+09605: Speech('람케!')
+09610: Speech('항복해라!@w')
+09616: SetSpeaker('매드잭슨')
+09621: Speech('닥쳐! 감히 누구한테!')
+09629: Speech('이 매드잭슨이 상대해 주겠다!@w')
+09640: CloseSpeechBox()
+09641: SallyTroop('베른', 15, '엑제로스공국군5', 0)
+09655: Battle('베른', 15, '', local6, '베른', 0, 0)
+09672: IF BATTLE_RESULT != 2 GOTO 9682
+09680: GOTO 9690
+09682: DestroyTroop('베른', 15)
+09688: return
+09689: nop
+09690: nop
+09691: OpenSpeechBox()
+09692: SetSpeaker('매드잭슨')
+09697: Speech('또 지게 되는건가?')
+09705: Speech('으...으... 이럴수는 없어!@w')
+09715: SetSpeaker('엑제로스사병')
+09721: Speech('우아아아!!!')
+09727: Speech('요새가 무너진다!')
+09734: Speech('우아아아아!!! 사람 살려!@w')
+09744: SetSpeaker('비트만')
+09749: Speech('이...이건 정말 굉장한 전투였다.')
+09760: Speech('승리한건가?@w')
+09767: SetSpeaker('람케')
+09771: Speech('크윽!')
+09776: Speech('실패했나? 역시 막아낼 수 없었나 보군.@w')
+09789: SetSpeaker('깽디쉬')
+09794: Speech('대공전하! 어서 라그나록호에 오르십시오!')
+09807: Speech('떠나셔야 합니다. 요새가 폭발하려고 하고 있습니다!@w')
+09823: SetSpeaker('람케')
+09827: Speech('으...! 나는 도망치는게 아니다!')
+09838: Speech("허공을 떠다니는 신비의 대륙 '레마리아'를 찾아 가는 거다!")
+09855: Speech("'신의 눈'만 있다면 파멸의 달은 어디서든 조종할 수 있다!")
+09872: Speech('자! 출발하자!@w')
+09879: CloseSpeechBox()
+09880: ShowMovie('LagnaRock')
+09886: OpenSpeechBox()
+09887: SetSpeaker('비트만')
+09892: Speech('휴우!')
+09897: Speech('이것으로 다 끝난건가?')
+09906: Speech('아니면 또 다른 사건이 일어날까?@w')
+09918: SetSpeaker('화이트울프사병')
+09925: Speech('대장님!')
+09930: Speech('요새에서 수상한 자를 찾았습니다.')
+09941: Speech('그런데 심하게 다쳤습니다.@w')
+09951: SetSpeaker('비트만')
+09956: Speech('그래? 어디 볼까?@w')
+09964: CloseSpeechBox()
+09965: ClosePicture()
+09966: PlayBGM(11)
+09969: ShowPicture('마지막7')
+09974: OpenSpeechBox()
+09975: SetSpeaker('비트만')
+09980: Speech('아니! 매드잭슨!?@w')
+09988: SetSpeaker('매드잭슨')
+09993: Speech('으...으...')
+09999: Speech('비트만 니가 이겼다...')
+10008: Speech('결국 니가 이기는군... 하지만.@w')
+10019: Speech('이대로 끝난건 아니야... 람케...와...')
+10031: Speech('...크흑!@w')
+10037: SetSpeaker('비트만')
+10042: Speech('이봐! 매드잭슨!')
+10049: Speech('무리하지 마!')
+10055: Speech('이야기는 나중에 듣도록 하자!')
+10065: Speech('이봐! 누가 들것좀 가져와!@w')
+10075: SetSpeaker('매드잭슨')
+10080: Speech('크...윽...')
+10086: Speech('동정은 필요 없어. 난 이제 죽는다...')
+10098: Speech('그러니 잘 들어둬...')
+10106: Speech('람케와 깽디쉬가 항공 전함을 타고 어디로 갔는지 알아...?')
+10123: Speech("전설의... 부유대륙... '레마리아'로 갔어.")
+10136: Speech("'파멸의 달'을 콘트롤 하는 '신의 눈'을 가지고...")
+10151: Speech('이... 크흑... 세계는...')
+10160: Speech('곧...@w')
+10165: Speech('파멸...될거야...')
+10172: Speech('으... 내...내가 왜 이런 얘기를 너한테... 하...')
+10187: Speech('...크흑!@w')
+10193: SetSpeaker('비트만')
+10198: Speech('매...매드잭슨! 매드잭슨!')
+10207: Speech('정신차려!!@w')
+10213: SetSpeaker('화이트울프사병')
+10220: Speech('죽었습니다.@w')
+10227: CloseSpeechBox()
+10228: ClosePicture()
+10229: StopBGM()
+10230: OpenSpeechBox()
+10231: SetSpeaker('비트만')
+10236: Speech('매드잭슨 마저 죽고...')
+10245: Speech('이제 어떻게 하지? 으....@w')
+10255: PlayBGM(4)
+10258: Sound('올브라이트.wav')
+10265: SetSpeaker('비트만')
+10270: Speech('그런데... 이 기분은...?')
+10279: Speech('설마... 오...올브라이...@w')
+10289: SetSpeaker('올브라이트')
+10295: Speech('어머~!')
+10300: Speech('제가 오는 줄 용케도 알아 맞추시네요?')
+10312: Speech('이제 곧 새로운 모험이 시작될거예요.')
+10324: Speech('호호호호!@w')
+10330: CloseSpeechBox()
+10331: EVENT_최후의결전 = 10
+10337: STS_EVENT = 0
+10343: ShowMovie('Ending')
+10348: ExitFrame()
+10349: nop
+10350: nop
+10351: return

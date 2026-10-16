@@ -1,0 +1,105 @@
+00107: entry 4
+
+[사르곤대공관저]
+00109: EnterGovernment()
+00110: return
+00111: entry 1
+
+[주점]
+00113: EnterPub()
+00114: return
+00115: entry 9
+
+[막사]
+00117: EnterBarrack()
+00118: return
+00119: entry 10
+
+[공항]
+00121: EnterAirPort()
+00122: return
+00123: entry 8
+
+[교역소]
+00125: InitMarket(2)
+00128: OpenMarket()
+00129: return
+00130: entry 3
+
+[용병조합]
+00132: InitMarket(3)
+00135: AppendSellItem('동원병')
+00140: AppendSellItem('경보병')
+00145: AppendSellItem('중보병')
+00150: OpenMarket()
+00151: return
+00152: entry 5
+
+[총포상점]
+00154: InitMarket(1)
+00157: AppendSellItem('5mm 권총')
+00162: AppendSellItem('5.5mm 권총')
+00168: AppendSellItem('6mm 권총')
+00173: AppendSellItem('6.5mm 권총')
+00179: AppendSellItem('6mm 3연장권총')
+00186: AppendSellItem('20mm 권총')
+00192: AppendSellItem('6mm 장총')
+00197: AppendSellItem('6.5mm 장총')
+00203: AppendSellItem('6.5mm 2연장장총')
+00210: AppendSellItem('7mm 연발장총')
+00216: AppendSellItem('7mm 대장신장총')
+00223: AppendSellItem('8mm 장총')
+00228: AppendSellItem('8mm 8연장장총')
+00235: AppendSellItem('5mm 기관총')
+00241: AppendSellItem('5.5mm 기관총')
+00247: AppendSellItem('6mm 기관총')
+00253: AppendSellItem('6.5mm 자동소총')
+00260: AppendSellItem('5.3mm 2연장기관단총')
+00268: AppendSellItem('5mm 정밀기관총')
+00275: AppendSellItem('5.5mm 정밀기관총')
+00282: AppendSellItem('30mm 바추카')
+00288: AppendSellItem('35mm 바추카')
+00294: AppendSellItem('46mm 대전차로켓')
+00301: AppendSellItem('55mm 바추카')
+00307: AppendSellItem('65mm 바추카')
+00313: AppendSellItem('75mm 바추카')
+00319: AppendSellItem('70mm 대전차로켓')
+00326: OpenMarket()
+00327: return
+00328: entry 2
+
+[아이템상점]
+00330: InitMarket(0)
+00333: AppendSellItem('다이나마이트')
+00339: AppendSellItem('응급상자')
+00344: OpenMarket()
+00345: return
+00346: entry 6
+
+[차량상점]
+00348: InitMarket(4)
+00351: AppendSellItem('고블린MK2')
+00357: OpenMarket()
+00358: return
+00359: entry 7
+
+[항공기상점]
+00361: InitMarket(5)
+00364: AppendSellItem('와이번MK2')
+00370: OpenMarket()
+00371: return
+00372: entry 0
+
+[mainFrame]
+00374: Calendar(1)
+00377: local2 = SYSTEM_RESULT
+00383: Calendar(2)
+00386: local1 = SYSTEM_RESULT
+00392: Calendar(3)
+00395: local0 = SYSTEM_RESULT
+00401: IF EVENT_최후의결전 >= 3 AND EVENT_최후의결전 <= 4 AND INFO_카운트년 == local0 AND INFO_카운트월 == local1 AND INFO_카운트일 == local2 GOTO 435
+00433: GOTO 437
+00435: WorldFrame()
+00436: nop
+00437: nop
+00438: return

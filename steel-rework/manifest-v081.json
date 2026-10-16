@@ -1,0 +1,604 @@
+{
+  "version": "0.8.1-experimental",
+  "source_sha256": "65bf8699804849f36cef9108eebe88f8c9f1661ac77ea5c2e6688ae347795fde",
+  "output_sha256": "652751926dd4d47f759cfc253f969f4d48655a9aba8d75177b833d23b3a1c884",
+  "patches": [
+    {
+      "va": "0x44bc18",
+      "before": "6a50e833480000",
+      "after": "e993f50e009090"
+    },
+    {
+      "va": "0x424a3c",
+      "before": "8b8e88000000",
+      "after": "e9df6a110090"
+    },
+    {
+      "va": "0x431c82",
+      "before": "8b0de8804800",
+      "after": "e9d998100090"
+    },
+    {
+      "va": "0x44e0f0",
+      "before": "8b8c8694000000",
+      "after": "e9bbd40e009090"
+    },
+    {
+      "va": "0x438135",
+      "before": "837a08037546",
+      "after": "e9a634100090"
+    },
+    {
+      "va": "0x421ea1",
+      "before": "e89a480200",
+      "after": "e97a971100"
+    },
+    {
+      "va": "0x430541",
+      "before": "83780401753f",
+      "after": "e95ab1100090"
+    },
+    {
+      "va": "0x4381aa",
+      "before": "7413",
+      "after": "7419"
+    },
+    {
+      "va": "0x41b0fc",
+      "before": "68480e0000",
+      "after": "68540e0000"
+    },
+    {
+      "va": "0x41b484",
+      "before": "68480e0000",
+      "after": "68540e0000"
+    },
+    {
+      "va": "0x44acab",
+      "before": "68480e0000",
+      "after": "68540e0000"
+    },
+    {
+      "va": "0x43941d",
+      "before": "89aeec010000",
+      "after": "e99e22100090"
+    },
+    {
+      "va": "0x43c62c",
+      "before": "8b8600020000",
+      "after": "e9aff00f0090"
+    },
+    {
+      "va": "0x40a602",
+      "before": "e819960000",
+      "after": "e969121300"
+    },
+    {
+      "va": "0x439d9f",
+      "before": "bec8000000",
+      "after": "9090909090"
+    },
+    {
+      "va": "0x415211",
+      "before": "8b0cc5080e4600",
+      "after": "8b0cc5f0b95300"
+    },
+    {
+      "va": "0x415218",
+      "before": "8d04c5080e4600",
+      "after": "8d04c5f0b95300"
+    },
+    {
+      "va": "0x4152dc",
+      "before": "8b14cd080e4600",
+      "after": "8b14cdf0b95300"
+    },
+    {
+      "va": "0x4152e3",
+      "before": "8d0ccd080e4600",
+      "after": "8d0ccdf0b95300"
+    },
+    {
+      "va": "0x4152ed",
+      "before": "05800e4600",
+      "after": "0580ba5300"
+    },
+    {
+      "va": "0x460fac",
+      "before": "00000000",
+      "after": "01000000"
+    },
+    {
+      "va": "0x460fec",
+      "before": "00000000",
+      "after": "01000000"
+    },
+    {
+      "va": "0x437566",
+      "before": "68281b0000",
+      "after": "6820200000"
+    },
+    {
+      "va": "0x437792",
+      "before": "68281b0000",
+      "after": "6820200000"
+    },
+    {
+      "va": "0x431d7b",
+      "before": "b931060000",
+      "after": "b96f070000"
+    },
+    {
+      "va": "0x4320eb",
+      "before": "837b3805",
+      "after": "837b3806"
+    },
+    {
+      "va": "0x432163",
+      "before": "5f5e5b81c4e4040000",
+      "after": "e97899100090909090"
+    },
+    {
+      "va": "0x431eff",
+      "before": "bd05000000",
+      "after": "e90c9c1000"
+    },
+    {
+      "va": "0x431fc5",
+      "before": "81c660020000c744241005000000",
+      "after": "e9669b1000909090909090909090"
+    },
+    {
+      "va": "0x43202d",
+      "before": "e83e33feff",
+      "after": "e86e32feff"
+    },
+    {
+      "va": "0x43209c",
+      "before": "5f5e5db801000000",
+      "after": "e9cf9a1000909090"
+    },
+    {
+      "va": "0x42ed13",
+      "before": "8b0d3c7f4800",
+      "after": "e998ce100090"
+    },
+    {
+      "va": "0x419083",
+      "before": "2b54241042",
+      "after": "e9a82b1200"
+    },
+    {
+      "va": "0x4230fb",
+      "before": "e800830000",
+      "after": "e8e08b1100"
+    },
+    {
+      "va": "0x4236b4",
+      "before": "e837800000",
+      "after": "e817891100"
+    },
+    {
+      "va": "0x42f5c3",
+      "before": "68a0000000",
+      "after": "68b0000000"
+    },
+    {
+      "va": "0x4230c2",
+      "before": "898688000000",
+      "after": "898694000000"
+    },
+    {
+      "va": "0x4230cb",
+      "before": "898684000000",
+      "after": "898690000000"
+    },
+    {
+      "va": "0x423141",
+      "before": "8dae8c000000",
+      "after": "8dae98000000"
+    },
+    {
+      "va": "0x4231bd",
+      "before": "8d7e5c",
+      "after": "8d7e60"
+    },
+    {
+      "va": "0x4231c0",
+      "before": "8b9688000000",
+      "after": "8b9694000000"
+    },
+    {
+      "va": "0x42321f",
+      "before": "8b8684000000",
+      "after": "8b8690000000"
+    },
+    {
+      "va": "0x423257",
+      "before": "8b8684000000",
+      "after": "8b8690000000"
+    },
+    {
+      "va": "0x423269",
+      "before": "8b8684000000",
+      "after": "8b8690000000"
+    },
+    {
+      "va": "0x4232a1",
+      "before": "8b8684000000",
+      "after": "8b8690000000"
+    },
+    {
+      "va": "0x423359",
+      "before": "8b8788000000",
+      "after": "8b8794000000"
+    },
+    {
+      "va": "0x4233e5",
+      "before": "8b8388000000",
+      "after": "8b8394000000"
+    },
+    {
+      "va": "0x42340e",
+      "before": "8b8388000000",
+      "after": "8b8394000000"
+    },
+    {
+      "va": "0x423460",
+      "before": "8b8f88000000",
+      "after": "8b8f94000000"
+    },
+    {
+      "va": "0x4234bf",
+      "before": "8b8f84000000",
+      "after": "8b8f90000000"
+    },
+    {
+      "va": "0x4234e7",
+      "before": "8b8f88000000",
+      "after": "8b8f94000000"
+    },
+    {
+      "va": "0x423522",
+      "before": "8b9f84000000",
+      "after": "8b9f90000000"
+    },
+    {
+      "va": "0x423587",
+      "before": "8b8f84000000",
+      "after": "8b8f90000000"
+    },
+    {
+      "va": "0x4235be",
+      "before": "8b8e88000000",
+      "after": "8b8e94000000"
+    },
+    {
+      "va": "0x4235e0",
+      "before": "8bbe84000000",
+      "after": "8bbe90000000"
+    },
+    {
+      "va": "0x423653",
+      "before": "8bb188000000",
+      "after": "8bb194000000"
+    },
+    {
+      "va": "0x42366e",
+      "before": "8d595c",
+      "after": "8d5960"
+    },
+    {
+      "va": "0x4236e7",
+      "before": "8bb088000000",
+      "after": "8bb094000000"
+    },
+    {
+      "va": "0x42313c",
+      "before": "bfb6000000",
+      "after": "bfa6000000"
+    },
+    {
+      "va": "0x4231a8",
+      "before": "83c750",
+      "after": "83c746"
+    },
+    {
+      "va": "0x4231ae",
+      "before": "81ff46020000",
+      "after": "81ff4a020000"
+    },
+    {
+      "va": "0x4231f6",
+      "before": "83fd05",
+      "after": "83fd06"
+    },
+    {
+      "va": "0x4231cb",
+      "before": "8b4fec",
+      "after": "8b4fe8"
+    },
+    {
+      "va": "0x4231de",
+      "before": "8b4f14",
+      "after": "8b4f18"
+    },
+    {
+      "va": "0x4231e8",
+      "before": "8b4f30",
+      "after": "8b4f38"
+    },
+    {
+      "va": "0x423690",
+      "before": "8b4bec",
+      "after": "8b4be8"
+    },
+    {
+      "va": "0x4236c1",
+      "before": "8b4b14",
+      "after": "8b4b18"
+    },
+    {
+      "va": "0x4236c9",
+      "before": "8b4b30",
+      "after": "8b4b38"
+    },
+    {
+      "va": "0x43c860",
+      "before": "8b8e0402000089a938010000",
+      "after": "e9cbf70f0090909090909090"
+    },
+    {
+      "va": "0x43a472",
+      "before": "8d9d28020000",
+      "after": "e9591c100090"
+    },
+    {
+      "va": "0x43e8de",
+      "before": "8b4c24346a00",
+      "after": "e95dd90f0090"
+    },
+    {
+      "va": "0x43fd68",
+      "before": "8b504c03d3",
+      "after": "e9f3c40f00"
+    },
+    {
+      "va": "0x43fd96",
+      "before": "8b484c03cb",
+      "after": "e9d5c40f00"
+    },
+    {
+      "va": "0x42bc4c",
+      "before": "8b4b14",
+      "after": "31c990"
+    },
+    {
+      "va": "0x42cb41",
+      "before": "e8cafeffff",
+      "after": "e84af71000"
+    },
+    {
+      "va": "0x40a438",
+      "before": "8b0d3c7f4800",
+      "after": "e94355130090"
+    },
+    {
+      "va": "0x44a494",
+      "before": "8b088b542410",
+      "after": "e9b75b0f0090"
+    }
+  ],
+  "market_hook": "0x53b1b0",
+  "training_hook": "0x53b520",
+  "instructor_hook": "0x53b560",
+  "poker_hook": "0x53b5b0",
+  "training_level_rule": "min(30, original_base_and_facilities + max(0, floor((captain_level - 1) / 3)))",
+  "poker_rule": "Human wins every settled hand, including folded hands; original payout logic. Leaving before settlement does not pay out.",
+  "machines": {
+    "1": "드래곤MK2",
+    "2": "그리폰MK5",
+    "3": "우드팩커MK3",
+    "4": "와이번MK2",
+    "5": "와이번MK4",
+    "6": "고블린MK2",
+    "7": "고블린MK8",
+    "8": "다우티MK2",
+    "9": "솔타리MK2",
+    "10": "고블린MK4",
+    "11": "고블린MK3",
+    "12": "유니콘",
+    "13": "레드울프",
+    "14": "드레드노트",
+    "15": "트롤MK5",
+    "16": "키클롭스",
+    "22": "그런트",
+    "23": "나이트호크",
+    "24": "A.S.6"
+  },
+  "training_ids": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13
+  ],
+  "new_costs_iron_oil_gold_days": {
+    "7": [
+      45,
+      30,
+      10000,
+      25
+    ],
+    "8": [
+      5,
+      10,
+      12000,
+      30
+    ],
+    "11": [
+      15,
+      10,
+      6000,
+      20
+    ],
+    "12": [
+      20,
+      5,
+      6000,
+      20
+    ],
+    "13": [
+      0,
+      5,
+      4000,
+      15
+    ]
+  },
+  "excluded_boss_ids": [
+    17,
+    18,
+    19,
+    20,
+    21
+  ],
+  "casualty_hook": "0x53b5e0",
+  "recovery_hook": "0x53b620",
+  "monthly_hook": "0x53b6a0",
+  "companion_return": "Player recruited companions remain on roster and return at next calendar midnight with full HP; generic mercenary death unchanged.",
+  "aircraft_landing": "Type 2 air armies pass airport capability check in every town; other garrison restrictions remain.",
+  "collapse_hook": "0x53b6e0",
+  "battle_init_hook": "0x53b6c0",
+  "enemy_collapse": "Enemy commander death starts a 3-turn deadline. Combat continues until enemy elimination or deadline; remaining enemies are then marked dead and normal battle settlement runs. Player defeat and manual retreat retain original behavior.",
+  "minimap_find": "0x53b7c0",
+  "minimap_draw": "0x53b870",
+  "minimap_hover": "World minimap: nearest visible town within 4 original-resolution pixels shows a name tooltip; leaves no persistent state; existing click and drag actions unchanged.",
+  "battle_experience": "Removed the 200-per-unit battle XP clamp; original calculation and minimum 5 unchanged",
+  "minimap_labels": "Hover only, restored v0.5 tooltip behavior",
+  "medal_prices": {
+    "54": 5000,
+    "55": 5000,
+    "56": 3000,
+    "57": 10000,
+    "58": 7000,
+    "59": 4000,
+    "60": 12000
+  },
+  "retraining": "Level 15+ armored infantry -> heavy armored infantry: armor +20, iron 25, oil 15, gold 5000, 20 days. Six slots; old five-slot saves still load.",
+  "airport": "A in the city screen opens the stock airport when an aircraft army is stationed there, including airportless towns.",
+  "retraining_growth": "0x53b9f0",
+  "retraining_costs": "0x53ba80",
+  "retraining_add": "0x53bae0",
+  "retraining_save": "0x53bb10",
+  "retraining_load": "0x53bb30",
+  "retraining_load_finish": "0x53bb70",
+  "airport_shortcut": "0x53bbb0",
+  "enemy_strength_hook": "0x53bc30",
+  "enemy_factions": [
+    12,
+    14,
+    15,
+    16,
+    18,
+    20
+  ],
+  "enemy_strength": "New generated mercenary armies: infantry 79 plus commander; mixed armor 7 vehicles plus 18 infantry; air 9 aircraft. Original class, level, equipment and commander profiles retained. Existing serialized armies are not refilled.",
+  "retraining_ui_base": "0x53bce0",
+  "retraining_ui_clear": "0x53bfd0",
+  "victory_cheat": "0x53c030",
+  "victory_cheat_rule": "Original Bravo Nike recognition: eliminate all enemy battle units and enter normal victory settlement immediately, bypassing the three-turn commander-collapse delay.",
+  "xp_share_prepare": "0x53c0d0",
+  "xp_share_adjust": "0x53c200",
+  "xp_share_infantry": "0x53c240",
+  "xp_share_crew": [
+    "0x53c260",
+    "0x53c270"
+  ],
+  "tavern_hiring": "Tavern mercenaries enter with zero poker bankroll; hiring accepts regardless of compatibility, using original confirmation and recruitment flow. Player money and other patrons unchanged.",
+  "event_journal": {
+    "hotkey": "F8",
+    "hook": "0x53f980",
+    "main": "0x53f7b0",
+    "select": "0x53e620",
+    "speech": "0x53e680",
+    "pages": "0x53e6d0",
+    "related": "0x53edf0",
+    "snapshot": "0x53f2d0",
+    "forceui": "0x53f4e0",
+    "table": "0x53e540",
+    "events": 9,
+    "related_records": 16,
+    "persistent_writes": "Explicit force setting only; reserved globals 98/99"
+  },
+  "event_force": {
+    "resolver": "0x53ffa0",
+    "hook": "0x540050",
+    "magic_address": "0x48d520",
+    "mask_address": "0x48d524",
+    "magic": "0x45564631",
+    "triggers": [
+      {
+        "script": "동방제국",
+        "start": 19,
+        "end": 26,
+        "flag": 3
+      },
+      {
+        "script": "아시레마",
+        "start": 715,
+        "end": 740,
+        "flag": 4
+      },
+      {
+        "script": "베브",
+        "start": 180,
+        "end": 223,
+        "flag": 5
+      },
+      {
+        "script": "포룸",
+        "start": 3826,
+        "end": 3863,
+        "flag": 6
+      },
+      {
+        "script": "사키로",
+        "start": 177,
+        "end": 208,
+        "flag": 7
+      },
+      {
+        "script": "카란토",
+        "start": 1969,
+        "end": 2006,
+        "flag": 8
+      },
+      {
+        "script": "포룸",
+        "start": 1552,
+        "end": 1595,
+        "flag": 9
+      },
+      {
+        "script": "샤르데나",
+        "start": 555,
+        "end": 604,
+        "flag": 10
+      },
+      {
+        "script": "포룸",
+        "start": 250,
+        "end": 281,
+        "flag": 11
+      }
+    ]
+  }
+}

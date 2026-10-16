@@ -1,0 +1,25 @@
+00035: entry 1
+
+[공항]
+00037: EnterAirPort()
+00038: return
+00039: entry 2
+
+[막사]
+00041: EnterBarrack()
+00042: return
+00043: entry 0
+
+[mainFrame]
+00045: Calendar(1)
+00048: local2 = SYSTEM_RESULT
+00054: Calendar(2)
+00057: local1 = SYSTEM_RESULT
+00063: Calendar(3)
+00066: local0 = SYSTEM_RESULT
+00072: IF EVENT_최후의결전 >= 3 AND EVENT_최후의결전 <= 4 AND INFO_카운트년 == local0 AND INFO_카운트월 == local1 AND INFO_카운트일 == local2 GOTO 106
+00104: GOTO 108
+00106: WorldFrame()
+00107: nop
+00108: nop
+00109: return

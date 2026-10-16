@@ -1,0 +1,90 @@
+00080: entry 1
+
+[관청]
+00082: EnterGovernment()
+00083: return
+00084: entry 3
+
+[막사]
+00086: EnterBarrack()
+00087: return
+00088: entry 5
+
+[주점]
+00090: EnterPub()
+00091: return
+00092: entry 6
+
+[교역소]
+00094: InitMarket(2)
+00097: OpenMarket()
+00098: return
+00099: entry 7
+
+[아이템상점]
+00101: InitMarket(0)
+00104: AppendSellItem('다이나마이트')
+00110: AppendSellItem('핸드그레네드')
+00116: AppendSellItem('펜저슈레케')
+00122: OpenMarket()
+00123: return
+00124: entry 4
+
+[총포상점]
+00126: InitMarket(1)
+00129: AppendSellItem('5mm 권총')
+00134: AppendSellItem('5.5mm 권총')
+00140: AppendSellItem('6mm 권총')
+00145: AppendSellItem('6.5mm 권총')
+00151: AppendSellItem('6mm 3연장권총')
+00158: AppendSellItem('20mm 권총')
+00164: AppendSellItem('6mm 장총')
+00169: AppendSellItem('6.5mm 장총')
+00175: AppendSellItem('6.5mm 2연장장총')
+00182: AppendSellItem('7mm 연발장총')
+00188: AppendSellItem('7mm 대장신장총')
+00195: AppendSellItem('8mm 장총')
+00200: AppendSellItem('8mm 8연장장총')
+00207: AppendSellItem('5mm 기관총')
+00213: AppendSellItem('5.5mm 기관총')
+00219: AppendSellItem('6mm 기관총')
+00225: AppendSellItem('6.5mm 자동소총')
+00232: AppendSellItem('5.3mm 2연장기관단총')
+00240: AppendSellItem('5mm 정밀기관총')
+00247: AppendSellItem('5.5mm 정밀기관총')
+00254: AppendSellItem('10mm 샷건')
+00260: AppendSellItem('12mm 샷건')
+00266: AppendSellItem('11mm 2연장샷건')
+00273: AppendSellItem('20mm 파이어샷건')
+00280: AppendSellItem('30mm 바추카')
+00286: AppendSellItem('35mm 바추카')
+00292: AppendSellItem('46mm 대전차로켓')
+00299: AppendSellItem('55mm 바추카')
+00305: AppendSellItem('65mm 바추카')
+00311: AppendSellItem('75mm 바추카')
+00317: AppendSellItem('70mm 대전차로켓')
+00324: OpenMarket()
+00325: return
+00326: entry 2
+
+[차량상점]
+00328: InitMarket(4)
+00331: AppendSellItem('고블린MK2')
+00337: AppendSellItem('고블린MK3')
+00343: OpenMarket()
+00344: return
+00345: entry 0
+
+[mainFrame]
+00347: Calendar(1)
+00350: local2 = SYSTEM_RESULT
+00356: Calendar(2)
+00359: local1 = SYSTEM_RESULT
+00365: Calendar(3)
+00368: local0 = SYSTEM_RESULT
+00374: IF EVENT_최후의결전 >= 3 AND EVENT_최후의결전 <= 4 AND INFO_카운트년 == local0 AND INFO_카운트월 == local1 AND INFO_카운트일 == local2 GOTO 408
+00406: GOTO 410
+00408: WorldFrame()
+00409: nop
+00410: nop
+00411: return

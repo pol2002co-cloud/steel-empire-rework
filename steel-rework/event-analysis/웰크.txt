@@ -1,0 +1,77 @@
+00089: entry 6
+
+[관청]
+00091: EnterGovernment()
+00092: return
+00093: entry 2
+
+[막사]
+00095: EnterBarrack()
+00096: return
+00097: entry 5
+
+[주점]
+00099: EnterPub()
+00100: return
+00101: entry 8
+
+[교역소]
+00103: InitMarket(2)
+00106: OpenMarket()
+00107: return
+00108: entry 7
+
+[아이템상점]
+00110: InitMarket(0)
+00113: AppendSellItem('다이나마이트')
+00119: AppendSellItem('응급상자')
+00124: OpenMarket()
+00125: return
+00126: entry 4
+
+[총포상점]
+00128: InitMarket(1)
+00131: AppendSellItem('5mm 권총')
+00136: AppendSellItem('5.5mm 권총')
+00142: AppendSellItem('6mm 권총')
+00147: AppendSellItem('6.5mm 권총')
+00153: AppendSellItem('6mm 3연장권총')
+00160: AppendSellItem('20mm 권총')
+00166: AppendSellItem('6mm 장총')
+00171: AppendSellItem('6.5mm 장총')
+00177: AppendSellItem('6.5mm 2연장장총')
+00184: AppendSellItem('7mm 연발장총')
+00190: AppendSellItem('7mm 대장신장총')
+00197: AppendSellItem('8mm 장총')
+00202: AppendSellItem('8mm 8연장장총')
+00209: OpenMarket()
+00210: return
+00211: entry 1
+
+[차량상점]
+00213: InitMarket(4)
+00216: AppendSellItem('고블린MK2')
+00222: OpenMarket()
+00223: return
+00224: entry 3
+
+[용병조합]
+00226: InitMarket(3)
+00229: AppendSellItem('동원병')
+00234: OpenMarket()
+00235: return
+00236: entry 0
+
+[mainFrame]
+00238: Calendar(1)
+00241: local2 = SYSTEM_RESULT
+00247: Calendar(2)
+00250: local1 = SYSTEM_RESULT
+00256: Calendar(3)
+00259: local0 = SYSTEM_RESULT
+00265: IF EVENT_최후의결전 >= 3 AND EVENT_최후의결전 <= 4 AND INFO_카운트년 == local0 AND INFO_카운트월 == local1 AND INFO_카운트일 == local2 GOTO 299
+00297: GOTO 301
+00299: WorldFrame()
+00300: nop
+00301: nop
+00302: return

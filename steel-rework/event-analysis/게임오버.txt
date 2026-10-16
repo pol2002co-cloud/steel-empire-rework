@@ -1,0 +1,20 @@
+00017: entry 0
+
+[mainFrame]
+00019: OpenSpeechBox()
+00020: SetSpeaker('비트만')
+00025: Speech('으... 으윽!')
+00031: Speech('마...맞았어...@w')
+00038: SetSpeaker('화이트울프사병')
+00045: Speech('대장님!')
+00050: Speech('괘...괜찮으십니까?@w')
+00058: SetSpeaker('비트만')
+00063: Speech('으... 안 괜찮아...')
+00071: Speech('으... 점점 눈 앞이 어두워진다...')
+00082: Speech('이...이대로 끝나는 건가...?@w')
+00093: SetSpeaker('')
+00096: Speech('비트만의 용병 생활은 이리하여 끝났다.@w')
+00109: CloseSpeechBox()
+00110: ShowMovie('GameOver')
+00115: ExitFrame()
+00116: return

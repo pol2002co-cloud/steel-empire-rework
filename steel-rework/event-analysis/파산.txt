@@ -1,0 +1,9 @@
+00017: entry 0
+
+[mainFrame]
+00019: OpenSpeechBox()
+00020: SetSpeaker('')
+00023: Speech('비트만의 용병 생활은 이리하여 끝났다.@w')
+00036: CloseSpeechBox()
+00037: ExitFrame()
+00038: return

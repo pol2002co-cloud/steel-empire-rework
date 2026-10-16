@@ -1,0 +1,631 @@
+00197: entry 0
+
+[mainFrame]
+00199: IsStayHeroTroop('')
+00202: local0 = SYSTEM_RESULT
+00208: Calendar(3)
+00211: local5 = SYSTEM_RESULT
+00217: Calendar(2)
+00220: local6 = SYSTEM_RESULT
+00226: local4 = local5 - INFO_고대인년
+00235: local3 = local4 * 12 + local6 - INFO_고대인월
+00250: IF STS_EVENT == 0 AND EVENT_최후의결전 == 0 AND EVENT_고대인의유적 == 10 AND local0 == 1 AND local3 > 12 GOTO 284
+00282: GOTO 303
+00284: EVENT_최후의결전 = 1
+00290: STS_EVENT = 1
+00296: FocusTown('에포소스')
+00301: WorldFrame()
+00302: nop
+00303: nop
+00304: Calendar(1)
+00307: local7 = SYSTEM_RESULT
+00313: Calendar(2)
+00316: local6 = SYSTEM_RESULT
+00322: Calendar(3)
+00325: local5 = SYSTEM_RESULT
+00331: IF EVENT_최후의결전 >= 3 AND EVENT_최후의결전 <= 4 AND INFO_카운트년 == local5 AND INFO_카운트월 == local6 AND INFO_카운트일 == local7 GOTO 365
+00363: GOTO 367
+00365: WorldFrame()
+00366: nop
+00367: nop
+00368: GetEventCause()
+00369: IF SYSTEM_RESULT != 0 GOTO 379
+00377: GOTO 381
+00379: return
+00380: nop
+00381: nop
+00382: IF EVENT_시작 == 1 GOTO 392
+00390: GOTO 1066
+00392: EVENT_시작 = 10
+00398: STS_EVENT = 0
+00404: ShowPicture('시작3')
+00409: OpenSpeechBox()
+00410: SetSpeaker('베르겔')
+00415: Speech('도련님, 돌아 오셨군요.@w')
+00424: SetSpeaker('비트만')
+00429: Speech('아버지는 어떠신가?@w')
+00437: SetSpeaker('베르겔')
+00442: Speech('돌아가셨습니다.@w')
+00450: SetSpeaker('비트만')
+00455: Speech('역시 그렇게 됐나? 다른 것은?@w')
+00466: SetSpeaker('베르겔')
+00471: Speech('이 도시를 비롯해 모든 유산을 도련님에게 남기신다고 하셨습니다.@w')
+00490: SetSpeaker('비트만')
+00495: Speech('아버지가?')
+00501: Speech('그럴리가 없는데? 아버지 성격에...@w')
+00513: SetSpeaker('베르겔')
+00518: Speech('아닙니다. 그러셨습니다.@w')
+00528: SetSpeaker('비트만')
+00533: Speech('음. 그렇다면 내가 다 물려 받아야지.@w')
+00546: CloseSpeechBox()
+00547: ClosePicture()
+00548: ShowPicture('시작4')
+00553: OpenSpeechBox()
+00554: Sound('올브라이트.wav')
+00561: SetSpeaker('올브라이트')
+00567: Speech('어머~ 안녕하세요, 안녕하세요?')
+00578: Speech('아니, 잠깐 실수.')
+00585: Speech('이번 아버님의 별세에 삼가 조의를 표합니다.@w')
+00599: SetSpeaker('비트만')
+00604: Speech('예. 고맙습니다. 그런데 누구신지...?@w')
+00617: SetSpeaker('올브라이트')
+00623: Speech('어머나, 실수를~!')
+00630: Speech('저는 올브라이트라고 국제은행의 부채징수 담당관 입니다.')
+00647: Speech('호호호~@w')
+00653: SetSpeaker('비트만')
+00658: Speech('그런데 무슨 일로...?@w')
+00667: SetSpeaker('올브라이트')
+00673: Speech('호호호호!')
+00679: Speech('모르는 척 시치미 떼시긴.')
+00688: Speech('제가 여기 무엇하러 왔겠어요. 빚 받으러 왔겠죠?')
+00703: Speech('돌아가신 부친께서는 정확하게 저희 은행에 30,000,000 겔더의 빚을 지셨습니다.')
+00725: Speech('더군다나 귀하께서는 부친 사후 1개월 이내에 상속 거부를 안 하셨기 때문에 부친의 재산과 부채까지 상속 받으신 거죠.')
+00756: Speech('그러니 돈을 갚아 주세요.@w')
+00766: SetSpeaker('비트만')
+00771: Speech('으... 그랬군.')
+00778: Speech('역시 아버지... 으~!!! 아버지...!!!@w')
+00790: SetSpeaker('올브라이트')
+00796: Speech('지금 무슨 말을 중얼 거리시는 거예요?')
+00808: Speech('빨리 돈 줘요! 돈!@w')
+00816: SetSpeaker('비트만')
+00821: Speech('잠깐만. 지금 당장은 돈이 없소.')
+00832: Speech('그러니 잠시만 말미를 주시오. 그러면 벌어서 갚을 테니.@w')
+00849: SetSpeaker('올브라이트')
+00855: Speech('뭐라고요? 그걸 말이라고 해요?')
+00866: Speech('하지만.@w')
+00872: Speech('돈이 없다니 별 수 없군요.')
+00882: Speech('정확하게 한 달 후에 다시 오겠어요.')
+00894: Speech('그 때부턴 꼬박 꼬박 상환을 해주셔야 해요.')
+00908: Speech('만약 상환을 못한다면~~~! 그 때는 아시겠죠?')
+00922: Sound('올브라이트.wav')
+00929: Speech('호호호호~ 그럼 다시 뵈어요.@w')
+00940: CloseSpeechBox()
+00941: ClosePicture()
+00942: OpenSpeechBox()
+00943: SetSpeaker('비트만')
+00948: Speech('휴~! 결국 이렇게 됐군.@w')
+00957: SetSpeaker('엑제로스')
+00962: Speech('어떻게 할꺼야?@w')
+00969: SetSpeaker('비트만')
+00974: Speech('어떻게 하긴, 벌어서 갚아야지!')
+00985: Speech('자아! 이제부터 일이다! 돈이 되는 일이라면 뭐든지 한다!')
+01002: Speech('피도 눈물도 없다! 오직 빚을 다 갚는 그 날을 위해서 열심히 일하자!@w')
+01022: SetSpeaker('엑제로스')
+01027: Speech('알았어.')
+01032: Speech('열심히 해 보자구!@w')
+01040: CloseSpeechBox()
+01041: AddDebt(30000000)
+01044: AddGold(500000)
+01047: Calendar(3)
+01050: INFO_시작연도 = SYSTEM_RESULT
+01056: GetSystemInfo(3)
+01059: INFO_초기빚 = SYSTEM_RESULT
+01065: nop
+01066: nop
+01067: IF EVENT_주디스 == 1 GOTO 1077
+01075: GOTO 1430
+01077: EVENT_주디스 = 10
+01083: STS_EVENT = 0
+01089: OpenSpeechBox()
+01090: SetSpeaker('비트만')
+01095: Speech('이봐. 이제 좀 정신이 들어?@w')
+01105: CloseSpeechBox()
+01106: ShowPicture('쥬디스2')
+01111: OpenSpeechBox()
+01112: SetSpeaker('주디스')
+01117: Speech('으으응...@w')
+01123: Speech('여기는... 어디죠?@w')
+01131: SetSpeaker('비트만')
+01136: Speech("여기는 화이트울프 용병단의 도시인 '포룸'이야.")
+01151: Speech('당신이 황무지에서 쓰러져 있는걸 발견하고 여기로 데려왔어.@w')
+01169: SetSpeaker('주디스')
+01174: Speech('아... 그랬었군요.')
+01182: Speech('저는 주디스라고 가수 지망생입니다.')
+01194: Speech('미디엄웨이브 왕국으로 가려다가 산적들을 만나서 도망쳤는데 길을 잃었어요.')
+01215: Speech('그래서 정신 없이 헤매다가 너무 지친 나머지 정신을 잃고 쓰러졌는데...')
+01235: Speech('이렇게 도와 주셔서 정말 고맙습니다.@w')
+01248: SetSpeaker('비트만')
+01253: Speech('으응. 뭘.')
+01259: Speech('근데 미디엄웨이브 왕국이라면 여기서 가까운데.@w')
+01274: SetSpeaker('주디스')
+01279: Speech('아~! 잘 됐군요.')
+01286: Speech('정말 감사합니다.')
+01293: Speech('그럼 저는 이만...@w')
+01301: SetSpeaker('비트만')
+01306: Speech('잠깐!')
+01311: Speech('가긴 어딜 가?')
+01318: Speech('사례비를 주고 가야지.@w')
+01327: SetSpeaker('주디스')
+01332: Speech('사례비요?@w')
+01338: SetSpeaker('비트만')
+01343: Speech('당연하지!')
+01349: Speech('목숨을 구해 줬는데 맨입으로 그냥 가겠다는거야?@w')
+01364: SetSpeaker('주디스')
+01369: Speech('저 지금 도...돈이 없는데요.@w')
+01380: SetSpeaker('비트만')
+01385: Speech('그럼 여기서 일해서라도 갚아.@w')
+01396: SetSpeaker('주디스')
+01401: Speech('네? 뭐라구요!?@w')
+01408: ClosePicture()
+01409: SetSpeaker('')
+01412: Speech("'주디스'가 동료가 되었습니다.@w")
+01423: CloseSpeechBox()
+01424: JoinHero('주디스')
+01429: nop
+01430: nop
+01431: IF EVENT_라이벌 == 3 GOTO 1441
+01439: GOTO 1520
+01441: EVENT_라이벌 = 4
+01447: OpenSpeechBox()
+01448: SetSpeaker('화이트울프사병')
+01455: Speech('대장님! 큰일 났습니다!')
+01464: Speech('블랙파워 용병단이 시라노의 복수라며 군단을 출동시켜 우리 쪽으로 쳐들어오고 있습니다!@w')
+01489: SetSpeaker('비트만')
+01494: Speech('으... 그때 끼어들지 말았어야 하는건데.')
+01507: Speech('어쩔 수 없지. 우리도 출동이다!@w')
+01518: CloseSpeechBox()
+01519: nop
+01520: nop
+01521: IsStayHeroTroop('')
+01524: local0 = SYSTEM_RESULT
+01530: GetHeroInfo('비트만', 1)
+01537: local1 = SYSTEM_RESULT
+01543: GetSystemInfo(3)
+01546: local2 = SYSTEM_RESULT
+01552: IF STS_EVENT == 0 AND EVENT_고대인의유적 == 0 AND EVENT_라이벌 == 0 AND EVENT_깽디쉬박사 == 0 AND local1 >= 30 AND local2 < 9000000 AND local0 == 1 GOTO 1598
+01596: GOTO 2454
+01598: EVENT_고대인의유적 = 1
+01604: STS_EVENT = 1
+01610: OpenSpeechBox()
+01611: SetSpeaker('비트만')
+01616: Speech('휴우~ 요새는 빚도 많이 갚았고 올브라이트 얼굴도 자주 안 보니 살 것 같군.')
+01637: Speech('그런데 왠지 느낌이 이상한걸?@w')
+01648: CloseSpeechBox()
+01649: Sound('올브라이트.wav')
+01656: ShowPicture('유적1')
+01661: OpenSpeechBox()
+01662: SetSpeaker('비트만')
+01667: Speech('컥... 컥...!')
+01673: Speech('윽... 으으... 수...숨이...!!')
+01683: Speech('하아 하아! 으... 오...올브라이트...!!')
+01696: Speech('일단 숨부터 돌리고...')
+01705: Speech('오...올브라이트. 빚 받을 때도 아닌데 무슨 일이야?@w')
+01721: SetSpeaker('올브라이트')
+01727: Speech('어머~ 안녕하세요, 안녕하세요? 올브라이트예요.')
+01742: Speech('그간 별 일 없으셨어요?')
+01751: Speech('어머~ 그 동안 빚이 얼마나...')
+01761: Speech('어머~ 잠깐. 이게 아니지. 호호호호!')
+01773: Speech('오늘은 빚 때문에 온게 아니라 부탁 드릴게 있어서 왔어요.@w')
+01791: SetSpeaker('비트만')
+01796: Speech('부...부탁?')
+01802: Speech('무슨 부탁?@w')
+01808: CloseSpeechBox()
+01809: ClosePicture()
+01810: ShowPicture('유적3')
+01815: OpenSpeechBox()
+01816: SetSpeaker('올브라이트')
+01822: Speech('세계 각지에 흩어져 있는 발데카챠라고도 불리고 있는 고대 레마리아인의 유적에 대해서는 알고 계시죠?@w')
+01850: SetSpeaker('비트만')
+01855: Speech('으...으응... 대충.@w')
+01863: SetSpeaker('올브라이트')
+01869: Speech("그 유적들은 '카푸아', '펠라', '케브'의 세 곳에 걸쳐 있어요.")
+01887: Speech('최근에 파레르모 대학의 고고학 연구팀이 새로운 책을 발견했어요.')
+01906: Speech('고대 레마리아 인들의 문명에 관한 책인데 내용은 별 것 없지만 거기에 보면 파멸의 달을 움직이는 제단이 나오거든요.')
+01937: Speech("그 제단에 필요한 '신의 눈'이라는 것이 있어요.")
+01952: Speech('아마도 보석인것 같은데 그게 옛 유적들에 있는 것 같아요.')
+01969: Speech("유적을 좀 조사해 주세요. 그리고 '신의 눈'을 저희 국제 은행에 갖다 주세요.")
+01991: Speech('확실하게 조사가 가능해질 때까지 저희 국제 은행에서 보관하게 될거예요.')
+02012: Speech('그리고 아이언메이스 용병단도 누군가의 의뢰로 조사에 착수했다니깐 조심하세요.@w')
+02035: CloseSpeechBox()
+02036: ClosePicture()
+02037: ShowPicture('유적2')
+02042: OpenSpeechBox()
+02043: SetSpeaker('비트만')
+02048: Speech('이봐, 올브라이트, 잠깐만.')
+02058: Speech('나는 그 일을 맡겠다고 한 적이 없는데?@w')
+02071: SetSpeaker('올브라이트')
+02077: Speech('뭐라고요?')
+02083: Speech('기껏 남은 열내서 떠들었더니 지금 장난치는 거예요?@w')
+02099: SetSpeaker('비트만')
+02104: Speech('잠깐, 잠깐만! 그...그게 아니고...')
+02116: Speech('그래도 뭐... 최소한 보수에 대해서 설명은 해 줘야지.@w')
+02133: SetSpeaker('올브라이트')
+02139: Speech('어머나~ 내 정신 좀 봐!')
+02148: Speech('그걸 빠뜨렸네~?')
+02155: Speech('알았어요. 설명해 드리죠.')
+02164: Speech("'신의 눈' 3개를 다 모아서 저희 국제 은행 본부에 가져다 주시면 5,000,000 겔더의 보상금을 드리죠.")
+02191: Speech('하지만 안 하겠다고 거절하면 여지껏 누적된 이자에다 자산에 부과된 세금까지 합해 모두 3,000,000 겔더의 빚이 늘어나게 될 거예요.')
+02226: Sound('올브라이트.wav')
+02233: Speech('호호호호! 잘 생각해 보세요.@w')
+02244: SetSpeaker('비트만')
+02249: Speech('으... 어쩐다?@w')
+02256: OpenSelectBox()
+02257: AppendSelectItem('거절한다.')
+02263: AppendSelectItem('승낙한다.')
+02269: DoSelectBox()
+02270: IF SYSTEM_RESULT == 0 GOTO 2280
+02278: GOTO 2379
+02280: EVENT_고대인의유적 = 11
+02286: STS_EVENT = 0
+02292: SetSpeaker('비트만')
+02297: Speech('그렇게 네 맘대로 하게 내버려 둘 순 없어.')
+02310: Speech('난 싫어.@w')
+02316: SetSpeaker('올브라이트')
+02322: Speech('흥! 좋아요. 훌륭한 선택을 하셨군요.')
+02334: Speech('결과는 당신이 책임지세요.')
+02344: Speech('그럼 다음 번 빚 갚는 날에 보죠.@w')
+02356: SetSpeaker('')
+02359: Speech("빚이 '3,000,000겔더' 늘었습니다.@w")
+02371: CloseSpeechBox()
+02372: ClosePicture()
+02373: AddDebt(3000000)
+02376: GOTO 2452
+02378: nop
+02379: nop
+02380: SetSpeaker('비트만')
+02385: Speech('으... 하는 수 없지.')
+02393: Speech('알았어.')
+02398: Speech('하면 될거 아니야.@w')
+02406: SetSpeaker('올브라이트')
+02412: Speech('호호호호! 잘 생각하셨어요.')
+02422: Speech('비트만씨. 그럼 행운을 빌게요. 다음 번 빚 갚는 날 봐요.@w')
+02439: SetSpeaker('비트만')
+02444: Speech('쳇!@w')
+02449: CloseSpeechBox()
+02450: ClosePicture()
+02451: nop
+02452: nop
+02453: nop
+02454: nop
+02455: IF EVENT_최후의결전 == 2 GOTO 2465
+02463: GOTO 3788
+02465: EVENT_최후의결전 = 3
+02471: OpenSpeechBox()
+02472: SetSpeaker('비트만')
+02477: Speech('도대체 이게 어찌된 일이지?')
+02487: Speech('어찌된 일이냔 말이야!')
+02496: Speech('으으으...@w')
+02502: SetSpeaker('비트만')
+02507: Speech('으... 으...')
+02513: Speech('왠지 등에서 식은땀이 흐르고 기분이 안좋고...')
+02527: Speech('서...설마...@w')
+02534: CloseSpeechBox()
+02535: Sound('올브라이트.wav')
+02542: ShowPicture('유적1')
+02547: OpenSpeechBox()
+02548: SetSpeaker('비트만')
+02553: Speech('커...커...컥!')
+02560: Speech('윽...으으... 수...숨이...')
+02570: Speech('으으으...으... 올브라이트!@w')
+02580: SetSpeaker('올브라이트')
+02586: Speech('안녕하세요 안녕하세요!')
+02595: Speech('저 올브라이트예요. 호호호호~!@w')
+02606: SetSpeaker('비트만')
+02611: Speech('오...올브라이트!')
+02618: Speech('지금 빚 받을 때도 아닌데 게다가 하필이면 이렇게 기분이 나쁠 때 무슨 일이야!')
+02640: Speech('도시 부서진거 약올리려고 왔어?@w')
+02651: SetSpeaker('올브라이트')
+02657: Speech('어머나~! 이걸 어째요?')
+02666: Speech('그러고 보니 이곳 포룸이 많이 부서졌네요.')
+02679: Speech('딴 용병단의 습격이라도 받았나요?')
+02690: Speech('제가 삼가 위로의 말씀을 드리죠.@w')
+02702: SetSpeaker('비트만')
+02707: Speech('위로의 말은 필요 없어!')
+02716: Speech('왜 왔어?')
+02721: Speech('용건이나 말해.@w')
+02728: CloseSpeechBox()
+02729: ClosePicture()
+02730: PlayBGM(11)
+02733: ShowPicture('마지막2')
+02738: OpenSpeechBox()
+02739: SetSpeaker('올브라이트')
+02745: Speech("1년 전에 고대인의 유적에서 '신의 눈'을 찾았던 일 생각나세요?@w")
+02764: SetSpeaker('비트만')
+02769: Speech('당연하지. 어떻게 잊을 수가 있겠어.')
+02781: Speech('으... 매드잭슨하고 그때 랜드배틀쉽인지 뭔지는 생각하기도 싫어.@w')
+02800: SetSpeaker('올브라이트')
+02806: Speech('역시 기억하고 계시는군요.')
+02816: Speech('근데...@w')
+02822: Speech("그때 그 '신의 눈'이 3개 모두 도난 당했어요.@w")
+02837: SetSpeaker('비트만')
+02842: Speech('뭐! 뭐라고!?')
+02848: Speech("'신의 눈'은 국제은행에서 안전하게 보관 한댔잖아!@w")
+02864: SetSpeaker('올브라이트')
+02870: Speech('뭐~ 뭐~ 그때는 그랬죠 뭐.')
+02880: Speech('하지만 도난 당한걸 어떻게 해요.')
+02891: Speech('뭐...뭐야~ 뭐야~')
+02898: Speech('잉~ 그런 눈빛으로 보면 싫어. 잉잉~@w')
+02910: SetSpeaker('비트만')
+02915: Speech('나참! 미치겠군!')
+02922: Speech('이봐 올브라이트. 닭살돋아 죽겠어. 그만좀 해!@w')
+02937: SetSpeaker('올브라이트')
+02943: Speech('어머~ 내가 좀 너무 했나?')
+02952: Speech('어쨌든 짧고 간략하게 말씀드리죠.')
+02963: Speech('엑제로스 공국이 모든 일의 발단이예요.')
+02976: Speech("엑제로스 공국은 '신의 눈'을 훔쳐서 '파멸의 달'을 가동시켰어요.")
+02995: Speech('고문서의 얘기는 사실이었던 거예요.')
+03007: Speech('화이트울프 용병단은 예전의 그 사건 때문에 본보기로 첫번째 목표가 되었던거 같아요.@w')
+03031: SetSpeaker('비트만')
+03036: Speech('으... 그랬었군.')
+03043: Speech('젠장. 그때 그 일을 맡지 말았어야 하는건데!@w')
+03057: SetSpeaker('올브라이트')
+03063: Speech('기왕 이렇게 된 일. 어쩔수 없죠 뭐.')
+03075: Speech('그나저나 어떻게 해요?')
+03084: Speech('각국에 엑제로스 공국의 협박장이 왔어요.')
+03097: Speech('내용인즉슨...')
+03104: Speech("'항복해라. 항복하지 않으면 파멸의 달의 힘을 맛보게 될것이다.'")
+03123: Speech('벌써 카르타고 공국은 항복했고 아이언메이스 용병단은 엑제로스 공국에 합류했어요.')
+03146: Speech('다른 나라들은 지금 서로 눈치만 보고 있는 형편이예요.@w')
+03163: SetSpeaker('비트만')
+03168: Speech('으...으으으!!! 어떻게 하란 말이야?')
+03180: Speech('도대체 날 보고 뭘 어떻게 하란 말이야?@w')
+03193: SetSpeaker('올브라이트')
+03199: Speech('호호호호!')
+03205: Speech('당신은 어차피 항복해봤자 받아주지도 않을테니 우리를 도와주세요.@w')
+03225: SetSpeaker('올브라이트')
+03231: Speech("엑제로스 공국을 공격해서 '파멸의 달'을 통제하는 시설을 파괴하는 거예요.")
+03252: Speech("그 시설은 '베른'에 있어요. 그곳만 파괴하면 막을 수 있을 거예요.@w")
+03272: SetSpeaker('비트만')
+03277: Speech('음...그렇군.')
+03283: Speech('보수는?@w')
+03289: SetSpeaker('올브라이트')
+03295: Speech('어머 어머! 남자가 세계를 구하는 일에 보수를?')
+03309: Speech('어머~ 좀스러워!')
+03316: Speech('그렇지만 당신 성격상 보수가 없으면 일을 열심히 안 할테니 보수를 드리도록 하죠.')
+03339: Speech('지금 남은 빚의 전면 탕감.')
+03349: Speech('어때요? 맘에 들어요?@w')
+03358: SetSpeaker('비트만')
+03363: Speech('좋아 좋아.')
+03369: Speech('그런데 엑제로스 공국에는 어떻게 가지?@w')
+03382: CloseSpeechBox()
+03383: ClosePicture()
+03384: ShowPicture('마지막4')
+03389: OpenSpeechBox()
+03390: SetSpeaker('올브라이트')
+03396: Speech('저희 국제은행 사설 정보부에서 조사한 결과 엑제로스 공국에 지금은 방치된 공항이 있데요.')
+03421: Speech('항공군단을 이용해 그곳에 지상군단을 내릴 수 있어요.')
+03437: Speech('아마 항공기가 모자르실테니 저희가 전투기 12대 폭격기 8대 수송기 4대를 드릴게요.')
+03460: Speech('그거면 항공군단 4개는 편성할 수 있을 거예요.')
+03474: Speech("그리고 이것도 사설 정보부에서 알아낸건데 '파멸의 달'은 한 번 쏘고 다시 쏘려면 충전 시간이 필요하데요.")
+03503: Speech('그것이 10일. 지금 항복하지 않은 국가 수는 8개.')
+03518: Speech('공격을 받은 국가는 아마도 항복 할테니깐 약 80일 정도의 시간이 남았네요.@w')
+03540: SetSpeaker('비트만')
+03545: Speech('80일이라...')
+03551: Speech('만약 그 전에 못 끝낸다면?@w')
+03561: SetSpeaker('올브라이트')
+03567: Speech('세계는 엑제로스 공국에 정복되는 거죠.')
+03580: Speech('그럼 건투를 빌어요. 이제 빚 받으러 안 올거예요.')
+03595: Speech('정확히 80일 남았어요. 그럼 잘 있어요.@w')
+03608: CloseSpeechBox()
+03609: ClosePicture()
+03610: PlayBGM(24)
+03613: TakeMachine('와이번MK4', 12)
+03621: TakeMachine('와이번MK2', 8)
+03629: TakeMachine('드래곤MK2', 4)
+03637: FreeDebt()
+03638: SetTownStatus('공항도시', 0, 1)
+03647: SetTownStatus('에포소스', 1, 0)
+03656: SetTownStatus('벨키카', 1, 0)
+03665: SetTownStatus('베른', 1, 0)
+03673: SetTownStatus('시노페', 1, 0)
+03682: SetTownStatus('에볼라쿰', 1, 0)
+03691: Calendar(1)
+03694: INFO_카운트일 = SYSTEM_RESULT
+03700: Calendar(2)
+03703: INFO_카운트월 = SYSTEM_RESULT
+03709: Calendar(3)
+03712: INFO_카운트년 = SYSTEM_RESULT
+03718: INFO_카운트일 = INFO_카운트일 + 10
+03727: IF INFO_카운트일 > 30 GOTO 3737
+03735: GOTO 3786
+03737: INFO_카운트일 = INFO_카운트일 - 30
+03746: INFO_카운트월 = INFO_카운트월 + 1
+03755: IF INFO_카운트월 > 12 GOTO 3765
+03763: GOTO 3784
+03765: INFO_카운트월 = INFO_카운트월 - 12
+03774: INFO_카운트년 = INFO_카운트년 + 1
+03783: nop
+03784: nop
+03785: nop
+03786: nop
+03787: nop
+03788: nop
+03789: return
+03790: entry 6
+
+[주점]
+03792: IsStayHeroTroop('')
+03795: local0 = SYSTEM_RESULT
+03801: GetHeroInfo('에이올린', 0)
+03808: local8 = SYSTEM_RESULT
+03814: Calendar(3)
+03817: local9 = SYSTEM_RESULT - INFO_시작연도
+03826: IF EVENT_인도하는자 == 0 AND EVENT_깽디쉬박사 == 0 AND local9 >= 1 AND local0 == 1 AND local8 == 0 AND STS_EVENT == 0 GOTO 3866
+03864: GOTO 4263
+03866: EVENT_인도하는자 = 1
+03872: STS_EVENT = 1
+03878: ShowPicture('인도하는자1')
+03884: OpenSpeechBox()
+03885: SetSpeaker('에이올린')
+03890: Speech('당신이 여기 화이트울프 용병단의 대장인 비트만님이시죠?')
+03907: Speech('저는 고고학과 천문학과 항공역학을 연구하는 과학자인 에이올린입니다.@w')
+03928: SetSpeaker('비트만')
+03933: Speech('맞소만. 무슨 일이요?@w')
+03942: SetSpeaker('에이올린')
+03947: Speech('부탁 드리고 싶은게 있어요. 돈은 5,000겔더 드리겠습니다.')
+03964: Speech('제 전재산 이예요. 그래도 모자른다면 나중에 어떻게 해서라도 추가금을 드리겠습니다.@w')
+03988: SetSpeaker('비트만')
+03993: Speech('알았으니깐. 그 부탁이란건 뭡니까?@w')
+04005: CloseSpeechBox()
+04006: ClosePicture()
+04007: ShowPicture('인도하는자2')
+04013: OpenSpeechBox()
+04014: SetSpeaker('에이올린')
+04019: Speech('윈디랜드 서북 지역의 사막지대 어딘가에 고대 레마리아인 즉, 발데카챠의 아직 발견되지 않은 유적지가 있습니다.')
+04049: Speech('거기서 유물을 찾아 카티움에 있는 카티움 대학에 가져다 주시는 겁니다.')
+04069: Speech('아참, 그리고 하나 더. 저도 따라가겠습니다.')
+04083: Speech('물론 방해가 될테니까 전투에는 참가하지 않을게요.@w')
+04099: CloseSpeechBox()
+04100: ClosePicture()
+04101: OpenSpeechBox()
+04102: SetSpeaker('비트만')
+04107: Speech('어떻게 할까나?@w')
+04114: CloseSpeechBox()
+04115: OpenSelectBox()
+04116: AppendSelectItem('승락한다.')
+04122: AppendSelectItem('거절한다.')
+04128: DoSelectBox()
+04129: IF SYSTEM_RESULT == 1 GOTO 4139
+04137: GOTO 4194
+04139: EVENT_인도하는자 = 10
+04145: STS_EVENT = 0
+04151: OpenSpeechBox()
+04152: SetSpeaker('비트만')
+04157: Speech('왠지 마음에 안 드는군요.')
+04166: Speech('거절하겠소.@w')
+04173: SetSpeaker('에이올린')
+04178: Speech('알았습니다. 다른 사람을 찾아보죠.@w')
+04190: CloseSpeechBox()
+04191: GOTO 4255
+04193: nop
+04194: nop
+04195: OpenSpeechBox()
+04196: SetSpeaker('비트만')
+04201: Speech('음......')
+04206: Speech('그렇게 열심히 열정을 가지고 계시는 일이니 저도 큰 이익은 되지 않겠지만 도와 드리도록 하죠.@w')
+04232: SetSpeaker('에이올린')
+04237: Speech('고맙습니다.@w')
+04244: CloseSpeechBox()
+04245: SetTownStatus('고대유적', 0, 1)
+04254: nop
+04255: nop
+04256: RemoveWanderer('에이올린')
+04261: return
+04262: nop
+04263: nop
+04264: EnterPub()
+04265: return
+04266: entry 5
+
+[특별처리]
+04268: IF SYSTEM_RESULT == 0 GOTO 4278
+04276: GOTO 4537
+04278: OpenSpeechBox()
+04279: SetSpeaker('올브라이트')
+04285: Speech('으음~ 그렇다면 이로써 남아 있는 빚이...')
+04298: Speech('잠깐만! 뭐예요!?')
+04305: SetSpeaker('비트만')
+04310: Speech('왜...왜그래 올브라이트.')
+04319: Speech('뭐 잘못된 일이라도 있어?@w')
+04329: PlayBGM(4)
+04332: SetSpeaker('올브라이트')
+04338: Speech('그래요. 있어요.@w')
+04346: Speech('축하드려요! 축하드려요!')
+04355: Speech('이제 빚을 다 갚으셨네요?@w')
+04365: SetSpeaker('비트만')
+04370: Speech('뭐!? 정말?@w')
+04376: SetSpeaker('올브라이트')
+04382: Speech('그래요!')
+04387: Speech('이제부터 당신은 저희 국제은행 대출규칙 3089조 167항에 따라 채무자의 신분에서 해방되어 아무런 의무도 없음을 알려드립니다.@w')
+04421: SetSpeaker('비트만')
+04426: Speech('저...정말이야 올브라이트?@w')
+04436: SetSpeaker('올브라이트')
+04442: Speech('그럼요!')
+04447: Speech('그나저나 이제부터 섭섭해서 어쩌죠?')
+04459: Speech('한 달에 한 번씩 찾아와서 만나다보니 정도 많이 들었는데.')
+04476: Speech('어때요? 우리 다시 만나게 돈 좀 쓰시죠.')
+04489: Speech('좋은 조건으로 해 드릴게요.@w')
+04499: SetSpeaker('비트만')
+04504: Speech('뭐라고? 빚?')
+04510: Speech('딴건 다 돼도 그것만은 참아줘.')
+04521: Speech('빚은 이제 싫어~!@w')
+04529: CloseSpeechBox()
+04530: SceneFrame('청산.map')
+04535: return
+04536: nop
+04537: nop
+04538: IF SYSTEM_RESULT == 1 GOTO 4548
+04546: GOTO 4609
+04548: OpenSpeechBox()
+04549: SetSpeaker('올브라이트')
+04555: Speech('으음~ 그렇다면 이로써 남아 있는 빚이...')
+04568: Speech('잠깐만! 뭐예요!?')
+04575: Speech('빚이 엄청나게 늘었군요.@w')
+04585: SetSpeaker('비트만')
+04590: Speech('그...그거야...')
+04597: Speech('요즘 경기가 안 좋아서...@w')
+04607: CloseSpeechBox()
+04608: nop
+04609: nop
+04610: IF SYSTEM_RESULT == 2 GOTO 4620
+04618: GOTO 4822
+04620: OpenSpeechBox()
+04621: SetSpeaker('비트만')
+04626: Speech('후우- 이번 달도 겨우 겨우 어떻게 넘겼나.@w')
+04640: SetSpeaker('화이트울프사병')
+04647: Speech('대장님!')
+04652: Speech('큰 일입니다!')
+04658: Speech('용병단 금고가 텅 비었습니다!')
+04668: Speech('이대로는 파산입니다!@w')
+04677: SetSpeaker('비트만')
+04682: Speech('뭐...뭐야!?')
+04688: Speech('그럴리가 없는데...@w')
+04696: Speech('우아악! 정말이잖아!@w')
+04705: Sound('올브라이트.wav')
+04712: SetSpeaker('올브라이트')
+04718: Speech('안녕하세요 안녕하세요!')
+04727: Speech('앗! 오늘은 이게 아니지.')
+04736: Speech('비트만씨. 오늘 재정 상태를 점검해 볼까요?')
+04750: Speech('비트만씨의 고용인들로부터 요즘 월급 사정이 안 좋다며 재정 상태를 점검해 달라는 의뢰가 들어왔거든요.@w')
+04779: SetSpeaker('비트만')
+04784: Speech('아...아니 잠깐만.')
+04792: Speech('그러지 말라고...@w')
+04800: SetSpeaker('올브라이트')
+04806: Speech('흐음...역시 예상대로 금고가 텅 비었군요.@w')
+04820: CloseSpeechBox()
+04821: nop
+04822: nop
+04823: PlayBGM(19)
+04826: Sound('올브라이트.wav')
+04833: ShowPicture('파산선고')
+04838: OpenSpeechBox()
+04839: SetSpeaker('올브라이트')
+04845: Speech('호호호!')
+04850: Speech('그렇다면 파산 상태로군요.')
+04860: Speech('저희 국제은행 대출규칙 127조 83항에 따라 용병단의 재산은 압류되어 경매에 붙여집니다.@w')
+04885: SetSpeaker('비트만')
+04890: Speech('뭐! 뭐라고!?@w')
+04897: SetSpeaker('비트만')
+04902: Speech('그. 그렇다면!')
+04909: Speech('나...나는 어떻게 되는 거지?')
+04919: Speech('제...제발 봐줘! 올브라이트!@w')
+04930: SetSpeaker('올브라이트')
+04936: Speech('뭐예요? 봐달라구?')
+04944: Speech('무능하게 용병단을 운영시킨 주제에 봐달라고?')
+04958: Speech('당신은 이제 끝이야 끝!@w')
+04967: SetSpeaker('비트만')
+04972: Speech('우아아아앗! 안 돼!!!@w')
+04981: CloseSpeechBox()
+04982: ClosePicture()
+04983: SceneFrame('파산.map')
+04988: return

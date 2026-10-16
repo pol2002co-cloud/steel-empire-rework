@@ -1,0 +1,14 @@
+*.exe
+*.dll
+*.sav
+*.Sav
+*.dmp
+*.log
+*.zip
+__pycache__/
+.venv/
+package/
+ReworkBackups/
+EditorBackups/
+quest-save-repair/
+*-status.json

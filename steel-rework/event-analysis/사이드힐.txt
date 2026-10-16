@@ -1,0 +1,94 @@
+00098: entry 2
+
+[관청]
+00100: EnterGovernment()
+00101: return
+00102: entry 9
+
+[막사]
+00104: EnterBarrack()
+00105: return
+00106: entry 3
+
+[공항]
+00108: EnterAirPort()
+00109: return
+00110: entry 7
+
+[주점]
+00112: EnterPub()
+00113: return
+00114: entry 8
+
+[교역소]
+00116: InitMarket(2)
+00119: OpenMarket()
+00120: return
+00121: entry 1
+
+[항공기상점]
+00123: InitMarket(5)
+00126: AppendSellItem('와이번MK2')
+00132: AppendSellItem('우드팩커MK3')
+00138: AppendSellItem('드래곤MK2')
+00144: OpenMarket()
+00145: return
+00146: entry 6
+
+[용병조합]
+00148: InitMarket(3)
+00151: AppendSellItem('파일럿')
+00156: AppendSellItem('해병')
+00160: AppendSellItem('동원병')
+00165: OpenMarket()
+00166: return
+00167: entry 5
+
+[총포상점]
+00169: InitMarket(1)
+00172: AppendSellItem('5mm 권총')
+00177: AppendSellItem('5.5mm 권총')
+00183: AppendSellItem('6mm 권총')
+00188: AppendSellItem('6.5mm 권총')
+00194: AppendSellItem('6mm 3연장권총')
+00201: AppendSellItem('20mm 권총')
+00207: AppendSellItem('6mm 장총')
+00212: AppendSellItem('6.5mm 장총')
+00218: AppendSellItem('6.5mm 2연장장총')
+00225: AppendSellItem('7mm 연발장총')
+00231: AppendSellItem('7mm 대장신장총')
+00238: AppendSellItem('8mm 장총')
+00243: AppendSellItem('8mm 8연장장총')
+00250: AppendSellItem('5mm 기관총')
+00256: AppendSellItem('5.5mm 기관총')
+00262: AppendSellItem('6mm 기관총')
+00268: AppendSellItem('6.5mm 자동소총')
+00275: AppendSellItem('5.3mm 2연장기관단총')
+00283: AppendSellItem('5mm 정밀기관총')
+00290: AppendSellItem('5.5mm 정밀기관총')
+00297: OpenMarket()
+00298: return
+00299: entry 4
+
+[아이템상점]
+00301: InitMarket(0)
+00304: AppendSellItem('다이나마이트')
+00310: AppendSellItem('핸드그레네드')
+00316: AppendSellItem('펜저슈레케')
+00322: OpenMarket()
+00323: return
+00324: entry 0
+
+[mainFrame]
+00326: Calendar(1)
+00329: local2 = SYSTEM_RESULT
+00335: Calendar(2)
+00338: local1 = SYSTEM_RESULT
+00344: Calendar(3)
+00347: local0 = SYSTEM_RESULT
+00353: IF EVENT_최후의결전 >= 3 AND EVENT_최후의결전 <= 4 AND INFO_카운트년 == local0 AND INFO_카운트월 == local1 AND INFO_카운트일 == local2 GOTO 387
+00385: GOTO 389
+00387: WorldFrame()
+00388: nop
+00389: nop
+00390: return

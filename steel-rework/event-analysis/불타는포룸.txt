@@ -1,0 +1,24 @@
+00017: entry 0
+
+[mainFrame]
+00019: PlayBGM(19)
+00022: Sound('불타는.wav')
+00028: ShowPicture('마지막1')
+00033: OpenSpeechBox()
+00034: SetSpeaker('비트만')
+00039: Speech('우아아아아아앗!!!')
+00047: Speech('이게 도대체 어떻게 된 일이냐!?!?@w')
+00059: SetSpeaker('화이트울프사병')
+00066: Speech('갑자기 하늘에서부터 내려오는 빛에 공격 당했습니다!')
+00082: Speech('지금 도시 곳곳에 불이 나서 진화중입니다!')
+00095: Speech('주요 시설도 많이 파괴된거 같습니다!@w')
+00108: SetSpeaker('비트만')
+00113: Speech('우아아악!')
+00119: Speech('이게 무슨 날벼락이냐!')
+00128: Speech('빨리 빨리 불부터 꺼! 어서 어서!!@w')
+00140: CloseSpeechBox()
+00141: ClosePicture()
+00142: BombTown()
+00143: FocusTown('')
+00146: TownFrame('')
+00149: return

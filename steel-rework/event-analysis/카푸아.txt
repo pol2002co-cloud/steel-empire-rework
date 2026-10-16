@@ -1,0 +1,130 @@
+00080: entry 3
+
+[관청]
+00082: EnterGovernment()
+00083: return
+00084: entry 4
+
+[막사]
+00086: EnterBarrack()
+00087: return
+00088: entry 2
+
+[주점]
+00090: EnterPub()
+00091: return
+00092: entry 1
+
+[공항]
+00094: EnterAirPort()
+00095: return
+00096: entry 6
+
+[교역소]
+00098: InitMarket(2)
+00101: OpenMarket()
+00102: return
+00103: entry 5
+
+[아이템상점]
+00105: InitMarket(0)
+00108: AppendSellItem('다이나마이트')
+00114: AppendSellItem('응급상자')
+00119: AppendSellItem('마이싱')
+00124: AppendSellItem('몰핀')
+00128: OpenMarket()
+00129: return
+00130: entry 7
+
+[카푸아유적]
+00132: IsStayHeroTroop('카푸아')
+00137: IF EVENT_고대인의유적 == 1 AND STS_카푸아 == 0 GOTO 153
+00151: GOTO 478
+00153: IF SYSTEM_RESULT == 0 GOTO 163
+00161: GOTO 194
+00163: OpenSpeechBox()
+00164: SetSpeaker('시민3')
+00169: Speech('국제은행으로부터 비트만님이 아닌 분은 들여 보내지 말라고 지시 받았습니다.@w')
+00191: CloseSpeechBox()
+00192: return
+00193: nop
+00194: nop
+00195: ShowPicture('유적4')
+00200: OpenSpeechBox()
+00201: SetSpeaker('비트만')
+00206: Speech("여기가 '카푸아 유적'이로군.")
+00216: Speech('어서 들어가 보자.@w')
+00224: CloseSpeechBox()
+00225: ClosePicture()
+00226: ShowPicture('유적5')
+00231: OpenSpeechBox()
+00232: SetSpeaker('비트만')
+00237: Speech('에잉?')
+00242: Speech('이건 또 뭐야?@w')
+00249: SetSpeaker('유적의수호자')
+00255: Speech('나는 이 고대 유적의 수호자 입니다.')
+00267: Speech("'신의 눈'은 아무나 함부로 가질 수 있는 것이 아닙니다.")
+00284: Speech('당신을 시험하겠습니다.@w')
+00293: CloseSpeechBox()
+00294: ClosePicture()
+00295: OpenSpeechBox()
+00296: SetSpeaker('')
+00299: Speech('조각 그림 맞추기 입니다.')
+00308: Speech("지정된 시간 내에 그림을 맞추면 '신의 눈'을 얻을 수 있습니다.@w")
+00327: CloseSpeechBox()
+00328: Puzzle(0)
+00331: IF PUZZLE_RESULT == 0 GOTO 341
+00339: GOTO 377
+00341: ShowPicture('유적5')
+00346: OpenSpeechBox()
+00347: SetSpeaker('유적의수호자')
+00353: Speech("당신은 '신의 눈'을 가질 자격이 없습니다.")
+00366: Speech('나가 주십시오.@w')
+00373: CloseSpeechBox()
+00374: ClosePicture()
+00375: return
+00376: nop
+00377: nop
+00378: STS_카푸아 = 1
+00384: ShowPicture('유적5')
+00389: OpenSpeechBox()
+00390: SetSpeaker('유적의수호자')
+00396: Speech("당신은 '신의 눈'을 가질 자격이 있습니다.")
+00409: Speech("여기 '신의 눈'을 받으십시오.@w")
+00420: CloseSpeechBox()
+00421: ClosePicture()
+00422: ShowPicture('유적6')
+00427: OpenSpeechBox()
+00428: SetSpeaker('비트만')
+00433: Speech("이것이 카푸아에 있는 '신의 눈'이로군.")
+00446: Speech('좋았어! 가져 가자!@w')
+00454: SetSpeaker('')
+00457: Speech("'신의눈1'을 얻었습니다.@w")
+00467: CloseSpeechBox()
+00468: ClosePicture()
+00469: TakeItem(0, '신의눈1')
+00476: return
+00477: nop
+00478: nop
+00479: OpenSpeechBox()
+00480: SetSpeaker('시민3')
+00485: Speech("여기는 '카푸아 유적'입니다.")
+00495: Speech('관광하시러 오셨나요?')
+00503: Speech('입장료는 50겔더입니다.@w')
+00512: CloseSpeechBox()
+00513: return
+00514: entry 0
+
+[mainFrame]
+00516: Calendar(1)
+00519: local0 = SYSTEM_RESULT
+00525: Calendar(2)
+00528: local1 = SYSTEM_RESULT
+00534: Calendar(3)
+00537: local2 = SYSTEM_RESULT
+00543: IF EVENT_최후의결전 >= 3 AND EVENT_최후의결전 <= 4 AND INFO_카운트년 == local2 AND INFO_카운트월 == local1 AND INFO_카운트일 == local0 GOTO 577
+00575: GOTO 579
+00577: WorldFrame()
+00578: nop
+00579: nop
+00580: return
