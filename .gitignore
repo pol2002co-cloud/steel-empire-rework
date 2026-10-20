@@ -1,0 +1,14 @@
+payload/
+output/
+assets/
+tests/
+*.exe
+*.dll
+*.pak
+*.dat
+*.cmp
+*.Sav
+*.sav
+*.log
+*.dmp
+*.bundle
