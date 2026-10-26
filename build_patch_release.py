@@ -3,9 +3,9 @@ from pathlib import Path
 import base64, hashlib, json, shutil, struct, subprocess, sys, zipfile
 ROOT=Path(__file__).resolve().parent
 WORK=ROOT.parents[1]/'steel-rework'
-GAME=Path('D:/Games/DGGL/Games/EoSteel_Win')
-OUT=ROOT/'output'
-VERSION='0.9.2'
+GAME=Path('C:/Games/DGGL/Games/EoSteel_Win')
+OUT=ROOT/'output-v098'
+VERSION='0.9.8'
 CSC=Path('C:/Windows/Microsoft.NET/Framework/v4.0.30319/csc.exe')
 sys.path.insert(0,str(WORK))
 from archive import entries,decode
@@ -48,11 +48,11 @@ def build():
 '''+src[end:]
  template_hash=next(x['delta']['source_sha256'] for x in patches if x['name']=='char.dat')
  src=src.replace('   if(templates.Length!=88744)', '   using(var hash=SHA256.Create()){if(BitConverter.ToString(hash.ComputeHash(templates)).Replace("-","").ToLowerInvariant()!="'+template_hash+'")throw new InvalidDataException("인물 기준 데이터 검증에 실패했습니다. 패치를 다시 설치해 주세요.");}\n   if(templates.Length!=88744)')
- source=ROOT/'source';source.mkdir(exist_ok=True)
+ source=ROOT/'source-v098';source.mkdir(exist_ok=True)
  text(source/'SaveModel.cs',src);shutil.copy2(WORK/'editor/Editor.cs',source/'Editor.cs')
  subprocess.run([str(CSC),'/nologo','/target:winexe','/platform:x86','/optimize+', '/out:'+str(OUT/'payload/SteelCharacterEditor.exe'),'/r:System.Windows.Forms.dll','/r:System.Drawing.dll','/r:System.Core.dll',str(source/'SaveModel.cs'),str(source/'Editor.cs')],check=True)
  payload.append('SteelCharacterEditor.exe')
- manifest=dict(version=VERSION,gameplay_version='0.9.1',engine=delta(original,engine),archives=archives,entries=patches,pak_sha256=sha(pak),supported_executable_hashes=support,payload={n:sha((OUT/'payload'/n).read_bytes()) for n in payload})
+ manifest=dict(version=VERSION,gameplay_version='0.9.8',engine=delta(original,engine),archives=archives,entries=patches,pak_sha256=sha(pak),supported_executable_hashes=support,payload={n:sha((OUT/'payload'/n).read_bytes()) for n in payload})
  text(OUT/'patch-manifest.json',json.dumps(manifest,ensure_ascii=False,separators=(',',':')))
  for name in ['Install-Patch.ps1','PatchEngine.cs']:text(OUT/name,(ROOT/name).read_text(encoding='utf-8-sig'))
  (OUT/'Install-Patch.cmd').write_text('@echo off\r\npowershell.exe -NoProfile -STA -ExecutionPolicy Bypass -File "%~dp0Install-Patch.ps1"\r\npause\r\n',encoding='ascii')
@@ -68,7 +68,7 @@ def build():
   if name=='CHANGELOG.md':body=body.replace('과거 실행 파일 스냅샷은 소스 ZIP의 역사 자료이며 단독 교체용 설치 패키지가 아닙니다.','원본 실행 파일·게임 데이터·과거 실행 파일 스냅샷은 공개 배포하지 않습니다.')
   text(docs/name,body)
  # Strict allowlist: do not copy previous source bundles, extracted scripts, binaries or dumps.
- public=ROOT/'public-source';public.mkdir(exist_ok=True)
+ public=ROOT/'public-source-v098';public.mkdir(exist_ok=True)
  shutil.copy2(OUT/'README.md',public/'README.md')
  for name in ['PatchEngine.cs','Install-Patch.ps1']:shutil.copy2(OUT/name,public/name)
  shutil.copy2(OUT/'Install-Patch.cmd',public/'Install-Patch.cmd')
@@ -77,7 +77,7 @@ def build():
  shutil.copy2(OUT/'Restore-Patch.ps1',public/'Restore-Patch.ps1')
  # Build tooling is useful, but requires the developer's private, owned game inputs.
  shutil.copy2(Path(__file__),public/'build_patch_release.py')
- assets=ROOT/'assets';assets.mkdir(exist_ok=True)
+ assets=ROOT/'assets-v098';assets.mkdir(exist_ok=True)
  paths=[(f'SteelEmpire-Rework-v{VERSION}-PatchOnly.zip',OUT),(f'SteelEmpire-Rework-v{VERSION}-PatchSource.zip',public)]
  for name,folder in paths:
   with zipfile.ZipFile(assets/name,'w',zipfile.ZIP_DEFLATED,compresslevel=9) as z:
@@ -88,9 +88,53 @@ def build():
  text(ROOT/'build-report.json',json.dumps({p.name:dict(bytes=p.stat().st_size,sha256=sha(p.read_bytes())) for p in assets.iterdir()},indent=2))
  print((ROOT/'build-report.json').read_text(encoding='utf-8-sig'))
 
-README='''# 강철제국 리워크 — 원본 보유자용 패치 v0.9.2
+README='''# 강철제국 리워크 — 원본 보유자용 패치 v0.9.8
 
-게임 기능은 v0.9.1과 같습니다. v0.9.2는 배포 방식을 변경한 버전입니다.
+v0.9.8은 아군 INF MK1·INF MK2·블랙드래곤·랜드배틀쉽·포트레스에
+적 진영(좌상단)을 향하는 새 본체와 개별 무기 그림을 적용합니다.
+사용자가 승인한 반대 시점 시안에 따른 새 그림이며 원본과 외형 차이가 있습니다.
+포탑을 포함한 54개 개별 부품의 표시 위치·포구 위치·투명 픽셀 클릭 판정을 맞췄습니다.
+파괴된 무기는 개별 표시와 판정에서 제거되며 적 보스 그림은 원본을 유지합니다.
+원본의 애니메이션 길이·프레임별 발사/효과 이벤트는 실행 중 원본 자원에서 가져와
+보존합니다. 새 본체와 무기 그림은 정지 그림을 사용하므로 원본의 세부 프레임별
+모양 변화까지 새로 그린 버전은 아닙니다. 기존 비행 부유 동작과 전투 규칙은 유지합니다.
+전투 종료·상태 갱신 시 새 그래픽 자원의 메모리를 해제합니다.
+새로 시작하거나 저장을 불러온 전투부터 적용됩니다.
+
+v0.9.7은 배송 자동 이동에서 보병 군단을 전차 좌석 검사로 잘못 제외하던 문제를 수정합니다.
+한 군단만 주둔한 경우에도 제1~9군단 번호와 병종에 맞게 목록에 표시합니다.
+보병·항공은 각 원래 출격 규칙을 따르고, 전차 군단의 탑승 좌석 검사는 유지합니다.
+
+v0.9.6은 점령된 일반 도시를 공격할 때 해당 도시 탈환 의뢰를 자동 수락합니다.
+의뢰 주도시를 먼저 방문하지 않아도 기존 공격 확인 뒤 전투를 진행할 수 있습니다.
+완료 후 보상은 기존 의뢰 주도시에서 받습니다. 이미 보상 대기 중인 의뢰는
+완료 상태를 유지하며 재공격을 허용하고, 보상을 중복 생성하지 않습니다.
+적 본거지의 '점령 도시가 없어야 공격 가능' 조건과 이야기 전용 진입 제한은 유지합니다.
+
+물품 배송 의뢰를 수락하면 '목적지로 자동 이동 / 직접 이동'을 선택할 수 있습니다.
+자동 이동을 선택한 다음 그 도시에 주둔한 출격 가능 군단을 선택하세요.
+제1~9군단을 목록으로 표시하며 많은 경우 '다음 군단 목록'으로 넘깁니다.
+선택한 군단이 월드맵으로 출격하여 목적지에 우클릭한 것과 같은 이동 명령을 받습니다.
+이동 시간·경로·도중 전투·현지 인도·보상 수령은 기존 규칙을 따릅니다.
+취소하거나 출격 가능한 군단이 없으면 의뢰만 수락하고 도시에 남습니다.
+이미 수락한 배송은 다시 수락하지 않으므로 이 선택창이 소급 표시되지는 않습니다.
+
+v0.9.5는 아군 이벤트 보스 5종 탑승자의 전투 경험치 누락을 수정했습니다.
+일반 전차·항공기와 같은 경험치·레벨업을 적용하고 99레벨 탑승자의 경험치도
+다른 생존 인물에게 재분배합니다. 기존 경험치 200 제한 제거도 유지합니다.
+
+v0.9.4는 이벤트 보스의 무료 재배치와 아군 보스의 전투 방향을 수정했습니다.
+포룸에 군단장 1명만 남긴 호환 군단을 주둔시킨 뒤 F9에서 같은 병기를 선택하세요.
+보관 중인 같은 병기가 있으면 무료 재배치 확인이 표시됩니다. 재배치는 보관 중인
+실제 병기의 HP와 상태를 유지합니다. 블랙드래곤은 파일럿·항공 군단, 나머지는
+드라이버·장갑 군단이 필요합니다. HP가 0인 병기는 먼저 정비하세요.
+아군 보스 5종의 본체·부품·선택 테두리를 좌우 반전하고 클릭 판정도 맞췄습니다.
+적 보스의 방향과 기존 전투 배치는 유지합니다.
+
+v0.9.3의 블랙크로우 잔존 야전 부대 반격과 빈 본거지 재탈환도 포함합니다.
+최대 6일 간격으로 대기 중인 야전 부대가 가까운 아군 점령 일반 도시를 공격합니다.
+철수해 비워진 점거 본거지가 있으면 우선 되찾습니다. 본거지 주둔 중 적 충원 중단,
+기존 이동 명령, 전투와 월별 상납금 규칙은 유지합니다.
 원본 게임 전체, 원본·수정 게임 실행 파일, PAK, 음악, 영상, 추출 데이터와
 개인 저장 파일은 다운로드에 포함하지 않습니다. 이 파일만으로 게임을 실행할 수 없습니다.
 
@@ -114,7 +158,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\\Install-Patch.ps1 -GamePa
 
 설치 도구는 원본의 기존 바이트를 읽고 XOR 변경분·추가 코드를 적용하여 실행 파일을
 생성합니다. 게임 데이터도 원본 PAK에서 읽은 항목에 변경분을 적용하여 patch104.pak를
-생성합니다. 생성 결과는 v0.9.1 실행 파일·데이터 팩과 바이트 단위로 동일합니다.
+생성합니다. 생성 결과는 검증된 v0.9.8 실행 파일 및 데이터 팩과 바이트 단위로 동일합니다.
 인물 에디터용 기준 데이터도 사용자 PC에서 생성하며 에디터에는 내장하지 않습니다.
 ReworkCharacterTemplates.dat는 에디터 옆에 유지하고 재배포하지 마세요.
 
@@ -125,7 +169,7 @@ ReworkCharacterTemplates.dat는 에디터 옆에 유지하고 재배포하지 �
 
 ## 복원
 
-게임·런처·에디터 종료 후 새로 생성된 ReworkBackups/v0.9.2-delta-날짜 폴더의
+게임·런처·에디터 종료 후 새로 생성된 ReworkBackups/v0.9.8-delta-날짜 폴더의
 Restore-Patch.ps1을 PowerShell로 실행합니다. 원래 존재하던 파일을 복구하고
 이번에 추가한 파일을 제거합니다. 저장은 복원하지 않습니다. 구버전 복귀 전
 저장 파일도 별도로 백업하세요.
