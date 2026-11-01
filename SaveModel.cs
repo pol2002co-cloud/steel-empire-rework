@@ -41,7 +41,10 @@ namespace SteelEditor {
   }
   static int Count(byte[] b,ref int q,int max){int n=I(b,q);q+=4;if(n<0||n>max)throw new InvalidDataException("지원하지 않는 저장 목록 구조입니다.");return n;}
   static List<Person> Parse(byte[] b){
-   if(b.Length<1024||b.Length>64*1024*1024||I(b,0)!=0x12)throw new InvalidDataException("지원하는 강철제국 저장 파일이 아닙니다.");
+   // Native 0x401160 writes the mutable DWORD at 0x48d384 first.
+   // It is runtime state, NOT a file signature (observed values: 18, 91).
+   // Identify saves using the unique town header and validated counted records below.
+   if(b.Length<1024||b.Length>64*1024*1024)throw new InvalidDataException("지원하는 강철제국 저장 파일이 아닙니다.");
    var candidates=new List<List<Person>>();
    // Town serializer 0x435e30: 0xd4 header, 0x10 facility metadata,
    // six counted DWORD lists, counted 0xa8 companion records, mercenary list.

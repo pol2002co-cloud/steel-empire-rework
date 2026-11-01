@@ -12,7 +12,7 @@ namespace SteelEditor {
   ComboBox state=new ComboBox(); Dictionary<int,NumericUpDown> inputs=new Dictionary<int,NumericUpDown>();
   CheckedListBox leadership=new CheckedListBox(),specials=new CheckedListBox();
   public Editor(string path){
-   Text="강철제국 인물 에디터";Size=new Size(1120,810);MinimumSize=new Size(1050,760);StartPosition=FormStartPosition.CenterScreen;
+   Text="강철제국 인물 에디터 v0.9.8.1";Size=new Size(1120,810);MinimumSize=new Size(1050,760);StartPosition=FormStartPosition.CenterScreen;
    Font=new Font("맑은 고딕",10);BackColor=Color.FromArgb(244,247,251);
    var head=new Label{Text="강철제국  /  인물 에디터",Dock=DockStyle.Top,Height=64,BackColor=Color.FromArgb(25,40,64),ForeColor=Color.White,Font=new Font(Font.FontFamily,20,FontStyle.Bold),Padding=new Padding(20,12,0,0)};Controls.Add(head);
    var bar=new FlowLayoutPanel{Dock=DockStyle.Top,Height=56,Padding=new Padding(12,8,0,0)};

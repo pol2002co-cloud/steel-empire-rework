@@ -4,8 +4,8 @@ import base64, hashlib, json, shutil, struct, subprocess, sys, zipfile
 ROOT=Path(__file__).resolve().parent
 WORK=ROOT.parents[1]/'steel-rework'
 GAME=Path('C:/Games/DGGL/Games/EoSteel_Win')
-OUT=ROOT/'output-v098'
-VERSION='0.9.8'
+OUT=ROOT/'output-v0981'
+VERSION='0.9.8.1'
 CSC=Path('C:/Windows/Microsoft.NET/Framework/v4.0.30319/csc.exe')
 sys.path.insert(0,str(WORK))
 from archive import entries,decode
@@ -48,7 +48,7 @@ def build():
 '''+src[end:]
  template_hash=next(x['delta']['source_sha256'] for x in patches if x['name']=='char.dat')
  src=src.replace('   if(templates.Length!=88744)', '   using(var hash=SHA256.Create()){if(BitConverter.ToString(hash.ComputeHash(templates)).Replace("-","").ToLowerInvariant()!="'+template_hash+'")throw new InvalidDataException("인물 기준 데이터 검증에 실패했습니다. 패치를 다시 설치해 주세요.");}\n   if(templates.Length!=88744)')
- source=ROOT/'source-v098';source.mkdir(exist_ok=True)
+ source=ROOT/'source-v0981';source.mkdir(exist_ok=True)
  text(source/'SaveModel.cs',src);shutil.copy2(WORK/'editor/Editor.cs',source/'Editor.cs')
  subprocess.run([str(CSC),'/nologo','/target:winexe','/platform:x86','/optimize+', '/out:'+str(OUT/'payload/SteelCharacterEditor.exe'),'/r:System.Windows.Forms.dll','/r:System.Drawing.dll','/r:System.Core.dll',str(source/'SaveModel.cs'),str(source/'Editor.cs')],check=True)
  payload.append('SteelCharacterEditor.exe')
@@ -68,16 +68,18 @@ def build():
   if name=='CHANGELOG.md':body=body.replace('과거 실행 파일 스냅샷은 소스 ZIP의 역사 자료이며 단독 교체용 설치 패키지가 아닙니다.','원본 실행 파일·게임 데이터·과거 실행 파일 스냅샷은 공개 배포하지 않습니다.')
   text(docs/name,body)
  # Strict allowlist: do not copy previous source bundles, extracted scripts, binaries or dumps.
- public=ROOT/'public-source-v098';public.mkdir(exist_ok=True)
+ public=ROOT/'public-source-v0981';public.mkdir(exist_ok=True)
  shutil.copy2(OUT/'README.md',public/'README.md')
  for name in ['PatchEngine.cs','Install-Patch.ps1']:shutil.copy2(OUT/name,public/name)
  shutil.copy2(OUT/'Install-Patch.cmd',public/'Install-Patch.cmd')
  for p in source.glob('*.cs'):shutil.copy2(p,public/p.name)
  for name in ['Launcher.cs','WideLauncher.cs','WideLauncherQHD.cs'] :shutil.copy2(WORK/name,public/name)
  shutil.copy2(OUT/'Restore-Patch.ps1',public/'Restore-Patch.ps1')
+ shutil.copytree(OUT/'docs',public/'docs',dirs_exist_ok=True)
+ shutil.copytree(OUT/'third-party',public/'third-party',dirs_exist_ok=True)
  # Build tooling is useful, but requires the developer's private, owned game inputs.
  shutil.copy2(Path(__file__),public/'build_patch_release.py')
- assets=ROOT/'assets-v098';assets.mkdir(exist_ok=True)
+ assets=ROOT/'assets-v0981';assets.mkdir(exist_ok=True)
  paths=[(f'SteelEmpire-Rework-v{VERSION}-PatchOnly.zip',OUT),(f'SteelEmpire-Rework-v{VERSION}-PatchSource.zip',public)]
  for name,folder in paths:
   with zipfile.ZipFile(assets/name,'w',zipfile.ZIP_DEFLATED,compresslevel=9) as z:
@@ -88,7 +90,24 @@ def build():
  text(ROOT/'build-report.json',json.dumps({p.name:dict(bytes=p.stat().st_size,sha256=sha(p.read_bytes())) for p in assets.iterdir()},indent=2))
  print((ROOT/'build-report.json').read_text(encoding='utf-8-sig'))
 
-README='''# 강철제국 리워크 — 원본 보유자용 패치 v0.9.8
+README='''# 강철제국 리워크 — 원본 보유자용 패치 v0.9.8.1
+
+v0.9.8.1은 수정된 인물 에디터 v0.9.8.1을 포함한 누적 패치입니다.
+일부 약 94KB 저장 파일이 열리지 않던 문제를 수정했습니다. 파일 첫 값을 고정된
+식별자로 오인하던 검사를 바로잡았으며, 실제 95,676바이트 제보 파일의 인물 20명
+읽기·수정·저장·재열기·백업 복원을 확인했습니다. 크기와 첫 값 조합 및 실제 저장
+복사본으로 1,351개 검사를 통과했습니다. 합성 파일은 에디터 파서 검사 전용입니다.
+도시·인물 목록 구조 검증과 백업 기능을 유지하며 게임 본체 기능은 v0.9.8과 같습니다.
+
+## 다운로드
+
+[최신 릴리스](https://github.com/pol2002co-cloud/steel-empire-rework/releases/latest)에서
+SteelEmpire-Rework-v0.9.8.1-PatchOnly.zip을 받으세요. 신규 설치와 기존 리워크 업데이트에
+사용하는 누적 패치이며 원본 게임이 필요합니다. 기존 v0.9.8 사용자는 같은 릴리스의
+SteelEmpire-CharacterEditor-v0.9.8.1-Fix.zip으로 에디터만 갱신할 수도 있습니다.
+PatchSource.zip은 설치 도구·런처·에디터 소스이며 게임 실행용 패키지가 아닙니다.
+
+## 기존 누적 기능
 
 v0.9.8은 아군 INF MK1·INF MK2·블랙드래곤·랜드배틀쉽·포트레스에
 적 진영(좌상단)을 향하는 새 본체와 개별 무기 그림을 적용합니다.
@@ -169,7 +188,7 @@ ReworkCharacterTemplates.dat는 에디터 옆에 유지하고 재배포하지 �
 
 ## 복원
 
-게임·런처·에디터 종료 후 새로 생성된 ReworkBackups/v0.9.8-delta-날짜 폴더의
+게임·런처·에디터 종료 후 새로 생성된 ReworkBackups/v0.9.8.1-delta-날짜 폴더의
 Restore-Patch.ps1을 PowerShell로 실행합니다. 원래 존재하던 파일을 복구하고
 이번에 추가한 파일을 제거합니다. 저장은 복원하지 않습니다. 구버전 복귀 전
 저장 파일도 별도로 백업하세요.
