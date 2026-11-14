@@ -10,7 +10,7 @@ if([string]::IsNullOrWhiteSpace($GamePath)){
 }
 $target=(Resolve-Path -LiteralPath $GamePath).Path.TrimEnd('\')
 $manifest=Get-Content -LiteralPath (Join-Path $PSScriptRoot 'patch-manifest.json') -Raw -Encoding UTF8 | ConvertFrom-Json
-foreach($p in Get-Process -Name SteelEmpire,SteelRework,SteelRework169,SteelReworkQHD,SteelCharacterEditor -ErrorAction SilentlyContinue){
+foreach($p in Get-Process -Name SteelEmpire,SteelRework,SteelRework169,SteelReworkQHD,SteelReworkLauncher,SteelCharacterEditor,SteelEquipmentEditor -ErrorAction SilentlyContinue){
  if($p.Path -and (Split-Path -Parent $p.Path) -eq $target){throw 'Close the game, launchers and editor first.'}
 }
 $exe=Join-Path $target 'SteelEmpire.exe'
@@ -23,7 +23,7 @@ if(Test-Path -LiteralPath $backups){$candidates+=@(Get-ChildItem -LiteralPath $b
 $original=$null
 foreach($candidate in $candidates){if((Get-FileHash -LiteralPath $candidate).Hash.ToLowerInvariant() -eq $manifest.engine.source_sha256){$original=$candidate;break}}
 if(!$original){throw 'Verified original SteelEmpire.exe is required in the game folder or ReworkBackups. No game files changed.'}
-$allowed=@('SteelEmpire.exe','patch104.pak','ReworkCharacterTemplates.dat','SteelRework.exe','SteelRework169.exe','SteelReworkQHD.exe','SteelCharacterEditor.exe','ddraw.dll','ddraw.ini','SteelCharacterEditor-사용법.txt','SteelRework169-사용법.txt')
+$allowed=@('SteelEmpire.exe','patch104.pak','ReworkCharacterTemplates.dat','SteelRework.exe','SteelRework169.exe','SteelReworkQHD.exe','SteelReworkLauncher.exe','SteelCharacterEditor.exe','SteelEquipmentEditor.exe','ddraw.dll','ddraw.ini','SteelCharacterEditor-사용법.txt','SteelEquipmentEditor-사용법.txt','SteelReworkLauncher-사용법.txt','SteelRework169-사용법.txt')
 foreach($entry in $manifest.payload.PSObject.Properties){
  if($entry.Name -notin $allowed){throw 'Unexpected payload name.'}
  if((Get-FileHash -LiteralPath (Join-Path $PSScriptRoot ('payload\'+$entry.Name))).Hash.ToLowerInvariant() -ne $entry.Value){throw 'Payload verification failed.'}
@@ -36,6 +36,13 @@ try {
  foreach($entry in $manifest.payload.PSObject.Properties){Copy-Item -LiteralPath (Join-Path $PSScriptRoot ('payload\'+$entry.Name)) -Destination (Join-Path $stage $entry.Name)}
  $backup=Join-Path $target ('ReworkBackups\v'+$manifest.version+'-delta-'+(Get-Date -Format yyyyMMdd-HHmmssfff))
  New-Item -ItemType Directory -Path $backup | Out-Null
+ $saveBackup=Join-Path $backup 'Saves'
+ New-Item -ItemType Directory -Path $saveBackup | Out-Null
+ foreach($save in Get-ChildItem -LiteralPath $target -Filter '*.Sav' -File){
+  $copy=Join-Path $saveBackup $save.Name
+  Copy-Item -LiteralPath $save.FullName -Destination $copy
+  if((Get-FileHash -LiteralPath $save.FullName).Hash -ne (Get-FileHash -LiteralPath $copy).Hash){throw 'Save backup verification failed. No game files changed.'}
+ }
  $state=@()
  foreach($file in Get-ChildItem -LiteralPath $stage -File){
   if($file.Name -notin $allowed){throw 'Unexpected staged file.'}

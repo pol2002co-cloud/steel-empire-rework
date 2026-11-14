@@ -1,11 +1,11 @@
-"""Private build: no original game bytes or decoded assets enter the output tree."""
+﻿"""Private build: no original game bytes or decoded assets enter the output tree."""
 from pathlib import Path
 import base64, hashlib, json, shutil, struct, subprocess, sys, zipfile
 ROOT=Path(__file__).resolve().parent
 WORK=ROOT.parents[1]/'steel-rework'
 GAME=Path('C:/Games/DGGL/Games/EoSteel_Win')
-OUT=ROOT/'output-v099'
-VERSION='0.9.9'
+OUT=ROOT/'output-v0100'
+VERSION='0.10.0'
 CSC=Path('C:/Windows/Microsoft.NET/Framework/v4.0.30319/csc.exe')
 sys.path.insert(0,str(WORK))
 from archive import entries,decode
@@ -35,8 +35,18 @@ def build():
   raw=(GAME/archive).read_bytes();archives[archive]=sha(raw);source=unpack(raw)[name]
   patches.append(dict(name=name,archive=archive,delta=delta(source,b)))
  support=sorted({meta['source_sha256'],meta['output_sha256'],*[sha(p.read_bytes()) for p in WORK.glob('SteelEmpire-v*.exe')]})
+ assert 'CurrentVersion="'+VERSION+'"' in (WORK/'launcher/UpdateLauncher.cs').read_text(encoding='utf-8-sig')
+ subprocess.run([str(CSC),'/nologo','/target:winexe','/platform:x86','/optimize+',
+                 '/out:'+str(WORK/'launcher/SteelReworkLauncher.exe'),'/r:System.Windows.Forms.dll',
+                 '/r:System.Drawing.dll','/r:System.Web.Extensions.dll','/r:System.IO.Compression.dll',
+                 '/r:System.IO.Compression.FileSystem.dll',str(WORK/'launcher/UpdateLauncher.cs')],check=True)
  payload=['SteelRework.exe','SteelRework169.exe','SteelReworkQHD.exe','ddraw.dll','ddraw.ini','SteelCharacterEditor-사용법.txt','SteelRework169-사용법.txt']
  for name in payload:shutil.copy2(WORK/'package'/name,OUT/'payload'/name)
+ for folder,names in [(WORK/'launcher',['SteelReworkLauncher.exe','SteelReworkLauncher-사용법.txt']),
+                      (WORK/'editor',['SteelEquipmentEditor-사용법.txt'])]:
+  for name in names:
+   shutil.copy2(folder/name,OUT/'payload'/name);payload.append(name)
+ shutil.copy2(WORK/'editor/SteelCharacterEditor-사용법.txt',OUT/'payload/SteelCharacterEditor-사용법.txt')
  # The editor no longer embeds the copyrighted character template table.
  src=(WORK/'editor/SaveModel.cs').read_text(encoding='utf-8-sig')
  begin=src.index('   using(var stream=typeof(SaveModel).Assembly.GetManifestResourceStream("char.dat")){')
@@ -48,11 +58,15 @@ def build():
 '''+src[end:]
  template_hash=next(x['delta']['source_sha256'] for x in patches if x['name']=='char.dat')
  src=src.replace('   if(templates.Length!=88744)', '   using(var hash=SHA256.Create()){if(BitConverter.ToString(hash.ComputeHash(templates)).Replace("-","").ToLowerInvariant()!="'+template_hash+'")throw new InvalidDataException("인물 기준 데이터 검증에 실패했습니다. 패치를 다시 설치해 주세요.");}\n   if(templates.Length!=88744)')
- source=ROOT/'source-v099';source.mkdir(exist_ok=True)
+ source=ROOT/'source-v0100';source.mkdir(exist_ok=True)
  text(source/'SaveModel.cs',src);shutil.copy2(WORK/'editor/Editor.cs',source/'Editor.cs')
+ for name in ['EquipmentModel.cs','EquipmentEditor.cs']:shutil.copy2(WORK/'editor'/name,source/name)
+ shutil.copy2(WORK/'launcher/UpdateLauncher.cs',source/'UpdateLauncher.cs')
  subprocess.run([str(CSC),'/nologo','/target:winexe','/platform:x86','/optimize+', '/out:'+str(OUT/'payload/SteelCharacterEditor.exe'),'/r:System.Windows.Forms.dll','/r:System.Drawing.dll','/r:System.Core.dll',str(source/'SaveModel.cs'),str(source/'Editor.cs')],check=True)
  payload.append('SteelCharacterEditor.exe')
- manifest=dict(version=VERSION,gameplay_version='0.9.9',engine=delta(original,engine),archives=archives,entries=patches,pak_sha256=sha(pak),supported_executable_hashes=support,payload={n:sha((OUT/'payload'/n).read_bytes()) for n in payload})
+ subprocess.run([str(CSC),'/nologo','/target:winexe','/platform:x86','/optimize+', '/out:'+str(OUT/'payload/SteelEquipmentEditor.exe'),'/r:System.Windows.Forms.dll','/r:System.Drawing.dll','/r:System.Core.dll',str(source/'SaveModel.cs'),str(source/'EquipmentModel.cs'),str(source/'EquipmentEditor.cs')],check=True)
+ payload.append('SteelEquipmentEditor.exe')
+ manifest=dict(version=VERSION,gameplay_version='0.10.0',engine=delta(original,engine),archives=archives,entries=patches,pak_sha256=sha(pak),supported_executable_hashes=support,payload={n:sha((OUT/'payload'/n).read_bytes()) for n in payload})
  text(OUT/'patch-manifest.json',json.dumps(manifest,ensure_ascii=False,separators=(',',':')))
  for name in ['Install-Patch.ps1','PatchEngine.cs']:text(OUT/name,(ROOT/name).read_text(encoding='utf-8-sig'))
  (OUT/'Install-Patch.cmd').write_text('@echo off\r\npowershell.exe -NoProfile -STA -ExecutionPolicy Bypass -File "%~dp0Install-Patch.ps1"\r\npause\r\n',encoding='ascii')
@@ -68,7 +82,7 @@ def build():
   if name=='CHANGELOG.md':body=body.replace('과거 실행 파일 스냅샷은 소스 ZIP의 역사 자료이며 단독 교체용 설치 패키지가 아닙니다.','원본 실행 파일·게임 데이터·과거 실행 파일 스냅샷은 공개 배포하지 않습니다.')
   text(docs/name,body)
  # Strict allowlist: do not copy previous source bundles, extracted scripts, binaries or dumps.
- public=ROOT/'public-source-v099';public.mkdir(exist_ok=True)
+ public=ROOT/'public-source-v0100';public.mkdir(exist_ok=True)
  shutil.copy2(OUT/'README.md',public/'README.md')
  for name in ['PatchEngine.cs','Install-Patch.ps1']:shutil.copy2(OUT/name,public/name)
  shutil.copy2(OUT/'Install-Patch.cmd',public/'Install-Patch.cmd')
@@ -79,7 +93,7 @@ def build():
  shutil.copytree(OUT/'third-party',public/'third-party',dirs_exist_ok=True)
  # Build tooling is useful, but requires the developer's private, owned game inputs.
  shutil.copy2(Path(__file__),public/'build_patch_release.py')
- assets=ROOT/'assets-v099';assets.mkdir(exist_ok=True)
+ assets=ROOT/'assets-v0100';assets.mkdir(exist_ok=True)
  paths=[(f'SteelEmpire-Rework-v{VERSION}-PatchOnly.zip',OUT),(f'SteelEmpire-Rework-v{VERSION}-PatchSource.zip',public)]
  for name,folder in paths:
   with zipfile.ZipFile(assets/name,'w',zipfile.ZIP_DEFLATED,compresslevel=9) as z:
@@ -90,21 +104,31 @@ def build():
  text(ROOT/'build-report.json',json.dumps({p.name:dict(bytes=p.stat().st_size,sha256=sha(p.read_bytes())) for p in assets.iterdir()},indent=2))
  print((ROOT/'build-report.json').read_text(encoding='utf-8-sig'))
 
-README='''# 강철제국 리워크 — 원본 보유자용 패치 v0.9.9
+README='''# 강철제국 리워크 — 원본 보유자용 패치 v0.10.0
 
-v0.9.9 변경 사항
-- 중장갑보병 신규 훈련은 해당 도시의 정부청사 완공 후 가능합니다.
-- 밀로셰비치대령 사건 보상인 렌체스터-7P를 받으면 생산 설계도가 해금됩니다.
-  기존 성공 저장은 보상·동료·살해 기록 등으로 복구하며 최초 거절을 성공과 구별합니다.
-  생산비는 철 30, 석유 10, 금 30,000, 기간 60일입니다.
-- 에투루리아의 일반 도시 11곳에 점령 전투를 허용합니다. 군사 수비대가 없는 도시는
-  80명 보병 수비대가 한 번 배치됩니다. 기존 군사 수비대가 있으면 이를 사용하며,
-  전투 승리 후 아군 주둔을 통해 점령 상태를 관리할 수 있습니다.
-- 훈장 54~60을 아이템 상점에 구매가의 3분의 1로 판매할 수 있습니다.
-- 술집 공연 중 Esc 또는 Space로 정산까지 넘길 수 있습니다.
-- 댄서 공연 경험치를 1~20에서 2~40으로, 레벨이 반영되는 총공연수입을 2배로
-  조정했습니다. 출연인원 1명당 사용료는 200겔더이며 정상 정산을 한 번 거칩니다.
-- 민간군단도 배송 의뢰 자동 이동의 출발 군단으로 선택할 수 있습니다.
+v0.10.0 변경 사항
+- 인물 에디터에서 13개 병과를 변경할 수 있습니다. 운전병 전환을 지원하며,
+  부대·보직·훈련 배치는 먼저 해제해야 합니다. 이름·레벨·능력치는 유지합니다.
+- 장비 에디터를 추가했습니다. 차량·항공기 24종, 차체 33종, 포탑 55종의 기준
+  성능과 저장 파일에 이미 보유한 아군·적군 장비를 수정할 수 있습니다.
+  기준 성능 변경은 이후 생성 장비에 적용됩니다. 업데이트 후 변경 재적용 기능을 제공합니다.
+- 막사 훈련의 원래 건물 기술 조건을 복구했습니다. 중장갑보병은 정부청사 완공 후
+  신규 훈련됩니다. 기존 장갑보병 재훈련 기능은 유지합니다.
+- 에투루리아 일반 도시 전체를 적성지역으로 만들던 설정을 해제하고 카란토 수도만
+  점령 대상으로 제한했습니다. 카란토에는 최대 80명 수비대를 한 번 생성합니다.
+  용병단 본거지는 해당 용병단이 점령한 일반 도시가 없을 때 공격할 수 있습니다.
+  v0.9.9의 일반 도시 방어군은 식별 가능한 기본 편성만 정리하며 실제 점령군은 보존합니다.
+- 군단 인원 상한을 보병 33명, 기계화 19명으로 조정했습니다. 지휘 인원도 포함합니다.
+- 팬저파우스트 3종의 기량/명중 보정을 각각 30/26으로, 대공 공격을 각 무기의
+  대벽 공격과 같은 60/65/90으로 높였습니다. 사거리와 다른 수치는 유지합니다.
+- 유격훈련장은 병기창 LEVEL 1, 중화기사격장은 시청을 요구하도록 건설 조건을 교환했습니다.
+- 적 군단장 사망 후 잔여 적의 사기를 0으로 만들고 사기 붕괴 상태를 적용합니다.
+  기존 3턴 후 잔여 병력 전멸 처리도 유지합니다.
+- 주둔 중인 일반 지원 병과가 새 작업 기간을 1명당 2%, 최대 10% 줄입니다.
+  건축가는 건설, 과학자는 연구, 기술자는 장비 생산에 적용되며 기존 소장 보정과 병행합니다.
+- 차량·보병 혼합 기계화군단을 배송 자동 출발에서 제외하던 검사를 수정했습니다.
+- SteelReworkLauncher.exe를 추가했습니다. 실행 시 GitHub 최신 정식 패치를 확인하고
+  새 버전이 있으면 다운로드·SHA256 검증·백업 설치 후 재시작합니다. 기본/FHD/QHD 실행을 지원합니다.
 
 실제 게임의 훈련·생산·보상·출격·도시 배치·공연 정산 코드를 에뮬레이션해 검증했습니다.
 그래픽·입력·대화·일부 할당에 경계 대체를 사용하는 에뮬레이션 검증입니다.
@@ -128,7 +152,7 @@ v0.9.8.1은 수정된 인물 에디터 v0.9.8.1을 포함한 누적 패치입니
 ## 다운로드
 
 [최신 릴리스](https://github.com/pol2002co-cloud/steel-empire-rework/releases/latest)에서
-SteelEmpire-Rework-v0.9.9-PatchOnly.zip을 받으세요. 신규 설치와 기존 리워크 업데이트에
+SteelEmpire-Rework-v0.10.0-PatchOnly.zip을 받으세요. 신규 설치와 기존 리워크 업데이트에
 사용하는 누적 패치이며 원본 게임이 필요합니다. 기존 리워크 사용자도
 자동 이동 수정까지 적용하려면 이 누적 패치를 설치하세요. 수정된 에디터도 포함됩니다.
 PatchSource.zip은 설치 도구·런처·에디터 소스이며 게임 실행용 패키지가 아닙니다.
@@ -203,18 +227,20 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\\Install-Patch.ps1 -GamePa
 
 설치 도구는 원본의 기존 바이트를 읽고 XOR 변경분·추가 코드를 적용하여 실행 파일을
 생성합니다. 게임 데이터도 원본 PAK에서 읽은 항목에 변경분을 적용하여 patch104.pak를
-생성합니다. 생성 결과는 검증된 v0.9.9 실행 파일 및 데이터 팩과 바이트 단위로 동일합니다.
+생성합니다. 생성 결과는 검증된 v0.10.0 실행 파일 및 데이터 팩과 바이트 단위로 동일합니다.
 인물 에디터용 기준 데이터도 사용자 PC에서 생성하며 에디터에는 내장하지 않습니다.
 ReworkCharacterTemplates.dat는 에디터 옆에 유지하고 재배포하지 마세요.
 
 원본은 ReworkBackups에 백업합니다. 기존 저장과 ddraw.ini 설정은 유지합니다.
-설치 후 SteelRework.exe 또는 SteelReworkQHD.exe를 실행하세요.
+설치 직전 저장은 같은 백업 폴더의 Saves에도 별도로 보관합니다. 저장 복원은 수동입니다.
+설치 후 SteelReworkLauncher.exe를 실행하면 최신 패치 자동 확인과 실행 모드를 이용할 수 있습니다.
+이전 SteelRework.exe 또는 SteelReworkQHD.exe도 사용할 수 있습니다.
 게임 폴더 전체나 설치 후 생성된 게임 파일을 다른 사람에게 보내지 말고, 원본이
 없는 PatchOnly ZIP 또는 최신 릴리스 링크를 공유하세요.
 
 ## 복원
 
-게임·런처·에디터 종료 후 새로 생성된 ReworkBackups/v0.9.9-delta-날짜 폴더의
+게임·런처·에디터 종료 후 새로 생성된 ReworkBackups/v0.10.0-delta-날짜 폴더의
 Restore-Patch.ps1을 PowerShell로 실행합니다. 원래 존재하던 파일을 복구하고
 이번에 추가한 파일을 제거합니다. 저장은 복원하지 않습니다. 구버전 복귀 전
 저장 파일도 별도로 백업하세요.
