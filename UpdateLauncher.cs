@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -19,7 +19,7 @@ internal sealed class ReleaseInfo {
 
 internal static class UpdatePackage {
  public const string Repository="pol2002co-cloud/steel-empire-rework";
- public const string CurrentVersion="0.10.0";
+ public const string CurrentVersion="0.15.0";
  public const int MaxZipBytes=64*1024*1024;
  public static ReleaseInfo ParseRelease(string json) {
   var root=new JavaScriptSerializer().Deserialize<Dictionary<string,object>>(json);

@@ -113,17 +113,20 @@ namespace SteelEditor {
   public string ClassName(Person c){int x=Get(c,0x38);return x<Classes.Length?Classes[x]:"병과 "+x;}
   public string State(Person c){int s=Get(c,4);if(s==1)return "사망 / 복귀 대기";if(s==2)return "훈련·전직 중";if(Get(c,0x54)==0)return "HP 0 (상태 유지)";return Get(c,0x10)>0||Get(c,0x14)>0?"생존 · 배치 중":"생존 · 대기";}
   public string StateRestriction(Person c){
+   if(NeedsClassRepair(c))return "이전 에디터의 병과 자격 누락을 확인했습니다. ‘변경 적용’ 후 저장하면 탑승·장비 사용 자격을 복구합니다. 능력치는 유지됩니다.";
    if(!c.Companion)return "일반 용병은 능력치·병과를 수정할 수 있습니다. 병과는 배치·훈련 해제 후 변경하세요. 사망 시 삭제 규칙은 유지합니다.";
    if(Get(c,4)==2)return "훈련·전직 완료 후 저장하고 다시 열면 상태를 변경할 수 있습니다.";
    if(Get(c,0x10)!=0||Get(c,0x14)!=0||c.Copies.Count>1)return "부대·보직·훈련에서 해제한 뒤 게임에서 저장하고 다시 열어 주세요. 현재 인물의 능력치는 수정할 수 있습니다.";
    return c.Outside?"포룸 밖 인물입니다. 사망 상태를 변경해도 자동으로 동료가 되지는 않습니다.":"사망은 복귀 대기 상태입니다. 기존 리워크에서는 다음 날 자정에 돌아옵니다.";
   }
   public bool CanClass(Person c){return Get(c,4)!=2&&Get(c,0x10)==0&&Get(c,0x14)==0&&c.Copies.Count==1;}
+  public bool NeedsClassRepair(Person c){return CanClass(c)&&(Get(c,0x44)&(1<<Get(c,0x38)))==0;}
   public bool CanState(Person c){return c.Companion&&Get(c,4)!=2&&Get(c,0x10)==0&&Get(c,0x14)==0&&c.Copies.Count==1;}
   public bool Dirty{get{return !Original.SequenceEqual(Data);}}
   public int ChangedCount{get{return People.Count(c=>c.Copies.Any(o=>!Original.Skip(o).Take(168).SequenceEqual(Data.Skip(o).Take(168))));}}
   public void Apply(Person c,Dictionary<int,int> values,int state){
    if(!People.Contains(c))throw new InvalidOperationException("다른 저장 파일의 인물입니다.");
+   if(!values.ContainsKey(0x38)&&NeedsClassRepair(c)){values=new Dictionary<int,int>(values);values.Add(0x38,Get(c,0x38));}
    foreach(var v in values){
     if(v.Key==0x38){if(v.Value<1||v.Value>13)throw new InvalidDataException("지원하지 않는 병과입니다.");if(v.Value!=Get(c,0x38)&&!CanClass(c))throw new InvalidOperationException("병과를 변경하려면 부대·보직·훈련에서 해제한 뒤 게임에서 저장하고 다시 열어 주세요.");continue;}
     if(v.Key==0x7c||v.Key==0x80){int mask=v.Key==0x7c?31:255;if((v.Value&~mask)!=(Get(c,v.Key)&~mask))throw new InvalidDataException("알 수 없는 능력 비트는 변경할 수 없습니다.");continue;}
@@ -135,7 +138,7 @@ namespace SteelEditor {
    if(state!=-1&&!CanState(c))throw new InvalidOperationException(StateRestriction(c));
    if(state==0&&hp==0)throw new InvalidDataException("생존으로 변경하려면 현재 HP를 1 이상으로 설정해 주세요.");
    byte[] next=(byte[])Data.Clone();
-   foreach(int o in c.Copies){foreach(var v in values)W(next,o+v.Key,v.Value);if(values.ContainsKey(0x38)){W(next,o+0x44,checked(I(templateData,4+(values[0x38]-1)*348+104)*2));if(!c.Companion)W(next,o,values[0x38]);}if(state!=-1){W(next,o+4,state);W(next,o+0x54,state==1?0:hp);}}
+   foreach(int o in c.Copies){foreach(var v in values)W(next,o+v.Key,v.Value);if(values.ContainsKey(0x38)){W(next,o+0x44,checked(I(templateData,4+(values[0x38]-1)*348+104)*2)|(1<<values[0x38]));if(!c.Companion)W(next,o,values[0x38]);}if(state!=-1){W(next,o+4,state);W(next,o+0x54,state==1?0:hp);}}
    Parse(next);Data=next;
   }
   public void Reset(Person c){foreach(int o in c.Copies)Buffer.BlockCopy(Original,o,Data,o,168);}
