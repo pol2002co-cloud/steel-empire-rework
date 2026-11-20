@@ -23,7 +23,7 @@ if(Test-Path -LiteralPath $backups){$candidates+=@(Get-ChildItem -LiteralPath $b
 $original=$null
 foreach($candidate in $candidates){if((Get-FileHash -LiteralPath $candidate).Hash.ToLowerInvariant() -eq $manifest.engine.source_sha256){$original=$candidate;break}}
 if(!$original){throw 'Verified original SteelEmpire.exe is required in the game folder or ReworkBackups. No game files changed.'}
-$allowed=@('SteelEmpire.exe','patch104.pak','ReworkCharacterTemplates.dat','SteelRework.exe','SteelRework169.exe','SteelReworkQHD.exe','SteelReworkLauncher.exe','SteelCharacterEditor.exe','SteelEquipmentEditor.exe','ddraw.dll','ddraw.ini','SteelCharacterEditor-사용법.txt','SteelEquipmentEditor-사용법.txt','SteelReworkLauncher-사용법.txt','SteelRework169-사용법.txt','종전후-전역이벤트-v0110-사용법.txt','전역이벤트-자동공연-v0111-사용법.txt','전역이벤트-자동공연-v0112-사용법.txt','전역이벤트-자동공연-v0113-사용법.txt','전역이벤트-자동공연-v0114-사용법.txt','전역이벤트-단일목표-v0120-사용법.txt','전역이벤트-단일목표-v0121-사용법.txt','파견·유적-v0130-사용법.txt','편의성·유적-v0140-사용법.txt','파견자동편성-v0141-사용법.txt','유적수호대-v0150-사용법.txt')
+$allowed=@('SteelEmpire.exe','patch104.pak','ReworkCharacterTemplates.dat','SteelRework.exe','SteelRework169.exe','SteelReworkQHD.exe','SteelReworkLauncher.exe','SteelCharacterEditor.exe','SteelEquipmentEditor.exe','ddraw.dll','ddraw.ini','SteelCharacterEditor-사용법.txt','SteelEquipmentEditor-사용법.txt','SteelReworkLauncher-사용법.txt','SteelRework169-사용법.txt','종전후-전역이벤트-v0110-사용법.txt','전역이벤트-자동공연-v0111-사용법.txt','전역이벤트-자동공연-v0112-사용법.txt','전역이벤트-자동공연-v0113-사용법.txt','전역이벤트-자동공연-v0114-사용법.txt','전역이벤트-단일목표-v0120-사용법.txt','전역이벤트-단일목표-v0121-사용법.txt','파견·유적-v0130-사용법.txt','편의성·유적-v0140-사용법.txt','파견자동편성-v0141-사용법.txt','유적수호대-v0150-사용법.txt','퀘스트개편-v0160-사용법.txt','연간행사·전설설계도-v0170-사용법.txt','QuestScenes.sqa')
 foreach($entry in $manifest.payload.PSObject.Properties){
  if($entry.Name -notin $allowed){throw 'Unexpected payload name.'}
  if((Get-FileHash -LiteralPath (Join-Path $PSScriptRoot ('payload\'+$entry.Name))).Hash.ToLowerInvariant() -ne $entry.Value){throw 'Payload verification failed.'}
@@ -38,10 +38,15 @@ try {
  New-Item -ItemType Directory -Path $backup | Out-Null
  $saveBackup=Join-Path $backup 'Saves'
  New-Item -ItemType Directory -Path $saveBackup | Out-Null
- foreach($save in Get-ChildItem -LiteralPath $target -Filter '*.Sav' -File){
-  $copy=Join-Path $saveBackup $save.Name
+ foreach($folder in @($target,(Join-Path $target 'EoSteel_Win'))){
+  if(!(Test-Path -LiteralPath $folder -PathType Container)){continue}
+  foreach($save in Get-ChildItem -LiteralPath $folder -Filter '*.Sav' -File){
+  $dest=if($folder -eq $target){$saveBackup}else{Join-Path $saveBackup 'EoSteel_Win'}
+  [IO.Directory]::CreateDirectory($dest) | Out-Null
+  $copy=Join-Path $dest $save.Name
   Copy-Item -LiteralPath $save.FullName -Destination $copy
   if((Get-FileHash -LiteralPath $save.FullName).Hash -ne (Get-FileHash -LiteralPath $copy).Hash){throw 'Save backup verification failed. No game files changed.'}
+  }
  }
  $state=@()
  foreach($file in Get-ChildItem -LiteralPath $stage -File){

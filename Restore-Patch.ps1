@@ -2,7 +2,7 @@
 Import-Module (Join-Path $PSHOME 'Modules\Microsoft.PowerShell.Utility\Microsoft.PowerShell.Utility.psd1') -Force
 $target=Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 $state=Get-Content -LiteralPath (Join-Path $PSScriptRoot 'state.json') -Raw -Encoding UTF8 | ConvertFrom-Json
-$allowed=@('SteelEmpire.exe','SteelRework.exe','SteelRework169.exe','SteelReworkQHD.exe','SteelCharacterEditor.exe','SteelEquipmentEditor.exe','SteelReworkLauncher.exe','patch104.pak','ReworkCharacterTemplates.dat','유적수호대-v0150-사용법.txt','ddraw.dll','ddraw.ini','SteelEquipmentEditor-사용법.txt','SteelReworkLauncher-사용법.txt','SteelCharacterEditor-사용법.txt','SteelRework169-사용법.txt')
+$allowed=@('SteelEmpire.exe','SteelRework.exe','SteelRework169.exe','SteelReworkQHD.exe','SteelCharacterEditor.exe','SteelEquipmentEditor.exe','SteelReworkLauncher.exe','patch104.pak','ReworkCharacterTemplates.dat','QuestScenes.sqa','연간행사·전설설계도-v0170-사용법.txt','ddraw.dll','ddraw.ini','SteelEquipmentEditor-사용법.txt','SteelReworkLauncher-사용법.txt','SteelCharacterEditor-사용법.txt','SteelRework169-사용법.txt')
 foreach($p in Get-Process -Name SteelEmpire,SteelRework,SteelRework169,SteelReworkQHD,SteelCharacterEditor,SteelEquipmentEditor,SteelReworkLauncher -ErrorAction SilentlyContinue){
  if($p.Path -and (Split-Path -Parent $p.Path) -eq $target){throw 'Close the game, launchers and editor first.'}
 }

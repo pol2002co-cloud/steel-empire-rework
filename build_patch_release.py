@@ -4,12 +4,12 @@ import base64, hashlib, json, shutil, struct, subprocess, sys, zipfile
 ROOT=Path(__file__).resolve().parent
 WORK=ROOT.parents[1]/'steel-rework'
 GAME=Path('C:/Games/DGGL/Games/EoSteel_Win')
-VERSION='0.15.0'
+VERSION='0.17.0'
 VERSION_TAG='v'+VERSION.replace('.','')
 OUT=ROOT/('output-'+VERSION_TAG)
-WORLD_GUIDE='유적수호대-v0150-사용법.txt'
+WORLD_GUIDE='연간행사·전설설계도-v0170-사용법.txt'
 OWN_CS_SOURCES=('SaveModel.cs','Editor.cs','EquipmentModel.cs','EquipmentEditor.cs','UpdateLauncher.cs')
-WORLD_EVENT_SOURCES=('world_event_catalog.py','world_event_simple_catalog.py','world_event_state.py','world_event_actions.py','world_event_compile.py','world_events_patch.py','world_event_native.c','test_world_event_catalog.py','test_world_event_simple_catalog.py','test_world_event_simple.py','test_goal_occupation.py','test_world_event_state.py','test_world_event_actions.py','test_world_event_compile.py','test_world_events_patch.py','test_world_events_native.py','test_world_event_integration.py','world_tour_actions.py','test_world_tour_actions.py','test_world_tour.py','test_world_event_notifications.py','world_event_dispatch.py','test_world_event_dispatch.py','test_world_event_queue.py','retraining_notice_patch.py','test_retraining_notice.py','expedition_actions.py','expedition_storage.py','expedition_storage.h','expedition_native.c','expedition_catalog.py','ruin_visits.py','test_expedition_actions.py','test_expedition_storage.py','test_expedition_catalog.py','test_ruin_visits.py','test_expedition_native.py','test_expedition_save.py','test_expedition_reset.py','test_ruin_random.py','test_quest_usability.py','test_expedition_usability.py','test_expedition_auto.py','ruin_guardians.py','test_ruin_guardians.py','test_ruin_guardian_actions.py')
+WORLD_EVENT_SOURCES=('world_event_catalog.py','world_event_simple_catalog.py','world_event_state.py','world_event_actions.py','world_event_compile.py','world_events_patch.py','world_event_native.c','test_world_event_catalog.py','test_world_event_simple_catalog.py','test_world_event_simple.py','test_goal_occupation.py','test_world_event_state.py','test_world_event_actions.py','test_world_event_compile.py','test_world_events_patch.py','test_world_events_native.py','test_world_event_integration.py','world_tour_actions.py','test_world_tour_actions.py','test_world_tour.py','test_world_event_notifications.py','world_event_dispatch.py','test_world_event_dispatch.py','test_world_event_queue.py','retraining_notice_patch.py','test_retraining_notice.py','expedition_actions.py','expedition_storage.py','expedition_storage.h','expedition_native.c','expedition_catalog.py','ruin_visits.py','test_expedition_actions.py','test_expedition_storage.py','test_expedition_catalog.py','test_ruin_visits.py','test_expedition_native.py','test_expedition_save.py','test_expedition_reset.py','test_ruin_random.py','test_quest_usability.py','test_expedition_usability.py','test_expedition_auto.py','ruin_guardians.py','test_ruin_guardians.py','test_ruin_guardian_actions.py','quest_encounters.py','quest_encounters.c','test_quest_encounters.py','quest_art.py','quest_art_atlas.png','test_quest_art.py','test_quest_variety.py','seasonal_rewards_patch.py','legend_machines.py','legend_machine_atlas.png','test_monthly_world.py','test_monthly_rewards.py','test_legend_machines.py','test_legend_blueprints.py','xp_share_patch.py','campaign_patch.py')
 CSC=Path('C:/Windows/Microsoft.NET/Framework/v4.0.30319/csc.exe')
 sys.path.insert(0,str(WORK))
 from archive import entries,decode
@@ -51,7 +51,8 @@ def build():
   for name in names:
    shutil.copy2(folder/name,OUT/'payload'/name);payload.append(name)
  shutil.copy2(WORK/'editor/SteelCharacterEditor-사용법.txt',OUT/'payload/SteelCharacterEditor-사용법.txt')
- shutil.copy2(WORK/WORLD_GUIDE,OUT/'payload'/WORLD_GUIDE);payload.append(WORLD_GUIDE)
+ for name in (WORLD_GUIDE,'QuestScenes.sqa'):
+  shutil.copy2(WORK/name,OUT/'payload'/name);payload.append(name)
  # The editor no longer embeds the copyrighted character template table.
  src=(WORK/'editor/SaveModel.cs').read_text(encoding='utf-8-sig')
  begin=src.index('   using(var stream=typeof(SaveModel).Assembly.GetManifestResourceStream("char.dat")){')
@@ -75,15 +76,15 @@ def build():
  text(OUT/'patch-manifest.json',json.dumps(manifest,ensure_ascii=False,separators=(',',':')))
  for name in ['Install-Patch.ps1','PatchEngine.cs']:text(OUT/name,(ROOT/name).read_text(encoding='utf-8-sig'))
  (OUT/'Install-Patch.cmd').write_text('@echo off\r\npowershell.exe -NoProfile -STA -ExecutionPolicy Bypass -File "%~dp0Install-Patch.ps1"\r\npause\r\n',encoding='ascii')
- restore=(ROOT.parent/'Restore-Update.ps1').read_text(encoding='utf-8-sig').replace("'patch104.pak',","'patch104.pak','ReworkCharacterTemplates.dat','"+WORLD_GUIDE+"',")
+ restore=(ROOT.parent/'Restore-Update.ps1').read_text(encoding='utf-8-sig').replace("'patch104.pak',","'patch104.pak','ReworkCharacterTemplates.dat','QuestScenes.sqa','"+WORLD_GUIDE+"',")
  restore=restore.replace("$ErrorActionPreference='Stop'", "$ErrorActionPreference='Stop'\nImport-Module (Join-Path $PSHOME 'Modules\\Microsoft.PowerShell.Utility\\Microsoft.PowerShell.Utility.psd1') -Force")
  text(OUT/'Restore-Patch.ps1',restore)
  third=OUT/'third-party';third.mkdir(exist_ok=True)
  shutil.copy2(ROOT.parent/'third-party/cnc-ddraw-LICENSE.txt',third/'cnc-ddraw-LICENSE.txt')
  text(OUT/'README.md',README)
  docs=OUT/'docs';docs.mkdir(exist_ok=True)
- for name in ['CHANGELOG.md','확장캠페인-v090-사용법.txt','보스-아군배치-수정-v091.txt']:
-  body=(ROOT.parent/'docs'/name).read_text(encoding='utf-8-sig')
+ for name in ['CHANGELOG.md','확장캠페인-v090-사용법.txt','보스-아군배치-수정-v091.txt','유적수호대-v0150-사용법.txt','퀘스트개편-v0160-사용법.txt']:
+  body=((WORK if name in ('유적수호대-v0150-사용법.txt','퀘스트개편-v0160-사용법.txt') else ROOT.parent/'docs')/name).read_text(encoding='utf-8-sig')
   if name=='CHANGELOG.md':body=body.replace('과거 실행 파일 스냅샷은 소스 ZIP의 역사 자료이며 단독 교체용 설치 패키지가 아닙니다.','원본 실행 파일·게임 데이터·과거 실행 파일 스냅샷은 공개 배포하지 않습니다.')
   text(docs/name,body)
  shutil.copy2(WORK/WORLD_GUIDE,docs/WORLD_GUIDE)
@@ -103,7 +104,7 @@ def build():
  # Build tooling is useful, but requires the developer's private, owned game inputs.
  shutil.copy2(Path(__file__),public/'build_patch_release.py')
  allowed_public={'README.md','PatchEngine.cs','Install-Patch.ps1','Install-Patch.cmd','Restore-Patch.ps1','build_patch_release.py',*OWN_CS_SOURCES,'Launcher.cs','WideLauncher.cs','WideLauncherQHD.cs','third-party/cnc-ddraw-LICENSE.txt'}
- allowed_public.update('docs/'+name for name in ['CHANGELOG.md','확장캠페인-v090-사용법.txt','보스-아군배치-수정-v091.txt',WORLD_GUIDE])
+ allowed_public.update('docs/'+name for name in ['CHANGELOG.md','확장캠페인-v090-사용법.txt','보스-아군배치-수정-v091.txt','유적수호대-v0150-사용법.txt','퀘스트개편-v0160-사용법.txt',WORLD_GUIDE])
  allowed_public.update('world-events/'+name for name in [*WORLD_EVENT_SOURCES,'README.md'])
  assert {p.relative_to(public).as_posix() for p in public.rglob('*') if p.is_file()}==allowed_public,'Unexpected public source file; inspect the version output before packaging'
  assets=ROOT/('assets-'+VERSION_TAG);assets.mkdir(exist_ok=True)
@@ -117,7 +118,21 @@ def build():
  text(ROOT/'build-report.json',json.dumps({p.name:dict(bytes=p.stat().st_size,sha256=sha(p.read_bytes())) for p in assets.iterdir()},indent=2))
  print((ROOT/'build-report.json').read_text(encoding='utf-8-sig'))
 
-README='''# 강철제국 리워크 — 원본 보유자용 패치 v0.15.0
+README='''# 강철제국 리워크 — 원본 보유자용 패치 v0.17.0
+
+v0.17.0 — 연간 행사·전설 설계도
+- 1·7월에는 점령 보수와 본거지 상납금, 3·9월에는 전투 경험치, 5·11월에는 배송 보수를 두 배로 받습니다.
+- 유적·파견 기록으로 전설 장비 4종의 설계도를 해금해 포룸에서 제작할 수 있습니다.
+- 자세한 일정과 제작 조건은 docs/연간행사·전설설계도-v0170-사용법.txt에 있습니다.
+
+v0.16.1 — 퀘스트 삽화에 원본 이벤트 화면 배치 적용
+- 기존 삽화 여섯 장의 구도를 조정했습니다. 본편 이벤트와 같은 위치에 장식 액자가 뜨고 아래에 대사가 이어집니다.
+
+v0.16.0 — 삽화와 현장 사건
+- F8 전역 의뢰 38종의 의뢰문·결과문 개편, 무전 해독·갱도 인양·악단 앙코르 3종 추가.
+- 지역별 발신 도시와 목표 다양화, 미지급 보상의 다음 날 재시도.
+- 퀘스트·파견·유적 대화에 상황별 삽화 6종을 표시합니다.
+- 사용법은 docs/퀘스트개편-v0160-사용법.txt에서 확인할 수 있습니다.
 
 v0.15.0 — 유적별 연간 3단계 수호대 전투
 
@@ -315,7 +330,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\\Install-Patch.ps1 -GamePa
 
 설치 도구는 원본의 기존 바이트를 읽고 XOR 변경분·추가 코드를 적용하여 실행 파일을
 생성합니다. 게임 데이터도 원본 PAK에서 읽은 항목에 변경분을 적용하여 patch104.pak를
-생성합니다. 생성 결과는 검증된 v0.15.0 실행 파일 및 데이터 팩과 바이트 단위로 동일합니다.
+생성합니다. 생성 결과는 검증된 v0.17.0 실행 파일 및 데이터 팩과 바이트 단위로 동일합니다.
 인물 에디터용 기준 데이터도 사용자 PC에서 생성하며 에디터에는 내장하지 않습니다.
 ReworkCharacterTemplates.dat는 에디터 옆에 유지하고 재배포하지 마세요.
 
@@ -328,7 +343,7 @@ ReworkCharacterTemplates.dat는 에디터 옆에 유지하고 재배포하지 �
 
 ## 복원
 
-게임·런처·에디터 종료 후 새로 생성된 ReworkBackups/v0.15.0-delta-날짜 폴더의
+게임·런처·에디터 종료 후 새로 생성된 ReworkBackups/v0.17.0-delta-날짜 폴더의
 Restore-Patch.ps1을 PowerShell로 실행합니다. 원래 존재하던 파일을 복구하고
 이번에 추가한 파일을 제거합니다. 저장은 복원하지 않습니다. 구버전 복귀 전
 저장 파일도 별도로 백업하세요.

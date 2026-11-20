@@ -89,13 +89,22 @@ namespace SteelEditor {
    foreach(var row in Rows)foreach(var field in row.Fields)if(Get(row,field.Offset)!=I(originalTables[row.Table],row.Offset+field.Offset))values[row.Table+"|"+row.Id+"|"+field.Offset]=Get(row,field.Offset).ToString();
    string temp=ProfilePath+"."+Guid.NewGuid().ToString("N")+".tmp";try{File.WriteAllLines(temp,new[]{"# Steel Empire equipment numeric changes v1"}.Concat(values.OrderBy(x=>x.Key).Select(x=>x.Key+"|"+x.Value)),Encoding.UTF8);if(File.Exists(ProfilePath))File.Replace(temp,ProfilePath,null);else File.Move(temp,ProfilePath);}finally{if(File.Exists(temp))File.Delete(temp);}
   }
+  static readonly Dictionary<int,string> BlueprintNames=new Dictionary<int,string>{
+   {16,"철왕"},{13,"뇌격전차"},{2,"천둥매"},{23,"밤까마귀"}
+  };
   public void OpenSave(string path){
    var verified=new SaveModel(path);byte[] b=verified.Original;var found=new List<EquipmentRow>();var machines=Rows.Where(x=>x.Table=="machine.dat").ToDictionary(x=>x.Id,x=>x.Name);
    for(int o=0;o<=b.Length-160;o+=4){
-    int id=I(b,o),faction=I(b,o+4),compound=I(b,o+0x4c);if(faction<1||faction>24||compound<0||compound>1)continue;
+    int id=I(b,o),faction=I(b,o+4),compound=I(b,o+0x4c);if(faction<0||faction>24||compound<0||compound>1)continue;
     if(compound==0&&(id<1||id>24)||compound==1&&((id&65535)<1||(id&65535)>33||(id>>16)<1||(id>>16)>55))continue;
     if(I(b,o+0x54)<0||I(b,o+0x58)<=0||I(b,o+0x58)>10000000||I(b,o+0x54)>I(b,o+0x58)||I(b,o+0x74)<0||I(b,o+0x74)>3||I(b,o+0x78)<0||I(b,o+0x78)>2)continue;
-    try {string name=Name(b,o+12);if(name.Length==0||compound==0&&name!=machines[id]||name.Any(c=>Char.IsControl(c)))continue;found.Add(new EquipmentRow{Table="save",Name=(faction==1?"[아군] ":"[세력 "+faction+"] ")+name+" · "+o.ToString("X"),Id=id,Offset=o,Fields=SavedFields});}catch(DecoderFallbackException){}catch(InvalidDataException){}
+    try {
+     string name=Name(b,o+12),blueprintName;
+     bool blueprint=compound==0&&BlueprintNames.TryGetValue(id,out blueprintName)&&name==blueprintName;
+     if(name.Length==0||name.Any(c=>Char.IsControl(c))||faction==0&&!blueprint||compound==0&&!blueprint&&name!=machines[id])continue;
+     string status=faction==0?"[배치 해제] ":faction==1?"[아군] ":"[세력 "+faction+"] ";
+     found.Add(new EquipmentRow{Table="save",Name=status+name+" · "+o.ToString("X"),Id=id,Offset=o,Fields=SavedFields});
+    }catch(DecoderFallbackException){}catch(InvalidDataException){}
    }
    if(found.Count==0)throw new InvalidDataException("이 저장에서 확실하게 식별 가능한 장비가 없습니다.");
    SavePath=Path.GetFullPath(path);originalSave=b;SaveData=(byte[])b.Clone();Rows=found;
