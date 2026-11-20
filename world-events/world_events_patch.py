@@ -4,7 +4,10 @@ import hashlib
 import re
 
 from world_event_catalog import EVENT_CATALOG as LEGACY_EVENT_CATALOG, CATEGORIES, BATTLE_PROFILES, TARGET_ROLES, STORY_CONDITIONS
-from world_event_simple_catalog import SIMPLE_EVENT_CATALOG as EVENT_CATALOG, GOAL_TYPES
+from world_event_simple_catalog import SIMPLE_EVENT_CATALOG, GOAL_TYPES as CONTRACT_GOALS
+from quest_encounters import ENCOUNTERS
+EVENT_CATALOG = SIMPLE_EVENT_CATALOG + ENCOUNTERS
+GOAL_TYPES = {**CONTRACT_GOALS, "encounter": 7}
 from expedition_actions import EXPORTS as EXPEDITION_EXPORTS, PROTOTYPES as EXPEDITION_PROTOTYPES, SOURCE as EXPEDITION_SOURCE
 
 ROOT = Path(__file__).resolve().parent
@@ -86,12 +89,14 @@ def predicates(event):
 def condition_text(event, catalog=EVENT_CATALOG):
     if "goal" in event:
         goal = event["goal"]
+        if goal["type"] == "encounter":
+            return "본편 도중 현장 소식에서 선택 / 중단한 선택은 F8에서 재개 / 결정한 결과는 자동 정산"
         text = ["본편 도중에도 발동 / 목표 하나만 확인하여 자동 완료·정산"]
         descriptions = {
             "visit": "어느 아군 군단이든 표시된 도시 한 곳 방문",
             "supply": "표시된 자원 한 종류를 확보하면 자동 납품; 부족하면 대기",
             "item": "어느 아군 군단이든 가방의 지정 예비 물품 한 개 준비; 장착품 제외",
-            "equipment": "포룸 정비창의 HP가 남아 있는 미배치·무승무원 일반 장비 한 대 준비",
+            "equipment": "포룸 정비창의 완전히 수리된 미배치·무승무원 일반 장비 한 대 준비",
             "build": "포룸에 "+FACILITY_NAMES.get(goal["building_id"], "해당 건물")+" 완공; 이미 지은 건물도 인정",
             "occupy": "표시된 적 도시를 기존 게임 규칙으로 점거; 임시 전투나 편성 제한 없음",
         }
@@ -162,7 +167,7 @@ def _choice_values(choice, stage_count, simple=False):
     return "{"+",".join(fields)+"}"
 
 
-def generate_header(state, actions, journal, catalog=EVENT_CATALOG, tour_actions=None, storage=None):
+def generate_header(state, actions, journal, catalog=EVENT_CATALOG, tour_actions=None, storage=None, legends=None):
     """Produce an ASCII-only include after C has declared Choice/Stage/Event."""
     count = len(EVENT_CATALOG)
     if len(catalog) != count or [e["id"] for e in catalog] != list(range(count)):
@@ -170,12 +175,16 @@ def generate_header(state, actions, journal, catalog=EVENT_CATALOG, tour_actions
     journal = journal.get("event_journal", journal)
     macros = {"S_BASE": state["base"], "S_MAGIC": state["magic"], "S_DONE": state["done_address"],
               "S_LAST_DAY": state["last_day_address"], "S_NEXT_OFFER": state["next_offer_address"],
-              "UI_SELECT": journal["select"], "UI_SPEECH": journal["speech"]}
+              "UI_SELECT": journal["select"], "UI_SPEECH": journal["speech"],
+              "UI_ART_SPEECH": journal.get("quest_art_speech", 0)}
     for name in ("getslot", "completed", "count_completed", "tick", "rng", "can_offer", "schedule", "finish", "clear", "reserve_battle"):
         macros["S_"+name.upper()] = state[name]
     for name in ("find_item", "take_item", "give_item", "hire", "give_machine", "battle", "known", "find_machine", "take_machine"):
         macros["A_"+name.upper()] = actions[name]
     macros["A_PERFORM"] = (tour_actions or actions)["perform"]
+    from world_event_state import MONTH_NOTICE_SHOWN
+    macros["MONTH_NOTICE_SHOWN"] = MONTH_NOTICE_SHOWN
+    macros["A_GIVE_LEGEND"] = (legends or {}).get("give_legend", 0)
     macros["E_NATIVE_SAVE"] = (storage or {}).get("native_save", 0)
     lines = ["/* Generated own event text and native adapter addresses. */", "#ifndef WORLD_EVENT_GENERATED_H", "#define WORLD_EVENT_GENERATED_H"]
     lines.extend("#define %s 0x%xu" % (name, _number(value)) for name, value in sorted(macros.items()))
@@ -242,6 +251,8 @@ def emit(put, asm, address, patch, journal, build_dir=None, read=None):
     state = emit_state(put, asm, address)["world_event_state"]
     actions = emit_actions(put, asm, address, patch)["world_event_actions"]
     tour_actions = emit_tour(put, asm, address)["world_tour_actions"]
+    from legend_machines import emit as emit_legends
+    legends = emit_legends(put,asm,address)
     from expedition_storage import emit as emit_storage
     from expedition_catalog import generate_catalog_header
     from ruin_guardians import generate_header as generate_guardian_header
@@ -250,8 +261,8 @@ def emit(put, asm, address, patch, journal, build_dir=None, read=None):
     storage=emit_storage(put,asm,address,read)
     build = Path(build_dir).resolve() if build_dir is not None else ROOT/"world-events-build-v0110"
     build.mkdir(parents=True, exist_ok=True)
-    header = generate_header(state, actions, journal, tour_actions=tour_actions, storage=storage)
-    source = cp949_source(EXPEDITION_PROTOTYPES+"\n"+(ROOT/"world_event_native.c").read_text(encoding="utf-8-sig")+"\n"+(ROOT/"expedition_native.c").read_text(encoding="utf-8-sig")+"\n"+EXPEDITION_SOURCE)
+    header = generate_header(state, actions, journal, tour_actions=tour_actions, storage=storage, legends=legends)
+    source = cp949_source(EXPEDITION_PROTOTYPES+"\n"+(ROOT/"world_event_native.c").read_text(encoding="utf-8-sig").replace("/* QUEST_ENCOUNTERS */", (ROOT/"quest_encounters.c").read_text(encoding="utf-8-sig"))+"\n"+(ROOT/"expedition_native.c").read_text(encoding="utf-8-sig")+"\n"+EXPEDITION_SOURCE)
     (build/"expedition_catalog_generated.h").write_text(generate_catalog_header(c_string),encoding="ascii")
     (build/"ruin_guardians_generated.h").write_text(generate_guardian_header(),encoding="ascii")
     (build/"expedition_storage.h").write_bytes((ROOT/"expedition_storage.h").read_bytes())
@@ -284,7 +295,7 @@ def emit(put, asm, address, patch, journal, build_dir=None, read=None):
     metadata = dict(
         expeditions=dict(storage=storage,ruins=ruins,slots=4,max_heroes=3,max_generics=20,save_footer=True),retraining_notice=retraining_notice, dispatch=dispatch, idle=hex(exports["we_idle"]), tick=hex(exports["we_tick"]), router=hex(exports["we_router"]),
         exports={name: hex(value) for name, value in exports.items()},
-        state=state, actions=actions, tour_actions=tour_actions, image_base=hex(base), image_size=len(mapped),
+        state=state, actions=actions, legend_machines=legends, tour_actions=tour_actions, image_base=hex(base), image_size=len(mapped),
         mapped_sha256=hashlib.sha256(mapped).hexdigest(),
         generated_header_sha256=hashlib.sha256(header.encode("ascii")).hexdigest(),
         compiled_source_sha256=hashlib.sha256(source.encode("utf-8")).hexdigest(),

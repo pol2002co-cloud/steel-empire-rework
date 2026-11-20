@@ -25,6 +25,19 @@ class CatalogTests(unittest.TestCase):
             self.assertGreater(recipe['days'],0)
             self.assertNotIn(recipe['machine'],range(17,22))
 
+    def test_legend_recipes_use_model_order_and_earned_progress(self):
+        from legend_machines import MODELS
+        self.assertEqual([r['name'] for r in LEGEND_RECIPES],[m['name'] for m in MODELS])
+        self.assertEqual([(r['required'],r['gold'],r['iron'],r['oil'],r['days'],r['factory']) for r in LEGEND_RECIPES],
+                    [(2,700000,200,80,18,9),(1,900000,240,120,24,9),(3,650000,120,160,18,12),(2,1000000,180,220,24,12)])
+        header=generate_catalog_header(c_string)
+        self.assertIn('#define EX_RECIPE_COUNT 7u',header)
+        self.assertIn('#define EX_STANDARD_RECIPES 3u',header)
+        for recipe,model in zip(LEGEND_RECIPES,MODELS):
+            self.assertIn(c_string(recipe['condition']),header)
+            self.assertIn(c_string('HP %d · 방어 %d · 사거리 %d · 공격 대인 %d / 대공 %d / 대기갑 %d / 대벽 %d'%(
+                    model['hp'],model['defense'],model['reach'],*model['attack'])),header)
+
     def test_four_real_ruins_and_passive_artifacts(self):
         self.assertEqual(tuple(town for _,town in RUINS),(20,41,52,0))
         self.assertEqual(len(ARTIFACTS),2)

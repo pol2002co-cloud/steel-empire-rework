@@ -16,10 +16,11 @@ COOLDOWNS = BASE+32
 CARDS = BASE+104
 CARD_WORDS = 8
 CARD_COUNT = 3
-EVENT_COUNT = 38
+EVENT_COUNT = 41
 TIMER_COUNT = 36
+MONTH_NOTICE_SHOWN = 1 << 29  # Shared high word of completion bits, outside all event IDs.
 # IDs 36/37 reuse never-needed timers of one-shot events 20/22; cards stay put.
-COOLDOWN_INDEX = tuple(range(36))+(20,22)
+COOLDOWN_INDEX = tuple(range(36))+(20,22,3,4,5)
 EMPTY, OFFER, ACCEPTED, PENDING_REWARD = range(4)
 COST_PAID, COMBAT_DONE, DELIVERY_DONE = 1, 2, 4
 GOLD_PAID, IRON_PAID, OIL_PAID, ITEM_PAID, BATTLE = 8, 16, 32, 64, 128
@@ -29,7 +30,7 @@ def emit(put, asm, address):
     """Return stdcall helper addresses; getslot exposes a bounded 8-DWORD card.
 
     Card fields: control, originTown, destinationTown, armyHomeTown, legion,
-    acceptedDay, deadlineDay, progress. Control bytes: ID(0..37), stage, status,
+    acceptedDay, deadlineDay, progress. Control bytes: ID(0..40), stage, status,
     flags. Caller applies actual rewards before finish and persists partial
     payment flags before a subsequent component can be offered again. Call tick
     with the current day/month before processing a dated UI action or finish.
@@ -37,6 +38,8 @@ def emit(put, asm, address):
     def code(source):
         return put(asm(source, address()))
 
+    # Extra contracts borrow the timers of contracts that never repeat.
+    timer_table = put(bytes(COOLDOWN_INDEX))
     init = code(f'''
       cmp dword ptr [{BASE:#x}],{MAGIC:#x}; je existing;
       push edi;
@@ -73,6 +76,7 @@ def emit(put, asm, address):
     month:
       mov eax,[esp+16]; cmp eax,[{MONTH:#x}]; je done;
       mov [{MONTH:#x}],eax; mov dword ptr [{BATTLES:#x}],0;
+      and dword ptr [{DONE+4:#x}],{0xffffffff ^ MONTH_NOTICE_SHOWN:#x};
     done:
       mov eax,1; pop edi; pop esi; ret 8
     ''')
@@ -156,9 +160,7 @@ def emit(put, asm, address):
       cmp dword ptr [esp+20],0; jne cooldown;
       bt dword ptr [{DONE:#x}],ebx; jc invalid; jmp capacity;
     cooldown:
-      mov edx,ebx; cmp edx,36; jb timer; sub edx,16;
-      cmp ebx,37; jne timer; inc edx;
-    timer:
+      movzx edx,byte ptr [ebx+{timer_table:#x}];
       cmp word ptr [{COOLDOWNS:#x}+edx*2],0; jne invalid;
     capacity:
       mov edi,{CARDS:#x}; mov ecx,{CARD_COUNT}; xor esi,esi;
@@ -186,9 +188,7 @@ def emit(put, asm, address):
       and ecx,255; cmp ecx,{EVENT_COUNT}; jae invalid;
       bts dword ptr [{DONE:#x}],ecx;
       test esi,esi; jz clear_card;
-      mov edx,ecx; cmp edx,36; jb timer; sub edx,16;
-      cmp ecx,37; jne timer; inc edx;
-    timer:
+      movzx edx,byte ptr [ecx+{timer_table:#x}];
       mov word ptr [{COOLDOWNS:#x}+edx*2],si;
     clear_card:
       xor eax,eax; mov ecx,{CARD_WORDS}; rep stosd; mov eax,1; jmp done;

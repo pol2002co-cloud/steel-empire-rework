@@ -158,7 +158,7 @@ maximum=fixture();call(maximum,'init',0xffffffff)
 assert read(maximum,S.NEXT_OFFER)==0xffffffff
 guards(maximum)
 # New events use spare one-shot timers without moving old serialized cards.
-for ident,timer in [(36,20),(37,22)]:
+for ident,timer in [(36,20),(37,22),(38,3),(39,4),(40,5)]:
  assert call(u,'setfield',0,0,control(ident,S.ACCEPTED))==1
  assert call(u,'finish',0,90)==1
  assert struct.unpack('<H',u.mem_read(S.COOLDOWNS+timer*2,2))[0]==90
@@ -168,6 +168,6 @@ for ident,timer in [(36,20),(37,22)]:
  assert call(u,'setfield',0,0,control(timer,S.ACCEPTED))==1
  assert call(u,'finish',0,0)==1
  assert struct.unpack('<H',u.mem_read(S.COOLDOWNS+timer*2,2))[0]==90
-assert call(u,'count_completed')==38
+assert call(u,'count_completed')==41
 guards(u)
-print('PASS: %d native event-state calls; stock-bank bounds, old-save init, capacity, duplicates, all38 bits, cooldown rollover/long gaps, battle limit, payment flags, save restoration, RNG, stdcall registers' % calls)
+print('PASS: %d native event-state calls; stock-bank bounds, old-save init, capacity, duplicates, all41 bits, cooldown rollover/long gaps, battle limit, payment flags, save restoration, RNG, stdcall registers' % calls)

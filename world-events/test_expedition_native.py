@@ -2,6 +2,7 @@
 from test_world_event_simple import *
 from expedition_catalog import MISSIONS,RECIPES
 from ruin_visits import RUINS
+from world_event_state import MONTH_NOTICE_SHOWN
 import hashlib,json,datetime
 
 KEY='SteelEmpireRework.Expeditions.0130'
@@ -61,6 +62,8 @@ def start(u,mission=0,ruin=0,roll=30,chief=None):
  s=state(u);w(u,s+8,seed_for(roll))
  return invoke(u,'we_test_ex_start',mission,ruin,chief or HEROES)
 def pump_ex(u):
+ # The season suite checks the separate monthly notice sharing this message queue.
+ mark=G+38*4;w(u,mark,r(u,mark)|MONTH_NOTICE_SHOWN)
  q=u.simple_queue;before=len(q['posts'])
  invoke(u,'we_idle',PARENT);q['ticks']+=1000;invoke(u,'we_idle',PARENT)
  if len(q['posts'])==before:return False
@@ -251,7 +254,8 @@ def run_all():
  u=ready();discover(u)
  for i in range(3):
   assert start(u,mission=4,roll=30);advance(u,7);assert pump_ex(u)
-  assert r(u,state(u)+12)==(1 if i==2 else 0)
+  assert r(u,state(u)+12)&7==(1 if i==2 else 0)
+  assert bool(r(u,state(u)+12)&32)==(i==2)
  assert r(u,visit(u)+24)==0;checks+=1
 
  u=ready();discover(u);assert start(u,mission=6,roll=30);advance(u,30);u.data['answers']=[-1]

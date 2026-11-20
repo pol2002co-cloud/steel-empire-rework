@@ -73,7 +73,7 @@ def run_all():
  check('목표 도시로 이동' not in labels(u),'Reward pending has no movement/abandon action')
 
  u=fresh();simple_card(u,0);inspect(u,(1,3,0,4,4))
- check('다른 이벤트 완료' not in texts(u) and '38종' in labels(u),'Catalogue no longer displays obsolete prerequisite counters')
+ check('다른 이벤트 완료' not in texts(u) and '41종' in labels(u),'Catalogue no longer displays obsolete prerequisite counters')
  check('의뢰 1/3' in labels(u),'Quest list shows occupied capacity without another popup')
  for row in u.data['selections']:check(len(row)<=5,'Native menus stay within five entries')
 

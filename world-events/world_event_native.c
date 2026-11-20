@@ -31,6 +31,8 @@ static void expedition_close(u32);
 #define HEADPTR(t,o) V((t)+(o))
 #define STAGE_REWARDED (1u<<22)
 #define BATTLE_RESERVED (1u<<23)
+#define SEASON_RATE_SET (1u<<26)
+#define SEASON_DOUBLE (1u<<27)
 #define DELIVERY_MACHINE_TAKEN (1u<<23)
 #define SIMPLE_RULES (1u<<30)
 #define SIMPLE_FORM (1u<<28)
@@ -88,10 +90,72 @@ static int prerequisites(const Event *e,u32 t){(void)e;return t!=0;}
 static int is_combat(const Event *e){int i,j;for(i=0;i<e->count;i++)for(j=0;j<e->stages[i].count;j++)if(e->stages[i].choices[j].profile)return 1;return 0;}
 static int duplicate(int id){int i;for(i=0;i<3;i++)if(STATUS(card(i))&&ID(card(i))==(u32)id)return 1;return 0;}
 static int acceptable_town(const Event *e,u32 t){(void)e;return t&&V(t+4)>=1&&V(t+4)<=62&&!(V(t+0x10)&1)&&(country(t)!=6||G(11)==10);}
-static int origin_for(const Event *e){int i;for(i=1;i<=62;i++)if(acceptable_town(e,town(i)))return i;return 0;}
-static void say(u32 parent,const char *title,const char *text){char b[152];int at=0,n,last;if(!text)return;while(text[at]){n=0;last=0;while(text[at+n]&&n<138){unsigned char ch=text[at+n];if(ch>=128){if(n>136)break;n+=2;}else{if(ch==' ')last=n;n++;}}if(text[at+n]&&last>35)n=last;memcpy(b,text+at,n);b[n++]='@';b[n++]='w';b[n]=0;((F3)UI_SPEECH)(parent,PTR(title),PTR(b));at+=n-2;while(text[at]==' ')at++;}}
+static int origin_for(const Event *e){
+    u32 w=world();
+    int cities[62],count=0;
+    for(int i=0;w&&i<100&&count<62;i++){
+        u32 actor=V(w+0x23c+i*4),t=actor?V(actor+0x7c):0;
+        if(!acceptable_town(e,t)||V(actor+0x14)||(V(t+0x10)&2)||country(t)<1||country(t)>11)continue;
+        cities[count++]=V(t+4);
+    }
+    return count?cities[((F0)S_RNG)()%count]:0;
+}
+static void scene_say(u32 parent,int scene,const char *title,const char *text){char b[152];int at=0,n,last;if(!text)return;while(text[at]){n=0;last=0;while(text[at+n]&&n<138){unsigned char ch=text[at+n];if(ch>=128){if(n>136)break;n+=2;}else{if(ch==' ')last=n;n++;}}if(text[at+n]&&last>35)n=last;memcpy(b,text+at,n);b[n++]='@';b[n++]='w';b[n]=0;if(scene>=0&&UI_ART_SPEECH)((F4)UI_ART_SPEECH)(parent,PTR(title),PTR(b),scene);else ((F3)UI_SPEECH)(parent,PTR(title),PTR(b));at+=n-2;while(text[at]==' ')at++;}}
+static void say(u32 parent,const char *title,const char *text){scene_say(parent,-1,title,text);}
+static int quest_scene(int id){
+    /* Atlas order: city, hangar, front, ruins, radio, festival. */
+    static const unsigned char scenes[]={0,1,5,0,4,1,4,0,4,1,0,0,2,2,5,1,1,4,3,3,3,4,1,0,2,2,2,2,2,2,1,1,2,0,1,5,1,1,4,3,5};
+    return id>=0&&(unsigned)id<sizeof(scenes)?scenes[id]:-1;
+}
 static int select(u32 parent,const char **labels,int count){return ((F3)UI_SELECT)(parent,PTR(labels),count);}
 static void message(u32 p,const char *s){say(p,"전역 소식",s);}
+enum { CALM, OCCUPATION, BATTLE_XP, FREIGHT };
+static unsigned calendar_month(void){return (V(0x48d388)/720u)%12u+1u;}
+static int month_event(void){
+    static const unsigned char events[]={OCCUPATION,CALM,BATTLE_XP,CALM,FREIGHT,CALM};
+    return events[(calendar_month()-1)%6];
+}
+static const char *month_name(int event){
+    static const char *names[]={"정규 일정","도시 탈환 지원","전투 경험의 달","대륙 수송 특수"};
+    return names[event];
+}
+static void show_calendar(u32 parent,int full){
+    int event=month_event();
+    char title[70];
+    static const char *details[]={
+        "이번 달에는 기본 보상을 받습니다.",
+        "도시 탈환·점령 의뢰의 겔더 보수와 점거한 용병단 본거지의 월 상납금이 두 배입니다.",
+        "이번 달에 끝낸 전투에서 아군이 얻는 전투 경험치가 두 배입니다.",
+        "이번 달에 정산하는 관청 수송과 전역 배송·납품 의뢰의 겔더 보수가 두 배입니다."
+    };
+    FMT(title,"%d월 · %s",calendar_month(),month_name(event));
+    scene_say(parent,event==FREIGHT?0:event==CALM?-1:2,title,details[event]);
+    if(full)say(parent,"연간 행사표","1·7월 점령 보수·상납금 두 배 / 3·9월 전투 경험치 두 배 / 5·11월 배송 보수 두 배. 행사는 매년 반복됩니다.");
+}
+static int month_news(void){
+    return month_event()!=CALM && !(G(38)&MONTH_NOTICE_SHOWN) && !expedition_battle_active();
+}
+static int freight_contract(int id){
+    switch(id){
+    case 0:case 1:case 6:case 7:case 8:case 9:case 10:case 12:case 14:
+    case 20:case 21:case 22:case 30:case 31:case 33:case 36:case 37:return 1;
+    default:return 0;
+    }
+}
+static u32 quest_gold(const Event *e,const Choice *ch){
+    int event=month_event();
+    int double_gold=(event==FREIGHT && freight_contract(eid(e))) || (event==OCCUPATION && e->goal==6);
+    return ch->reward[0]*(double_gold?2u:1u);
+}
+static u32 card_gold(u32 *c,const Choice *ch){
+    if(c[7]&SEASON_RATE_SET)return ch->reward[0]*((c[7]&SEASON_DOUBLE)?2u:1u);
+    return quest_gold(&EVENTS[ID(c)],ch);
+}
+static void quest_terms(char *text,const Event *e,const Choice *ch){
+    u32 gold=quest_gold(e,ch);
+    if(gold>(u32)ch->reward[0])FMT(text,"%s · 이번 달 정산 시 총 %d겔더",ch->label,gold);
+    else FMT(text,"%s",ch->label);
+}
 static int dist(u32 a,u32 b){int x=(int)V(a+0x34)-(int)V(b+0x34),y=(int)V(a+0x38)-(int)V(b+0x38);if(x<0)x=-x;if(y<0)y=-y;return x+y;}
 static int destination(u32 *c,const Choice *ch){
  int i,best=0,score=-2147483647,from=c[2]?c[2]:c[1];
@@ -115,7 +179,7 @@ static int destination(u32 *c,const Choice *ch){
  return best;
 }static u32 choose_army(u32 parent,u32 t,int type){const char *labels[5];char names[9][64];u32 list[9];int i,n=0,base=0,ans,count;for(i=0;t&&i<15&&n<9;i++){u32 a=V(t+0x50654+i*4);if(!army_ok(a)||V(a+8)!=t||(type>=0&&V(a+0x18)!=(u32)type))continue;FMT(names[n],"제%d군단 · 인원 %d",V(a+0x14),V(a+0x1c));list[n++]=a;}if(!n){message(parent,"이 도시에 조건을 만족하는 군단이 없습니다. 군단장·병력 상태와 주둔 위치를 확인하세요.");return 0;}if(n==1)return list[0];for(;;){count=n-base;if(count>4)count=4;for(i=0;i<count;i++)labels[i]=names[base+i];if(base+count<n)labels[count++]="다음 군단 목록";ans=select(parent,labels,count);if(ans<0)return 0;if(ans<4&&base+ans<n)return list[base+ans];base+=4;if(base>=n)base=0;}}
 static int move(u32 parent,u32 *c){u32 a=resolve_army(c),t,actor,target,w=world();int i;if(!army_ok(a)||!c[2]||!w)return 0;target=town_actor(c[2]);if(!target)return 0;t=V(a+8);if(t){for(i=0;i<100;i++)if(!V(w+0xac+i*4))break;if(i==100)return 0;((T1)0x4382e0)(t,V(a+0x14));actor=V(a+0x10);if(!actor)return 0;}else actor=V(a+0x10);if(!actor)return 0;V(a+0x55a4)=V(actor+0x34);V(a+0x55a8)=V(actor+0x38);V(a+0x55ac)=20;((T1)0x4200a0)(actor,target);V(w+0x80)=actor;return 1;}
-static const Choice *chosen(u32 *c){const Event *e;u32 s,idx;if(!c||ID(c)>=WORLD_EVENT_COUNT)return 0;e=(c[7]&LEGACY_FORM)?&LEGACY_EVENTS[ID(c)]:&EVENTS[ID(c)];s=STAGE(c);idx=(c[7]>>24)&3;if(s>=(u32)e->count||idx>=(u32)e->stages[s].count)return 0;return &e->stages[s].choices[idx];}
+static const Choice *chosen(u32 *c){const Event *e;u32 s,idx;if(!c||ID(c)>=WORLD_EVENT_COUNT)return 0;if((c[7]&LEGACY_FORM)&&ID(c)>=LEGACY_EVENT_COUNT)return 0;e=(c[7]&LEGACY_FORM)?&LEGACY_EVENTS[ID(c)]:&EVENTS[ID(c)];s=STAGE(c);idx=(c[7]>>24)&3;if(s>=(u32)e->count||idx>=(u32)e->stages[s].count)return 0;return &e->stages[s].choices[idx];}
 static void battle_result(void){u32 result=G(81),slot=G(82)&3;u32 *c;if(!result||slot<1||slot>3)return;c=card(slot-1);if(STATUS(c)==2){if(result==3){c[0]|=2u<<24;c[5]&=~READY_SHOWN;}else c[0]&=~(2u<<24);}G(81)=0;G(82)&=~3u;}
 static u32 item_army(int item){int i,j;u32 w=world();if(!w)return 0;for(i=0;i<100;i++){u32 actor=V(w+0xac+i*4),a=actor?V(actor+0x808):0,t=town(i+1);if(a&&V(a)==1&&((F2)A_FIND_ITEM)(a,item))return a;for(j=0;t&&j<15;j++){a=V(t+0x50654+j*4);if(a&&V(a)==1&&((F2)A_FIND_ITEM)(a,item))return a;}}return 0;}
 static int present_army(u32 t,int military){int i,found=0;if(!t||(military&&(V(t+0x10)&1)))return 0;for(i=0;i<15;i++){u32 a=V(t+0x50654+i*4);if(!a||V(a+8)!=t||!V(a+0x14)||!V(a+0x1c))continue;if(military&&V(a+0x18)==3)continue;if(V(a)!=1){if(military)return 0;continue;}if(army_ok(a))found=1;}return found;}
@@ -172,51 +236,100 @@ static int claim(u32 parent,int slot){
   if(!home||!((F2)A_TAKE_MACHINE)(home,ch->cost_machine)){message(parent,"포룸 정비창에 납품 가능한 정상 미배치 장비가 없습니다. 준비한 뒤 정산하세요. 탑승·수리 중인 장비는 납품하지 않습니다.");return 0;}
   c[7]|=DELIVERY_MACHINE_TAKEN|STAGE_REWARDED;
  }
- for(i=0;i<3;i++)if(!(FLAGS(c)&(8u<<i))){u32 amount=ch->reward[i],old=V(resource(i));if(old>2000000000u||amount>2000000000u-old){message(parent,"자원 보관 상한 때문에 보상이 대기 중입니다. 자원을 사용한 뒤 다시 받으세요.");return 0;}V(resource(i))=old+amount;if(amount)c[7]|=STAGE_REWARDED;c[0]|=(8u<<i)<<24;}
+ /* Preserve the agreed gold when a full depot or treasury delays settlement. */
+ if(!(FLAGS(c)&8)&&!(c[7]&SEASON_RATE_SET)){
+    if(quest_gold(e,ch)>(u32)ch->reward[0])c[7]|=SEASON_DOUBLE;
+    c[7]|=SEASON_RATE_SET;
+ }
+ for(i=0;i<3;i++)if(!(FLAGS(c)&(8u<<i))){u32 amount=i?ch->reward[i]:card_gold(c,ch),old=V(resource(i));if(old>2000000000u||amount>2000000000u-old){message(parent,"자원 보관 상한 때문에 보상이 대기 중입니다. 자원을 사용한 뒤 다시 받으세요.");return 0;}V(resource(i))=old+amount;if(amount)c[7]|=STAGE_REWARDED;c[0]|=(8u<<i)<<24;}
  a=resolve_army(c);n=(c[7]>>20)&3;
  if(ch->item){while(n<ch->item_count){if(!give_item_any(a,ch->item)){message(parent,"아군 군단의 예비 물품 가방에 빈칸이 필요합니다. 공간이 생기면 다음 날 자동 정산합니다.");return 0;}n++;c[7]|=STAGE_REWARDED;c[7]=(c[7]&~(3u<<20))|((u32)n<<20);}}
  if(ch->hire_class){if(!home)return 0;level=1;{u32 p=V(home+0xf4);if(p&&alive(p)){u32 training=V(p+0x48);if(training>82)training=82;if(training>1)level=1+(training-1)/3;}}while(n<ch->hire_count){if(((F3)A_HIRE)(home,ch->hire_class,level)!=1){message(parent,"포룸의 병과 해금 또는 대기 인원 여유를 확인하세요. 남은 인원은 보상 대기로 유지됩니다.");return 0;}n++;c[7]|=STAGE_REWARDED;c[7]=(c[7]&~(3u<<20))|((u32)n<<20);}}
  if(ch->machine&&!(FLAGS(c)&64)){if(!home||((F2)A_GIVE_MACHINE)(home,ch->machine)!=1){message(parent,"포룸 정비창에 장비를 보관할 수 없습니다. 공간을 만든 뒤 다시 받으세요.");return 0;}c[0]|=64u<<24;c[7]|=STAGE_REWARDED;}
- say(parent,e->title,ch->result);if(ch->hire_class||ch->machine)message(parent,"고용 인원과 장비는 포룸의 대기 명단·정비창에 인계했습니다.");
+ scene_say(parent,quest_scene(ID(c)),e->title,ch->result);
+ if(c[7]&SEASON_DOUBLE){
+    char receipt[130];
+    FMT(receipt,"기본 보수 %d겔더와 행사 수당 %d겔더를 합쳐 총 %d겔더를 지급했습니다.",ch->reward[0],ch->reward[0],2u*ch->reward[0]);
+    say(parent,"행사 정산",receipt);
+ }
+ if(ch->hire_class||ch->machine)message(parent,"고용 인원과 장비는 포룸의 대기 명단·정비창에 인계했습니다.");
  r=region(town(c[1]));if(r>=0){if(ID(c)==18||ID(c)==19||ID(c)==23)G(83)|=1u<<((ID(c)==18?0:ID(c)==19?10:20)+r);if(ID(c)==17)G(84)|=1u<<(20+r);if(ID(c)>=6&&ID(c)<=11){G(84)|=1u<<(8+r);G(87)|=2u<<(r*3);}if(ID(c)==3)G(87)|=1u<<(r*3);if(FLAGS(c)&2)G(87)|=4u<<(r*3);}
  if(ID(c)==21)G(84)|=1u<<((c[7]>>10)&3);
  ((F2)S_FINISH)(slot,e->repeat_days);return 1;
 }
+static int settle(u32 parent,int slot){
+    u32 *c=card(slot);
+    int paid=claim(parent,slot);
+    if(!paid&&c&&STATUS(c)==3){c[5]|=READY_SHOWN;c[6]=now()+1;}
+    return paid;
+}
+/* QUEST_ENCOUNTERS */
 static int fight(u32 parent,int slot){u32 *c=card(slot),a;const Choice *ch;if(!c||STATUS(c)!=2||(G(82)&3)||expedition_battle_active())return 0;ch=chosen(c);if(!ch||!ch->profile||(FLAGS(c)&2)||(ch->legs&&!(FLAGS(c)&4)))return 0;a=resolve_army(c);if(!healthy_for(a,ch)||!V(a+8)){message(parent,"건강한 전투군단이 도시에 주둔해야 전투를 시작할 수 있습니다.");return 0;}if(!(c[7]&BATTLE_RESERVED)){if(!((F1)S_RESERVE_BATTLE)(slot)){message(parent,"이번 달의 신규 전투 계약은 이미 진행했습니다. 다음 달에 다시 시도하세요.");return 0;}c[7]|=BATTLE_RESERVED;}G(81)=0;G(82)=(G(82)&~3u)|(slot+1);if(!((F2)A_BATTLE)(a,ch->profile)){G(82)&=~3u;message(parent,"전투를 준비하지 못했습니다. 군단 상태를 확인한 뒤 재시도하세요. 이미 낸 비용은 다시 차감하지 않습니다.");return 0;}return 2;}
-static int accept(u32 parent,int slot,int idx){u32 *c=card(slot);const Event *e;(void)idx;if(!c||STATUS(c)!=1||ID(c)>=WORLD_EVENT_COUNT)return 0;e=&EVENTS[ID(c)];if(!c[2]&&(e->goal==1||e->goal==6))c[2]=goal_target(c);if((e->goal==1||e->goal==6)&&!c[2]){message(parent,"현재 표시할 목적지가 없습니다. 다음 소식을 기다리세요.");return 0;}c[0]=CONTROL(ID(c),0,2,0);c[3]=c[4]=0;c[5]=now()|OFFER_SHOWN;c[6]=0;c[7]=SIMPLE_FORM;progress();if(STATUS(c)==3)return claim(parent,slot);return 1;}
+static int accept(u32 parent,int slot,int idx){u32 *c=card(slot);const Event *e;(void)idx;if(!c||STATUS(c)!=1||ID(c)>=WORLD_EVENT_COUNT)return 0;e=&EVENTS[ID(c)];
+    if(e->goal==7){
+        int outcome=encounter_choose(parent,c);
+        if(outcome<0||outcome>=e->stages[0].count)return 0;
+        c[0]=CONTROL(ID(c),0,3,0);
+        c[7]=SIMPLE_FORM|((u32)outcome<<24);
+        return settle(parent,slot);
+    }
+    if(!c[2]&&(e->goal==1||e->goal==6))c[2]=goal_target(c);if((e->goal==1||e->goal==6)&&!c[2]){message(parent,"현재 표시할 목적지가 없습니다. 다음 소식을 기다리세요.");return 0;}c[0]=CONTROL(ID(c),0,2,0);c[3]=c[4]=0;c[5]=now()|OFFER_SHOWN;c[6]=0;c[7]=SIMPLE_FORM;progress();if(STATUS(c)==3)return settle(parent,slot);return 1;}
 static void catalog(u32 parent){
- int base=0,i,ans;const char *labels[5];char rows[3][100],buf[240];
- for(;;){for(i=0;i<3;i++){int id=base+i;if(id>=WORLD_EVENT_COUNT)break;FMT(rows[i],"%s %s [%s]",EVENTS[id].key,EVENTS[id].title,done(id)?"완료":"미완료");labels[i]=rows[i];}for(;i<3;i++)labels[i]="목록 끝";labels[3]="다음 3종";labels[4]="목록 닫기";ans=select(parent,labels,5);if(ans<0||ans==4)return;if(ans==3){base=base+3>=WORLD_EVENT_COUNT?0:base+3;continue;}if(ans>2)continue;i=base+ans;if(i>=WORLD_EVENT_COUNT)continue;say(parent,EVENTS[i].title,EVENTS[i].stages[0].text);say(parent,"목표와 보상",EVENTS[i].stages[0].choices[0].label);if(EVENTS[i].repeat_days)FMT(buf,"한 가지 목표를 달성하면 자동 완료합니다. 완료 후 %d일 뒤 다시 제안될 수 있습니다. 최초 완료 기록 %d/38종.",EVENTS[i].repeat_days,total());else FMT(buf,"한 가지 목표를 달성하면 자동 완료하는 일회성 의뢰입니다. 최초 완료 기록 %d/38종.",total());say(parent,EVENTS[i].title,buf);}
+ int base=0,i,ans;const char *labels[5];char rows[2][100],buf[240];
+ for(;;){for(i=0;i<2;i++){int id=base+i;if(id>=WORLD_EVENT_COUNT)break;FMT(rows[i],"%s %s [%s]",EVENTS[id].key,EVENTS[id].title,done(id)?"완료":"미완료");labels[i]=rows[i];}for(;i<2;i++)labels[i]="목록 끝";labels[2]="연간 행사표 · 이번 달 혜택";labels[3]="다음 2종";labels[4]="목록 닫기";ans=select(parent,labels,5);if(ans<0||ans==4)return;if(ans==2){show_calendar(parent,1);continue;}if(ans==3){base=base+2>=WORLD_EVENT_COUNT?0:base+2;continue;}if(ans>1)continue;i=base+ans;if(i>=WORLD_EVENT_COUNT)continue;scene_say(parent,quest_scene(i),EVENTS[i].title,EVENTS[i].stages[0].text);
+    if(EVENTS[i].goal==7){for(int j=0;j<EVENTS[i].stages[0].count;j++)say(parent,"선택에 따른 보상",EVENTS[i].stages[0].choices[j].label);say(parent,"다시 만나는 시기","정산 후 90일이 지나면 새 소식으로 다시 등장할 수 있습니다.");continue;}
+    quest_terms(buf,&EVENTS[i],&EVENTS[i].stages[0].choices[0]);say(parent,"목표와 보상",buf);if(EVENTS[i].repeat_days)FMT(buf,"한 가지 목표를 달성하면 자동 완료합니다. 완료 후 %d일 뒤 다시 제안될 수 있습니다. 최초 완료 기록 %d/%d종.",EVENTS[i].repeat_days,total(),WORLD_EVENT_COUNT);else FMT(buf,"한 가지 목표를 달성하면 자동 완료하는 일회성 의뢰입니다. 최초 완료 기록 %d/%d종.",total(),WORLD_EVENT_COUNT);say(parent,EVENTS[i].title,buf);}
 }
 static int rebind(u32 parent,u32 *c){u32 t=ui_town(parent),a;const Choice *ch=chosen(c);if(!ch)return 0;if(!t)t=town(c[1]);a=choose_army(parent,t,ch->army_type);if(!healthy_for(a,ch)||!army_job(a,ch->job)||!army_job(a,EVENTS[ID(c)].job))return 0;c[3]=V(V(a+4)+4);c[4]=V(a+0x14);return 1;}
 static const char *quest_building(int id){return id==6?"창고":id==17?"연구소":id==7?"차량공장":id==19?"정비창":"시설";}
 static const char *quest_item(int id){return id==1?"5mm 권총":id==53?"구급상자":"예비 물품";}
 static const char *quest_machine(int id){return id==6?"고블린MK2":id==1?"드래곤MK2":"일반 장비";}
-static void quest_row(u32 *c,char *text){const Event *e;const Choice *ch;char goal[48],reward[48];int i,remaining;if(!c||!STATUS(c)||ID(c)>=WORLD_EVENT_COUNT){FMT(text,"빈 의뢰 칸 · 새 소식 대기");return;}e=&EVENTS[ID(c)];ch=chosen(c);if(!ch){FMT(text,"진행 기록 확인 필요");return;}if(e->goal==1)FMT(goal,"방문");else if(e->goal==6)FMT(goal,"점령");else if(e->goal==5)FMT(goal,"%s",quest_building(e->building));else if(ch->cost_machine)FMT(goal,"%s",quest_machine(ch->cost_machine));else if(ch->cost_item)FMT(goal,"물품%d개",ch->cost_count);else{for(i=0;i<3&&!ch->cost[i];i++);if(i<3)FMT(goal,"%s%d",i==0?"금":i==1?"철":"석유",ch->cost[i]);else FMT(goal,"준비");}for(i=0;i<3;i++)if(ch->reward[i]&&!(STATUS(c)==3&&(FLAGS(c)&(8u<<i))))break;if(i<3)FMT(reward,"+%s%d",i==0?"금":i==1?"철":"석유",ch->reward[i]);else if(ch->machine&&!(FLAGS(c)&64))FMT(reward,"+장비1");else if(ch->item&&(remaining=ch->item_count-((c[7]>>20)&3))>0)FMT(reward,"+물품%d",remaining);else if(ch->hire_class&&(remaining=ch->hire_count-((c[7]>>20)&3))>0)FMT(reward,"+병력%d",remaining);else FMT(reward,"완료");FMT(text,"%s %s %s %s",STATUS(c)==1?"수락":STATUS(c)==2?"진행":"정산",e->key,goal,reward);}
+static void quest_row(u32 *c,char *text){const Event *e;const Choice *ch;char goal[48],reward[48];int i,remaining;if(!c||!STATUS(c)||ID(c)>=WORLD_EVENT_COUNT){FMT(text,"빈 의뢰 칸 · 새 소식 대기");return;}e=&EVENTS[ID(c)];ch=chosen(c);if(!ch){FMT(text,"진행 기록 확인 필요");return;}if(e->goal==7&&STATUS(c)==1){FMT(text,"현장 %s %s",e->key,e->title);return;}if(e->goal==7)FMT(goal,"선택");else if(e->goal==1)FMT(goal,"방문");else if(e->goal==6)FMT(goal,"점령");else if(e->goal==5)FMT(goal,"%s",quest_building(e->building));else if(ch->cost_machine)FMT(goal,"%s",quest_machine(ch->cost_machine));else if(ch->cost_item)FMT(goal,"물품%d개",ch->cost_count);else{for(i=0;i<3&&!ch->cost[i];i++);if(i<3)FMT(goal,"%s%d",i==0?"금":i==1?"철":"석유",ch->cost[i]);else FMT(goal,"준비");}for(i=0;i<3;i++)if(ch->reward[i]&&!(STATUS(c)==3&&(FLAGS(c)&(8u<<i))))break;if(i<3)FMT(reward,"+%s%d",i==0?"금":i==1?"철":"석유",i?ch->reward[i]:card_gold(c,ch));else if(ch->machine&&!(FLAGS(c)&64))FMT(reward,"+장비1");else if(ch->item&&(remaining=ch->item_count-((c[7]>>20)&3))>0)FMT(reward,"+물품%d",remaining);else if(ch->hire_class&&(remaining=ch->hire_count-((c[7]>>20)&3))>0)FMT(reward,"+병력%d",remaining);else FMT(reward,"완료");FMT(text,"%s %s %s %s",STATUS(c)==1?"수락":STATUS(c)==2?"진행":"정산",e->key,goal,reward);}
 static void quest_progress(u32 parent,u32 *c){const Event *e=&EVENTS[ID(c)];const Choice *ch=chosen(c);char text[200];int i,prepared;if(!ch)return;if(STATUS(c)==3){message(parent,"목표 완료 · 미지급 보상을 자동 정산합니다. 이미 지급한 보상은 다시 지급하지 않습니다.");return;}if(e->goal==1||e->goal==6){if(!c[2])c[2]=goal_target(c);prepared=c[2]&&present_army(town(c[2]),e->goal==6);FMT(text,"목표 도시: %s · %s. %s",town_name(c[2]),prepared?(e->goal==6?"아군 점령 확인":"도착 확인"):(e->goal==6?"전투 군단의 점령 필요":"미도착"),e->goal==6?"원본 전투에서 승리하고 아군 전투 군단을 주둔시키세요.":"어느 아군 군단이든 실제로 도착하면 됩니다.");say(parent,"목표 진행",text);}else if(e->goal==5){FMT(text,"포룸 %s · %s. 완공하면 자동으로 완료합니다.",quest_building(e->building),facility(town(1),e->building)?"완공":"미완공");say(parent,"목표 진행",text);}if(!(FLAGS(c)&1)){for(i=0;i<3;i++)if(ch->cost[i]){u32 have=V(resource(i)),need=ch->cost[i];FMT(text,"%s %d/%d · 부족 %d",i==0?"금":i==1?"철":"석유",have,need,have<need?need-have:0);say(parent,"납품 준비",text);}if(ch->cost_item){prepared=item_army(ch->cost_item)!=0;FMT(text,"예비 %s %d/%d. 아군 어느 군단의 가방이든 인정하며 장착품은 사용하지 않습니다.",quest_item(ch->cost_item),prepared?ch->cost_count:0,ch->cost_count);say(parent,"납품 준비",text);}}else message(parent,"이 의뢰의 비용은 이미 처리했습니다. 다시 차감하지 않습니다.");if(ch->cost_machine){prepared=(c[7]&DELIVERY_MACHINE_TAKEN)||((F2)A_FIND_MACHINE)(town(1),ch->cost_machine);FMT(text,"포룸 정비창 %s %d/1. 배치·승무원을 해제하고 수리를 완료한 예비 장비 1대가 필요합니다.",quest_machine(ch->cost_machine),prepared?1:0);say(parent,"납품 준비",text);}if(c[7]&LEGACY_FORM)message(parent,"이전 버전에서 진행한 의뢰입니다. 기존 비용·선택 보상을 유지하며 현재 목표 하나만 마치면 됩니다.");}
 static int quest_movable(u32 a,int military){return army_ok(a)&&V(a+4)&&(!military||V(a+0x18)!=3);}
 static int quest_add_army(u32 *list,int count,u32 a,int military){int i;if(!quest_movable(a,military)||count>=9)return count;for(i=0;i<count;i++)if(list[i]==a)return count;list[count]=a;return count+1;}
 static int quest_move(u32 parent,u32 *c){const Event *e=&EVENTS[ID(c)];u32 list[9],w=world(),a,temp[8];const char *labels[5],*confirm[]={"이 군단을 이동","취소"};char rows[4][92],text[180];int i,j,n=0,base=0,k,ans;if(!w||!c[2]||!town_actor(c[2]))return 0;for(i=0;i<100&&n<9;i++){u32 actor=V(w+0xac+i*4),t;if(actor)n=quest_add_army(list,n,V(actor+0x808),e->goal==6);actor=V(w+0x23c+i*4);t=actor?V(actor+0x7c):0;for(j=0;t&&j<15&&n<9;j++)n=quest_add_army(list,n,V(t+0x50654+j*4),e->goal==6);}if(!n){message(parent,e->goal==6?"이동 가능한 아군 전투 군단이 없습니다. 점령에는 민간군단을 보내지 않습니다.":"이동 가능한 아군 군단이 없습니다. 살아 있는 군단장과 병력이 있는 일반 군단이 필요합니다.");return 0;}if(n==1)a=list[0];else for(;;){k=n-base;if(k>4)k=4;for(i=0;i<k;i++){a=list[base+i];FMT(rows[i],"제%d군단 · %s",V(a+0x14),V(a+8)?town_name(V(V(a+8)+4)):"이동 중");labels[i]=rows[i];}if(base+k<n)labels[k++]="다음 군단";ans=select(parent,labels,k);if(ans<0)return 0;if(ans<4&&base+ans<n){a=list[base+ans];break;}base=base+4>=n?0:base+4;}FMT(text,"제%d군단 → %s. %s 의뢰는 이 군단에 묶이지 않습니다.",V(a+0x14),town_name(c[2]),e->goal==6?"전투·점령은 원본 규칙대로 진행합니다.":"이동 명령만 내립니다.");say(parent,"이동 명령",text);if(select(parent,confirm,2)!=0)return 0;if(V(a+8)==town(c[2])){message(parent,"이 군단은 이미 목표 도시에 주둔하고 있습니다.");return 1;}memcpy(temp,c,sizeof(temp));temp[3]=V(V(a+4)+4);temp[4]=V(a+0x14);if(!move(parent,temp)){message(parent,"군단이 출격하지 못해 이동 명령을 내리지 못했습니다. 의뢰와 담당 지정은 변경하지 않았습니다.");return 0;}message(parent,"이동 명령을 내렸습니다. 어느 아군 군단이든 목표를 달성하면 자동으로 정산합니다.");return 1;}
 static int quest_abandon(u32 parent,int slot){u32 *c=card(slot);const char *confirm[]={"이 의뢰 포기","계속 진행"};if(!c||STATUS(c)!=2||!(c[7]&SIMPLE_FORM)||(c[7]&(LEGACY_FORM|STAGE_REWARDED))||(FLAGS(c)&1)){message(parent,"이미 비용·보상을 처리했거나 이전 버전에서 진행한 의뢰는 포기할 수 없습니다. 남은 목표와 보상은 유지합니다.");return 0;}message(parent,"아직 납품 비용을 지급하지 않은 의뢰입니다. 포기해도 인원·자원·완료 기록은 바뀌지 않습니다.");if(select(parent,confirm,2)!=0)return 0;return ((F1)S_CLEAR)(slot);}
-static int detail(u32 parent,int slot){u32 *c=card(slot);const Event *e;const Choice *ch;const char *offer_labels[]={"이 목표 수락","나중에","소식 거절"};const char *travel_labels[]={"목표 도시로 이동","의뢰 포기","닫기"};const char *wait_labels[]={"의뢰 포기","닫기"};int ans;if(!c||!STATUS(c)||ID(c)>=WORLD_EVENT_COUNT)return 0;e=&EVENTS[ID(c)];ch=chosen(c);if(!ch)return 0;c[5]|=STATUS(c)==1?OFFER_SHOWN:READY_SHOWN;say(parent,e->title,e->stages[0].text);quest_progress(parent,c);say(parent,"목표와 보상",ch->label);if(STATUS(c)==1){ans=select(parent,offer_labels,3);if(ans==0)return accept(parent,slot,0);if(ans==2){if(c[7]&STAGE_REWARDED)message(parent,"앞 단계 보상을 지급한 의뢰는 거절할 수 없습니다. 기존 진행을 유지합니다.");else ((F1)S_CLEAR)(slot);}return 0;}if(STATUS(c)==3)return claim(parent,slot);if(e->goal==1||e->goal==6){ans=select(parent,travel_labels,3);if(ans==0)return quest_move(parent,c);if(ans==1)quest_abandon(parent,slot);}else{ans=select(parent,wait_labels,2);if(ans==0)quest_abandon(parent,slot);}return 0;}
+static int detail(u32 parent,int slot){u32 *c=card(slot);const Event *e;const Choice *ch;const char *offer_labels[]={"이 목표 수락","나중에","소식 거절"};const char *travel_labels[]={"목표 도시로 이동","의뢰 포기","닫기"};const char *wait_labels[]={"의뢰 포기","닫기"};int ans;if(!c||!STATUS(c)||ID(c)>=WORLD_EVENT_COUNT)return 0;e=&EVENTS[ID(c)];ch=chosen(c);if(!ch)return 0;c[5]|=STATUS(c)==1?OFFER_SHOWN:READY_SHOWN;
+    scene_say(parent,quest_scene(ID(c)),e->title,e->stages[0].text);
+    if(e->goal==7&&STATUS(c)==1){
+        const char *act[]={"현장에 응답","나중에","소식 거절"};
+        ans=select(parent,act,3);
+        if(ans==0)return accept(parent,slot,0);
+        if(ans==2)((F1)S_CLEAR)(slot);
+        return 0;
+    }
+    quest_progress(parent,c);if(STATUS(c)!=3){char terms[240];quest_terms(terms,e,ch);say(parent,"목표와 보상",terms);}if(STATUS(c)==1){ans=select(parent,offer_labels,3);if(ans==0)return accept(parent,slot,0);if(ans==2){if(c[7]&STAGE_REWARDED)message(parent,"앞 단계 보상을 지급한 의뢰는 거절할 수 없습니다. 기존 진행을 유지합니다.");else ((F1)S_CLEAR)(slot);}return 0;}if(STATUS(c)==3)return settle(parent,slot);if(e->goal==1||e->goal==6){ans=select(parent,travel_labels,3);if(ans==0)return quest_move(parent,c);if(ans==1)quest_abandon(parent,slot);}else{ans=select(parent,wait_labels,2);if(ans==0)quest_abandon(parent,slot);}return 0;}
 EXPORT void SC we_tick(u32 parent){
- int i,j,id,origin;u32 *c;if(!parent||(V(parent)!=0x462738&&V(parent)!=0x461954)||!world()||G(19)!=0)return;
+ int i,j,id,origin,start,pass;u32 *c,active_goals=0;if(!parent||(V(parent)!=0x462738&&V(parent)!=0x461954)||!world()||G(19)!=0)return;
  sync();expedition_battle_result();if(expedition_battle_active())return;battle_result();if((G(82)&3)&&!G(81))G(82)&=~3u;progress();tour_tick(parent);expedition_tick();
  for(i=0;i<3;i++){c=card(i);if(STATUS(c)==3&&(c[5]&READY_SHOWN)&&c[6]&&now()>=c[6]){c[5]&=~READY_SHOWN;c[6]=0;}}
  if(now()<V(S_NEXT_OFFER))return;for(i=0;i<3;i++)if(STATUS(card(i))==0)break;if(i==3)return;
- id=((F0)S_RNG)()%WORLD_EVENT_COUNT;
- for(j=0;j<WORLD_EVENT_COUNT;j++,id=(id+1)%WORLD_EVENT_COUNT){const Event *e=&EVENTS[id];if(duplicate(id)||!((F3)S_CAN_OFFER)(id,e->repeat_days,is_combat(e)))continue;origin=origin_for(e);if(!origin)continue;c=card(i);memset(c,0,32);c[0]=CONTROL(id,0,1,is_combat(e)?128:0);c[1]=origin;c[7]=SIMPLE_FORM;if(e->goal==1||e->goal==6){c[2]=goal_target(c);if(!c[2]){((F1)S_CLEAR)(i);continue;}}((F1)S_SCHEDULE)(now()+7+((F0)S_RNG)()%4);return;}
- ((F1)S_SCHEDULE)(now()+1);
+ start=((F0)S_RNG)()%WORLD_EVENT_COUNT;
+for(j=0;j<3;j++){c=card(j);if(STATUS(c)&&ID(c)<WORLD_EVENT_COUNT)active_goals|=1u<<EVENTS[ID(c)].goal;}
+/* Fill the ledger with different activities first. A scarce goal may still repeat. */
+for(pass=0;pass<2;pass++)for(j=0;j<WORLD_EVENT_COUNT;j++){
+    id=(start+j)%WORLD_EVENT_COUNT;
+    const Event *e=&EVENTS[id];
+    int same=(active_goals&(1u<<e->goal))!=0;
+    if(same!=pass||duplicate(id)||!((F3)S_CAN_OFFER)(id,e->repeat_days,is_combat(e)))continue;
+    origin=origin_for(e);if(!origin)continue;
+    c=card(i);memset(c,0,32);c[0]=CONTROL(id,0,1,is_combat(e)?128:0);c[1]=origin;c[7]=SIMPLE_FORM;
+    if(e->goal==1||e->goal==6){c[2]=goal_target(c);if(!c[2]){((F1)S_CLEAR)(i);continue;}}
+    if(id==38||id==39)c[7]|=1+((F0)S_RNG)()%60000u;
+    ((F1)S_SCHEDULE)(now()+7+((F0)S_RNG)()%4);return;
+}
+((F1)S_SCHEDULE)(now()+1);
 }
 static u32 router(u32 parent){
- const char *route[]={"본편 이벤트 진행·조건","일상·후일담 전역 이벤트 38종","민간군단 도시 자동 공연","해외 파견·유적","닫기"};const char *labels[5];char rows[3][120];int ans,i;
+ const char *route[]={"본편 이벤트 진행·조건","전역 의뢰·현장 사건 41종","민간군단 도시 자동 공연","해외 파견·유적","닫기"};const char *labels[5];char rows[3][120];int ans,i;
  if(!parent||(V(parent)!=0x462738&&V(parent)!=0x461954))return 1;ans=select(parent,route,5);if(ans==0)return 0;if(ans==2){if(G(19)!=0){message(parent,"본편 이벤트가 종료된 뒤 자동 공연을 설정하세요.");return 1;}sync();tour_menu(parent);return 1;}if(ans==3){if(G(19)!=0){message(parent,"본편 대화가 종료된 뒤 파견 장부를 열어 주세요.");return 1;}sync();return expedition_menu(parent);}if(ans!=1)return 1;
  if(G(19)!=0){message(parent,"본편 이벤트 진행 중입니다. 종료한 뒤 전역 소식을 확인하세요.");return 1;}
  we_tick(parent);
- for(;;){char summary[2][80];int active=0;for(i=0;i<3;i++){u32 *c=card(i);quest_row(c,rows[i]);if(STATUS(c)&&ID(c)<WORLD_EVENT_COUNT)active++;labels[i]=rows[i];}FMT(summary[0],"전체 38종 · 완료 %d종",total());FMT(summary[1],"닫기 · 의뢰 %d/3",active);labels[3]=summary[0];labels[4]=summary[1];ans=select(parent,labels,5);if(ans<0||ans==4)return 1;if(ans==3){catalog(parent);continue;}if(ans>=0&&ans<3&&detail(parent,ans)==2)return 1;}
+ for(;;){char summary[2][80];int active=0;for(i=0;i<3;i++){u32 *c=card(i);quest_row(c,rows[i]);if(STATUS(c)&&ID(c)<WORLD_EVENT_COUNT)active++;labels[i]=rows[i];}FMT(summary[0],"전체 %d종·행사표 · 완료 %d종",WORLD_EVENT_COUNT,total());FMT(summary[1],"닫기 · 의뢰 %d/3",active);labels[3]=summary[0];labels[4]=summary[1];ans=select(parent,labels,5);if(ans<0||ans==4)return 1;if(ans==3){catalog(parent);continue;}if(ans>=0&&ans<3&&detail(parent,ans)==2)return 1;}
 }
 EXPORT u32 SC we_test_accept(u32 parent,u32 slot,u32 choice){sync();return accept(parent,slot,choice);}
-EXPORT u32 SC we_test_claim(u32 parent,u32 slot){sync();return claim(parent,slot);}
+EXPORT u32 SC we_test_claim(u32 parent,u32 slot){sync();return settle(parent,slot);}
 EXPORT void SC we_test_progress(void){expedition_battle_result();battle_result();progress();}
 EXPORT u32 SC we_test_prerequisite(u32 id,u32 townid){if(id>=WORLD_EVENT_COUNT)return 0;sync();return acceptable_town(&EVENTS[id],town(townid));}
 
@@ -233,25 +346,24 @@ EXPORT u32 SC we_present(u32 parent){
  if(!parent||(V(parent)!=0x462738&&V(parent)!=0x461954)||!world()||G(19)||V(0x4880e0))return 0;
  if(V(S_BASE)==S_MAGIC&&(G(82)&AUTO_BUSY))return 1;
  we_tick(parent);if(expedition_battle_active())return 1;G(82)|=AUTO_BUSY;
- for(pass=0;pass<3&&!shown;pass++)for(i=0;i<3&&!shown;i++){
-  u32 *c=card(i),a,t;const Choice *ch;const Event *e;const char *labels[2];char intro[240];int type=pass==0?3:pass==1?2:1,ans;
-  if(!c||STATUS(c)!=(u32)type||ID(c)>=WORLD_EVENT_COUNT)continue;
-  e=&EVENTS[ID(c)];if(!e->early&&G(11)!=10)continue;
-  if(c[5]&(type==1?OFFER_SHOWN:READY_SHOWN))continue;
-  if(type==2)continue;
-  if(type==2){
-   ch=chosen(c);a=resolve_army(c);t=army_ok(a)?V(a+8):0;
-   if(!ch||!t)continue;
-   if(!((ch->profile&&!(FLAGS(c)&2)&&(!ch->legs||(FLAGS(c)&4)))||(ch->legs&&c[2]&&V(t+4)!=c[2])))continue;
-  }
-  c[5]|=type==1?OFFER_SHOWN:READY_SHOWN;shown=1;
-  if(type==3){if(!claim(parent,i))c[6]=now()+1;continue;}
-  FMT(intro,"%s에서 %s 소식이 도착했습니다. %s",town_name(c[1]),e->title,type==1?"지금 이야기를 듣고 진행 방법을 선택할 수 있습니다.":type==3?"목표를 달성했습니다. 결과와 보상을 확인할 수 있습니다.":"담당 군단이 도착했습니다. 다음 진행을 선택할 수 있습니다.");
-  say(parent,e->title,intro);labels[0]=type==1?"지금 이야기 듣기":type==3?"결과 확인·보상 정산":c[2]?"다음 목적지로 자동 출발":"전투 시작";labels[1]="나중에 확인 · F8에 보관";
-  ans=select(parent,labels,2);
-  if(ans==0){if(type==3)claim(parent,i);else if(type==1)detail(parent,i);else if(c[2]){if(!move(parent,c))message(parent,"지금 출발하지 못했습니다. F8의 해당 소식에서 군단 상태를 확인하고 다시 출발할 수 있습니다.");}else fight(parent,i);}
- }
- G(82)&=~AUTO_BUSY;return shown;
+ for(pass=0;pass<2&&!shown;pass++)for(i=0;i<3&&!shown;i++){
+    u32 *c=card(i);
+    int type=pass==0?3:1;
+    u32 seen=type==3?READY_SHOWN:OFFER_SHOWN;
+    if(!c||STATUS(c)!=(u32)type||ID(c)>=WORLD_EVENT_COUNT||(c[5]&seen))continue;
+    const Event *e=&EVENTS[ID(c)];
+    if(!e->early&&G(11)!=10)continue;
+    c[5]|=seen;shown=1;
+    if(type==3){settle(parent,i);continue;}
+    char intro[360],terms[240];
+    const char *read[]={"지금 이야기 듣기","나중에 확인 · F8에 보관"};
+    quest_terms(terms,e,&e->stages[0].choices[0]);
+    const char *goal=e->goal==7?"현장에서 선택한 결과에 따라 보상이 달라집니다.":terms;
+    FMT(intro,"%s에서 온 소식. %s",town_name(c[1]),goal);
+    scene_say(parent,quest_scene(ID(c)),e->title,intro);
+    if(select(parent,read,2)==0)detail(parent,i);
+}
+G(82)&=~AUTO_BUSY;return shown;
 }
 
 /* Per-window transient state never enters a save; no modal UI runs from draw/update. */
@@ -297,7 +409,7 @@ EXPORT u32 SC we_idle(u32 parent){
  we_tick(parent);if(s->queued)return 0;
  for(i=0;i<3;i++){u32 *c=card(i),type=STATUS(c);if(ID(c)<WORLD_EVENT_COUNT&&(type==1||type==3)&&!(c[5]&(type==1?OFFER_SHOWN:READY_SHOWN))){pending=1;break;}}
  if(!pending)pending=api.get(hwnd,PTR(TRAINING_KEY))!=0;
- if(!pending)pending=expedition_pending();
+ if(!pending)pending=expedition_pending()||month_news();
  if(!pending)return 0;s->generation++;s->queued=1;
  if(!api.post(hwnd,NOTICE_MESSAGE,s->generation,parent))s->queued=0;
  return 0;
@@ -310,7 +422,11 @@ EXPORT u32 SC we_message(u32 hwnd,u32 message,u32 generation,u32 parent){
  if(s->handling||api.get(hwnd,PTR(LOADING_KEY))||!notice_parent(parent))return 0;
  if((u32)(api.ticks()-s->armed_at)<1000)return 0;
  s->handling=1;
- {u32 count=api.remove(hwnd,PTR(TRAINING_KEY));if(count){char text[180];G(82)|=AUTO_BUSY;FMT(text,"재훈련이 완료되었습니다. 총 %d명이 재훈련을 마쳤습니다. 해당 도시의 대기 명단에서 확인할 수 있습니다.",count);say(parent,"재훈련 완료",text);G(82)&=~AUTO_BUSY;}else{int shown;G(82)|=AUTO_BUSY;shown=expedition_present(parent);G(82)&=~AUTO_BUSY;if(!shown)we_present(parent);}}
+ {u32 count=api.remove(hwnd,PTR(TRAINING_KEY));if(count){char text[180];G(82)|=AUTO_BUSY;FMT(text,"재훈련이 완료되었습니다. 총 %d명이 재훈련을 마쳤습니다. 해당 도시의 대기 명단에서 확인할 수 있습니다.",count);say(parent,"재훈련 완료",text);G(82)&=~AUTO_BUSY;}else{int shown;G(82)|=AUTO_BUSY;shown=expedition_present(parent);G(82)&=~AUTO_BUSY;if(!shown)shown=we_present(parent);
+    if(!shown&&month_news()){
+        G(38)|=MONTH_NOTICE_SHOWN;G(82)|=AUTO_BUSY;
+        show_calendar(parent,0);G(82)&=~AUTO_BUSY;
+    }}}
  if(api.get(hwnd,PTR(NOTICE_KEY))==PTR(s)){s->handling=0;s->armed_at=api.ticks();}
  return 0;
 }

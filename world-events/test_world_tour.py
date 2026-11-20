@@ -167,6 +167,7 @@ assert not any('제0군단' in text for _,text in u.data['texts']);checks+=1
 
 # Reproduce real ordinary-town metadata with no player construction lists.
 source=Path('C:/Games/DGGL/Games/EoSteel_Win/Steel0.Sav')
+if not source.exists():source=source.parent/'EoSteel_Win'/source.name
 definitions=ROOT/'extracted/Data.pak/town.dat'
 if source.exists() and definitions.exists():
  import hashlib

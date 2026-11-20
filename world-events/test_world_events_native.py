@@ -109,9 +109,10 @@ def fixture(origin=2):
     return name(u,v) if m.group(0).endswith('s') else str(v if v<0x80000000 else v-0x100000000)
    text=re.sub(r'%[-0-9.]*[dusxX]',sub,fmt);b=text.encode('cp949');u.mem_write(dest,b+b'\0')
    u.reg_write(UC_X86_REG_EAX,len(b));ret(u)
-  elif pc==speech_pc:
+  elif pc==speech_pc or pc==int(manifest['event_journal'].get('quest_art_speech','0'),16):
+   if pc!=speech_pc:d.setdefault('art_scenes',[]).append(r(u,sp+16))
    d['texts'].append((name(u,r(u,sp+8)),name(u,r(u,sp+12))))
-   u.reg_write(UC_X86_REG_EAX,1);ret(u,12)
+   u.reg_write(UC_X86_REG_EAX,1);ret(u,12 if pc==speech_pc else 16)
   elif pc==select_pc:
    labels=r(u,sp+8);n=r(u,sp+12);options=[name(u,r(u,labels+i*4)) for i in range(n)]
    d['selections'].append(options);answer=d['answers'].pop(0) if d['answers'] else d['default_answer']

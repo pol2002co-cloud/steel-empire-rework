@@ -4,6 +4,7 @@ No script interpreter, story flag, city ownership or original army is reset.
 The event engine owns costs and the persisted pending-reward/completion state.
 """
 import struct
+from legend_machines import reject_legendary_delivery
 
 TEMP_MAGIC=0x57454231
 PATCH_SITES={0x4398f6:5,0x439a01:5}
@@ -93,12 +94,13 @@ def emit(put,asm,address,patch,result_address=0x48d398+81*4):
     # movement flags, not category (legitimate Goblin MK2 uses2, tanks10/11).
     # A spare can still be referenced by an unfinished workshop row. Inspect
     # the stock five-row repair queue rather than relying only on its HP.
-    machine_ready=code('''
+    machine_ready=code(f'''
       push ebx; push esi; push edi;
       mov edx,[esp+20]; test edx,edx; jz no;
       cmp dword ptr [edx],0; jne no;
       cmp dword ptr [edx+0x8c],0; jne no;
       cmp dword ptr [edx+0x90],0; jne no;
+      {reject_legendary_delivery('edx', 'no')}
       mov eax,[edx+0x54]; test eax,eax; jle no;
       cmp eax,[edx+0x58]; jne no;
       mov eax,[edx+4]; cmp eax,5; jbe air;

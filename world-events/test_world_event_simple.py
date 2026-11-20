@@ -249,6 +249,7 @@ def natural_goals():
 def user_reference():
  global checks
  source=Path('C:/Games/DGGL/Games/EoSteel_Win/Steel0.Sav')
+ if not source.exists():source=source.parent/'EoSteel_Win'/source.name
  if not source.exists():return
  raw=source.read_bytes();digest=hashlib.sha256(raw).hexdigest()
  if len(raw)<0x34+400:return
@@ -259,7 +260,7 @@ def user_reference():
  migrate(u)
  for i,c in enumerate(previous):
   if ((c[0]>>16)&255)==1 and (c[0]&255)<38:
-   assert slot(u,i)==[c[0]&255|(1<<16),c[1],0,0,0,0,0,SIMPLE_MARK]
+   assert slot(u,i)==(c if values[38]&SCHEMA_MARK else [c[0]&255|(1<<16),c[1],0,0,0,0,0,SIMPLE_MARK])
  assert (r(u,G+37*4),r(u,SCHEMA)&~SCHEMA_MARK)==done
  assert money(u)==old_money and hashlib.sha256(source.read_bytes()).hexdigest()==digest
  checks+=1

@@ -120,6 +120,7 @@ check(r(v,CASH[1])==iron-40 and not v.data['selections'],'retry cannot charge th
 
 # Replay the actual save bank read-only; original storyline words stay intact.
 source=Path('C:/Games/DGGL/Games/EoSteel_Win/Steel0.Sav')
+if not source.exists():source=source.parent/'EoSteel_Win'/source.name
 real_bank_replayed=False
 if source.exists():
  raw=source.read_bytes()

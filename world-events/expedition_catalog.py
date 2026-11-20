@@ -17,6 +17,14 @@ RECIPES=(
     dict(name='A.S.6 제작 설계도',machine=24,gold=400000,iron=80,oil=60,days=15,factory=10),
 )
 
+# Recipe IDs and production order numbers 1..3 stay compatible with old saves.
+LEGEND_RECIPES=(
+    dict(name='철왕',condition='서로 다른 유적 방문',unit='곳',required=2,gold=700000,iron=200,oil=80,days=18,factory=9),
+    dict(name='뇌격전차',condition='유적 연간 혜택 수령',unit='곳',required=1,gold=900000,iron=240,oil=120,days=24,factory=9),
+    dict(name='천둥매',condition='파견 귀환 정산',unit='회',required=3,gold=650000,iron=120,oil=160,days=18,factory=12),
+    dict(name='밤까마귀',condition='서로 다른 유적의 심층 봉인실 보존 또는 회수',unit='곳',required=2,gold=1000000,iron=180,oil=220,days=24,factory=12),
+)
+
 INITIAL_SLOTS=4
 MAX_HEROES=3
 MAX_GENERICS=20
@@ -39,7 +47,7 @@ ARTIFACTS=(
 def generate_catalog_header(c_string):
     """ASCII C initializers for the parent's EXMission/EXRecipe/EXRuin types."""
     lines=['#ifndef EXPEDITION_CATALOG_H','#define EXPEDITION_CATALOG_H']
-    constants=dict(EX_MISSION_COUNT=len(MISSIONS),EX_RECIPE_COUNT=len(RECIPES),EX_RUIN_COUNT=len(RUINS),
+    constants=dict(EX_MISSION_COUNT=len(MISSIONS),EX_RECIPE_COUNT=len(RECIPES)+len(LEGEND_RECIPES),EX_STANDARD_RECIPES=len(RECIPES),EX_RUIN_COUNT=len(RUINS),
                    EX_INITIAL_SLOTS=INITIAL_SLOTS,EX_MAX_HEROES=MAX_HEROES,EX_MAX_GENERICS=MAX_GENERICS,
                    EX_SUCCESS_CAP=SUCCESS_CAP,EX_BONUS_GOLD_CAP=BONUS_GOLD_CAP,EX_DEEP_GUARANTEE=DEEP_GUARANTEE,
                    EX_BLESS_GOLD=BLESS_GOLD,EX_BLESS_IRON=BLESS_IRON,EX_BLESS_OIL=BLESS_OIL,EX_BLESS_XP=BLESS_XP,
@@ -52,6 +60,16 @@ def generate_catalog_header(c_string):
     lines.append('};\nstatic const EXRecipe EX_RECIPES[EX_RECIPE_COUNT]={')
     for recipe in RECIPES:
         lines.append('{'+','.join([c_string(recipe['name'])]+[str(recipe[k])+'u' for k in ('machine','gold','iron','oil','days','factory')])+'},')
+    from legend_machines import MODELS
+    assert [r['name'] for r in LEGEND_RECIPES]==[m['name'] for m in MODELS]
+    for r in LEGEND_RECIPES:
+        fields=[c_string(r['name']), '0u']+[str(r[k])+'u' for k in ('gold','iron','oil','days','factory')]
+        lines.append('{'+','.join(fields)+'},')
+    lines.append('};\nstatic const EXLegend EX_LEGENDS[]={')
+    for r,m in zip(LEGEND_RECIPES,MODELS):
+        stats='HP %d · 방어 %d · 사거리 %d · 공격 대인 %d / 대공 %d / 대기갑 %d / 대벽 %d'%(
+            m['hp'],m['defense'],m['reach'],*m['attack'])
+        lines.append('{'+','.join((c_string(r['condition']),c_string(r['unit']),c_string(stats),str(r['required'])+'u'))+'},')
     lines.append('};\nstatic const EXRuin EX_RUINS[EX_RUIN_COUNT]={')
     lines.extend('{%s,%du},'%(c_string(name),town) for name,town in RUINS)
     lines.append('};')
